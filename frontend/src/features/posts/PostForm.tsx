@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
-import { Box, Typography, TextField, Button, Paper, Alert } from '@mui/material';
+import { Box, Typography, TextField, Button, Paper } from '@mui/material';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import SaveIcon from '@mui/icons-material/Save';
 import type { Post } from './types';

@@ -7,10 +7,9 @@ import { getDisplayableImageUrl } from './imageUtils';
 interface PostCardProps {
   post: Post;
   onClick?: (post: Post) => void;
-  compact?: boolean;
 }
 
-const PostCard = ({ post, onClick, compact = false }: PostCardProps) => {
+const PostCard = ({ post, onClick }: PostCardProps) => {
   const imageUrl = getDisplayableImageUrl(post.image);
   const videoUrl = getDisplayableImageUrl(post.video);
   const hasMedia = Boolean(imageUrl || videoUrl);
