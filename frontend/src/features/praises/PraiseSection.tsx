@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Box, Typography, TextField, Button } from '@mui/material';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import SendIcon from '@mui/icons-material/Send';
+import KakaoAd from '../../components/KakaoAd';
 import type { Praise } from './types';
 
 const DONATION_ACCOUNT = `농협은행 302-1045-4203-01 (표주상)`;
@@ -219,6 +220,9 @@ const PraiseSection = () => {
         >
           계좌 복사 (COPY)
         </Button>
+
+        {/* ADVERTISEMENT */}
+        <KakaoAd />
 
         <Typography variant="caption" sx={{ color: '#666', fontFamily: 'monospace', lineHeight: 1.6 }}>
           * 후원금은 흑역사 발굴 및<br />사이트 영구 존속을 위해 사용됩니다.
