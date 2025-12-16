@@ -186,15 +186,15 @@ const PostForm = ({ onPostCreated, setError }: PostFormProps) => {
         <Typography variant="subtitle2" sx={{ color: '#666', mb: 2, fontFamily: 'monospace' }}>
           [ EVIDENCE_ATTACHMENT ]
         </Typography>
-        <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 2 }}>
-          <Box>
+        <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 2 }}>
+          <Box sx={{ flex: 1 }}>
             <Button
               component="label"
               variant="outlined"
               color={postImage ? "primary" : "secondary"}
               startIcon={<FileUploadIcon />}
               fullWidth
-              sx={{ borderRadius: 0, height: '100%', py: 1.5, borderStyle: postImage ? 'solid' : 'dashed' }}
+              sx={{ borderRadius: 0, py: 1.5, borderStyle: postImage ? 'solid' : 'dashed' }}
             >
               {postImage ? "사진 변경" : "증거 사진 첨부"}
               <input type="file" hidden accept="image/*" onChange={handleImageChange} />
@@ -206,14 +206,14 @@ const PostForm = ({ onPostCreated, setError }: PostFormProps) => {
             )}
           </Box>
 
-          <Box>
+          <Box sx={{ flex: 1 }}>
             <Button
               component="label"
               variant="outlined"
               color={postVideo ? "primary" : "secondary"}
               startIcon={<FileUploadIcon />}
               fullWidth
-              sx={{ borderRadius: 0, height: '100%', py: 1.5, borderStyle: postVideo ? 'solid' : 'dashed' }}
+              sx={{ borderRadius: 0, py: 1.5, borderStyle: postVideo ? 'solid' : 'dashed' }}
             >
               {postVideo ? "영상 변경" : "증거 영상 첨부"}
               <input type="file" hidden accept="video/mp4,video/quicktime" onChange={handleVideoChange} />

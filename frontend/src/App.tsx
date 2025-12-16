@@ -333,7 +333,7 @@ function App() {
                 {'>'} 흑역사 데이터 입력
               </Typography>
               <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
-                시스템이 귀하의 부끄러운 과거를 안전하게 암호화하여(거짓말) 보관합니다.
+                시스템이 귀하의 부끄러운 과거를 안전하게 암호화하여 보관합니다.
               </Typography>
               <PostForm onPostCreated={handlePostCreated} setError={setError} />
             </Box>

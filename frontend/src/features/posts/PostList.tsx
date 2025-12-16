@@ -43,8 +43,8 @@ const PostList = ({ posts, loading }: PostListProps) => {
           gap: 4,
         }}
       >
-        {posts.map((post) => (
-          <PostCard key={post.id} post={post} onClick={handleCardClick} />
+        {posts.map((post, index) => (
+          <PostCard key={post.id} post={post} index={index + 1} onClick={handleCardClick} />
         ))}
       </Box>
 
@@ -112,7 +112,7 @@ const PostList = ({ posts, loading }: PostListProps) => {
                 )}
 
                 <Box sx={{ p: 4 }}>
-                  <Typography sx={{ whiteSpace: 'pre-line', color: '#ddd', lineHeight: 1.8, mb: 4, fontFamily: 'sans-serif' }}>
+                  <Typography sx={{ whiteSpace: 'pre-wrap', color: '#ddd', lineHeight: 1.8, mb: 4, fontFamily: 'sans-serif' }}>
                     {selectedPost.content}
                   </Typography>
                 </Box>

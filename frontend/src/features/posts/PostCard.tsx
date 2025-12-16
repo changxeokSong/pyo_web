@@ -7,10 +7,11 @@ import { getDisplayableImageUrl } from './imageUtils';
 
 interface PostCardProps {
   post: Post;
+  index?: number;
   onClick?: (post: Post) => void;
 }
 
-const PostCard = ({ post, onClick }: PostCardProps) => {
+const PostCard = ({ post, index, onClick }: PostCardProps) => {
   const imageUrl = getDisplayableImageUrl(post.image);
   const videoUrl = getDisplayableImageUrl(post.video);
   const hasMedia = Boolean(imageUrl || videoUrl);
@@ -22,6 +23,7 @@ const PostCard = ({ post, onClick }: PostCardProps) => {
   });
 
   const locationLabel = post.location?.trim() || 'UNIDENTIFIED';
+  const caseNumber = index !== undefined ? index : post.id;
 
   return (
     <Card
@@ -48,7 +50,7 @@ const PostCard = ({ post, onClick }: PostCardProps) => {
       {/* Header Decoration */}
       <Box sx={{ px: 2, py: 1, borderBottom: '1px solid #222', display: 'flex', justifyContent: 'space-between', alignItems: 'center', bgcolor: '#111' }}>
         <Typography variant="caption" sx={{ color: 'primary.main', fontFamily: 'monospace', letterSpacing: '0.1em' }}>
-          CASE_NO.{post.id}
+          CASE_NO.{caseNumber}
         </Typography>
         <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: 'error.main', boxShadow: '0 0 5px red' }} />
       </Box>
