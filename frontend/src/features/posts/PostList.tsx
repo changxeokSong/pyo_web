@@ -3,7 +3,7 @@ import { Box, Typography, Modal, Fade, Backdrop, Button } from '@mui/material';
 import PostCard from './PostCard';
 import { getDisplayableImageUrl } from './imageUtils';
 import type { Post } from './types';
-
+import CloseIcon from '@mui/icons-material/Close';
 
 interface PostListProps {
   posts: Post[];
@@ -90,19 +90,19 @@ const PostList = ({ posts, loading }: PostListProps) => {
                     onClick={closeModal}
                     sx={{
                       minWidth: 0,
-                      px: 2,
-                      py: 0.5,
-                      color: 'secondary.main',
-                      border: '1px solid',
-                      borderColor: 'secondary.main',
-                      fontFamily: 'monospace',
+                      p: 1,
+                      color: '#ddd',
+                      border: '1px solid #444',
+                      transition: 'all 0.2s',
                       '&:hover': {
-                        bgcolor: 'secondary.main',
-                        color: '#fff'
+                        bgcolor: 'error.main', // Red on hover to signify "Close"
+                        color: '#fff',
+                        borderColor: 'error.main',
+                        boxShadow: '0 0 10px red'
                       }
                     }}
                   >
-                    [ CLOSE ]
+                    <CloseIcon />
                   </Button>
                 </Box>
 
