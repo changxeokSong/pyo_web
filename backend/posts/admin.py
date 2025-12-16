@@ -3,6 +3,7 @@ from .models import Post
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-  list_display = ('title', 'location', 'achieved_at', 'created_at')
+  list_display = ('title', 'location', 'achieved_at', 'is_blocked', 'created_at')
+  list_editable = ('is_blocked',)
   search_fields = ('title', 'location', 'content')
-  list_filter = ('created_at',)
+  list_filter = ('is_blocked', 'created_at')
