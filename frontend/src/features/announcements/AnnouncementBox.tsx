@@ -20,7 +20,7 @@ const AnnouncementBox = ({ announcements }: AnnouncementBoxProps) => {
     )
   }
 
-  const displayList = showAll ? announcements : announcements.slice(0, 5);
+  const displayList = showAll ? announcements : announcements.slice(0, 1);
 
   return (
     <Box sx={{ width: '100%' }}>
