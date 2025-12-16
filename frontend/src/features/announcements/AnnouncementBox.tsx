@@ -10,7 +10,7 @@ interface AnnouncementBoxProps {
 }
 
 const AnnouncementBox = ({ announcements }: AnnouncementBoxProps) => {
-  const [showAll, setShowAll] = useState(false);
+  const displayList = announcements;
 
   if (announcements.length === 0) {
     return (
@@ -20,8 +20,6 @@ const AnnouncementBox = ({ announcements }: AnnouncementBoxProps) => {
     )
   }
 
-  const displayList = showAll ? announcements : announcements.slice(0, 1);
-
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
@@ -29,9 +27,6 @@ const AnnouncementBox = ({ announcements }: AnnouncementBoxProps) => {
           <WarningIcon color="secondary" />
           SYSTEM_ALERTS
         </Typography>
-        <Button onClick={() => setShowAll(!showAll)} sx={{ color: 'secondary.main' }} endIcon={<KeyboardArrowRightIcon />}>
-          {showAll ? 'COLLAPSE' : 'EXPAND'}
-        </Button>
       </Box>
 
       <Paper elevation={0} sx={{ borderRadius: 0, overflow: 'hidden', border: '1px solid #333', bgcolor: '#0f0f0f' }}>
