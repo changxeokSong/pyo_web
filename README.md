@@ -1,113 +1,80 @@
-# 표글로리 웹 실행 가이드
+# ☣️ 노답 아카이브 (No-Answer Archive)
 
-표주상의 업적을 전시하는 웹 서비스입니다. Django + PostgreSQL 백엔드와 Vite + React 프런트엔드가 Docker Compose 로 묶여 있습니다. 아래 순서대로 따라 하면 바로 실행할 수 있습니다.
+> "지우고 싶어도 지워지지 않는 그날의 기억, 여기에 영원히 박제하십시오."
+> **WARNING: Once uploaded, shame is eternal.**
+
+**노답 아카이브**는 친구들의 흑역사(dark history)를 안전하게(?) 박제하고 영원히 고통받게 하기 위해 설계된 아카이빙 플랫폼입니다.  
+사이버펑크/해커 테마의 UI를 갖추고 있으며, 데이터 삭제 요청은 정중히 거절됩니다.
 
 ---
 
-## 1. 환경 변수(.env) 준비
+## ✨ 주요 기능 (Key Features)
 
-모든 비밀 값은 `backend/.env` 에서 읽습니다.
+-   **🕵️ 흑역사 박제 (Archive Shame)**: 제목, 위치, 발생 시기, 내용을 기록하고 증거 자료를 첨부합니다.
+-   **🎥 증거 자료 첨부 (Evidence Upload)**: 사진뿐만 아니라 **동영상 증거**까지 확실하게 남길 수 있습니다. (동영상 재생 지원)
+-   **🔒 원본 보존 (Original Source)**: 업로드된 미디어는 상세 보기에서 왜곡 없이 원본 그대로 감상할 수 있습니다.
+-   **🚫 삭제 거부 (Deletion Refused)**: 이용약관 및 데이터 삭제 요청 버튼이 존재하지만, 클릭 시 시스템이 단호하게 거절합니다.
+-   **📰 시스템 공지 (System Alerts)**: 최신 공지사항을 터미널 스타일로 확인할 수 있습니다.
+
+---
+
+## 🛠 기술 스택 (Tech Stack)
+
+### Frontend
+-   **Framework**: React (Vite)
+-   **Language**: TypeScript
+-   **UI Library**: Material UI (MUI) - Dark/Hacker Theme Customization
+-   **Effect**: CSS Scanlines, Glitch Effects, Neon Glows
+
+### Backend
+-   **Framework**: Django REST Framework
+-   **Database**: PostgreSQL
+-   **Containerization**: Docker & Docker Compose
+
+---
+
+## 🚀 실행 가이드 (Quick Start)
+
+이 프로젝트는 Docker Compose를 통해 백엔드와 프런트엔드를 한 번에 실행할 수 있도록 구성되어 있습니다.
+
+### 1. 환경 변수 준비
+`backend/.env` 파일을 생성하고 필요한 값을 채워 넣으세요.
 
 ```bash
 cd pyo_web
 cp backend/.env.example backend/.env
 ```
 
-`backend/.env` 안의 값을 실제 서버 정보로 채워 넣습니다.
-
-```
-DJANGO_SECRET_KEY=실제_랜덤_키
-DJANGO_DEBUG=False          # 로컬 개발이면 True
+`.env` 예시:
+```ini
+DJANGO_SECRET_KEY=your_secret_key
+DJANGO_DEBUG=True
 POSTGRES_DB=pyo_db
 POSTGRES_USER=admin
-POSTGRES_PASSWORD=강력한_비밀번호
-POSTGRES_HOST=db            # Docker 사용 시 그대로 둡니다.
+POSTGRES_PASSWORD=password
+POSTGRES_HOST=db
 POSTGRES_PORT=5432
 ```
 
-> `.env` 파일은 절대 깃에 올리지 마세요. 값을 바꾸면 `docker compose up -d` 로 다시 시작하면 됩니다.
-
-### SECRET_KEY 빠르게 만들기
-
-Python이 없어도 `openssl` 만 있으면 됩니다.
-
+### 2. Docker 실행
 ```bash
-openssl rand -base64 48
+docker compose up -d --build
 ```
+-   **Frontend**: `http://localhost`
+-   **Backend API**: `http://localhost/api/`
+-   **Admin**: `http://localhost/admin/`
 
-위 출력값을 그대로 `DJANGO_SECRET_KEY=` 뒤에 붙이면 됩니다.  
-만약 `openssl` 도 없다면 Docker만 설치되어 있어도 아래 명령으로 생성할 수 있습니다.
-
+### 3. 초기 설정 (마이그레이션)
 ```bash
-docker compose run --rm backend python - <<'PY'
-from django.core.management.utils import get_random_secret_key
-print(get_random_secret_key())
-PY
-```
-
----
-
-## 2. Docker 로 한번에 실행
-
-```bash
-docker compose up -d --build          # 컨테이너 빌드 및 실행
 docker compose exec backend python manage.py migrate
 docker compose exec backend python manage.py createsuperuser
 ```
 
-서비스 위치
-- 프런트엔드: `http://localhost` (Nginx 프록시)
-- 백엔드 API: `http://localhost/api/`
-- 관리 페이지: `http://localhost/admin/`
-
-중지하려면 `docker compose down` 을 실행하세요. 볼륨까지 지우려면 `docker compose down -v`.
-
 ---
 
-## 3. 로컬 개발용 명령(선택)
+## ⚠️ 주의사항 (Disclaimer)
 
-### Backend
-```bash
-cd backend
-python -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
-cp .env.example .env   # 로컬 DB 정보 입력
-python manage.py migrate
-python manage.py runserver 0.0.0.0:8000
-```
+본 서비스는 **정신적 피해**에 대해 책임지지 않습니다.  
+우정 파괴의 원인이 될 수 있으니 주의하여 사용하십시오.
 
-### Frontend
-```bash
-cd frontend
-npm install
-npm run dev   # http://localhost:5173
-```
-
-프런트는 개발 서버에서 백엔드 주소를 `vite.config.ts` 프록시로 전달합니다. 필요한 경우 `.env` 의 API 주소를 수정하세요.
-
----
-
-## 4. 자주 쓰는 명령 요약
-
-| 명령 | 설명 |
-| --- | --- |
-| `docker compose logs -f backend` | 백엔드 실시간 로그 |
-| `docker compose exec backend python manage.py shell` | Django 쉘 접속 |
-| `docker compose exec backend python manage.py collectstatic` | 정적 파일 수집 |
-| `npm run build` (frontend) | 프런트 배포 번들 생성 |
-
----
-
-## 5. SSL 재발급(필요할 때)
-
-`letsencrypt` 폴더를 만들어 둔 뒤 다음 명령으로 강제 갱신합니다.
-
-```bash
-docker compose run --rm --entrypoint "" certbot \
-  certbot certonly --webroot -w /var/www/certbot \
-  -d pyo-glory.com -d www.pyo-glory.com \
-  --email you@example.com --agree-tos --no-eff-email --force-renewal
-docker compose restart nginx
-```
-
-문제가 생기면 `docker compose logs certbot` 로그를 확인하세요.
+*Established 2025. All rights reserved by Your Dark Past.*
