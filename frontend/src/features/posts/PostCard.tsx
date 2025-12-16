@@ -1,6 +1,7 @@
 import { Card, CardContent, CardMedia, Typography, Box, Chip } from '@mui/material';
 import PlaceIcon from '@mui/icons-material/Place';
 import FingerprintIcon from '@mui/icons-material/Fingerprint';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import type { Post } from './types';
 import { getDisplayableImageUrl } from './imageUtils';
 
@@ -73,9 +74,23 @@ const PostCard = ({ post, onClick }: PostCardProps) => {
                 }
               }}
             />
-          ) : (
-            <Box sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', bgcolor: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <video src={videoUrl || ""} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'grayscale(0.8)' }} />
+          {post.video && (
+            <Box
+              sx={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                bgcolor: 'rgba(0,0,0,0.6)',
+                borderRadius: '50%',
+                p: 1,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                pointerEvents: 'none',
+              }}
+            >
+              <PlayArrowIcon sx={{ fontSize: 40, color: '#fff' }} />
             </Box>
           )}
 

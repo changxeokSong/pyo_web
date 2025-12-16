@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Box, Typography, Modal, Fade, Backdrop, Button } from '@mui/material';
 import PostCard from './PostCard';
+import { getDisplayableImageUrl } from './imageUtils';
 import type { Post } from './types';
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -84,6 +85,26 @@ const PostList = ({ posts, loading }: PostListProps) => {
                     <CloseIcon />
                   </Button>
                 </Box>
+
+                {/* Media Display Area */}
+                {(selectedPost.image || selectedPost.video) && (
+                  <Box sx={{ width: '100%', bgcolor: '#000', display: 'flex', justifyContent: 'center', borderBottom: '1px solid #333' }}>
+                    {selectedPost.video ? (
+                      <video
+                        controls
+                        src={getDisplayableImageUrl(selectedPost.video)}
+                        style={{ maxWidth: '100%', maxHeight: '60vh', objectFit: 'contain' }}
+                      />
+                    ) : (
+                      <img
+                        src={getDisplayableImageUrl(selectedPost.image)}
+                        alt={selectedPost.title}
+                        style={{ maxWidth: '100%', maxHeight: '60vh', objectFit: 'contain' }}
+                      />
+                    )}
+                  </Box>
+                )}
+
                 <Box sx={{ p: 4 }}>
                   <Typography sx={{ whiteSpace: 'pre-line', color: '#ddd', lineHeight: 1.8, mb: 4, fontFamily: 'sans-serif' }}>
                     {selectedPost.content}

@@ -370,14 +370,14 @@ function App() {
               <Box>
                 <Typography variant="h6" sx={{ color: '#fff', mb: 2, fontFamily: 'monospace' }}>NO-ANSWER ARCHIVE</Typography>
                 <Typography variant="body2" sx={{ fontFamily: 'monospace' }}>
-                  Established 2024.<br />
+                  Established 2025.<br />
                   We do not take responsibility for mental damage.<br />
                   All rights reserved by Your Dark Past.
                 </Typography>
               </Box>
               <Stack spacing={1}>
-                <Typography variant="button" sx={{ color: '#888', cursor: 'pointer', '&:hover': { color: '#fff' } }}>[ 데이터 삭제 요청 (거절됨) ]</Typography>
-                <Typography variant="button" sx={{ color: '#888', cursor: 'pointer', '&:hover': { color: '#fff' } }}>[ 이용약관 ]</Typography>
+                <Typography variant="button" onClick={() => alert('삭제 요청이 거절되었습니다. (사유: 영구 보존 원칙)')} sx={{ color: '#888', cursor: 'pointer', '&:hover': { color: '#fff' } }}>[ 데이터 삭제 요청 (거절됨) ]</Typography>
+                <Typography variant="button" onClick={() => alert('응 없어.')} sx={{ color: '#888', cursor: 'pointer', '&:hover': { color: '#fff' } }}>[ 이용약관 ]</Typography>
               </Stack>
             </Stack>
           </Container>
