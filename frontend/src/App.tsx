@@ -67,29 +67,52 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           textTransform: 'none',
-          borderRadius: 0, // Sharp edges for terminal look
-          border: '1px solid',
-          boxShadow: 'none',
-          '&:hover': {
-            boxShadow: '0 0 10px rgba(0, 255, 65, 0.4)',
+          borderRadius: 0, // Sharp edges
+          fontWeight: 700,
+          border: '1px solid transparent', // Default border
+          transition: 'all 0.2s ease-in-out',
+          position: 'relative',
+          overflow: 'hidden',
+          // Scanline texture overlay
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            backgroundImage: 'linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06))',
+            backgroundSize: '100% 2px, 3px 100%',
+            zIndex: 1,
+            pointerEvents: 'none',
           },
         },
         containedPrimary: {
-          background: '#0a0a0a',
-          color: '#00ff41',
-          borderColor: '#00ff41',
+          background: '#00ff41',
+          color: '#000',
+          boxShadow: '0 0 10px rgba(0, 255, 65, 0.4)',
           '&:hover': {
-            background: '#00ff41',
-            color: '#000',
+            background: '#00cc33',
+            boxShadow: '0 0 20px rgba(0, 255, 65, 0.6), 0 0 5px rgba(0, 255, 65, 0.8) inset',
+            transform: 'translateY(-2px)',
           }
         },
         containedSecondary: {
-          background: '#0a0a0a',
-          color: '#ff0055',
-          borderColor: '#ff0055',
+          background: '#ff0055',
+          color: '#fff',
+          boxShadow: '0 0 10px rgba(255, 0, 85, 0.4)',
           '&:hover': {
-            background: '#ff0055',
-            color: '#fff',
+            background: '#cc0044',
+            boxShadow: '0 0 20px rgba(255, 0, 85, 0.6), 0 0 5px rgba(255, 0, 85, 0.8) inset',
+            transform: 'translateY(-2px)',
+          }
+        },
+        outlined: {
+          // Mapping outlined to a "ghost" style that still feels consistent
+          border: '1px solid',
+          '&:hover': {
+            border: '1px solid',
+            boxShadow: '0 0 10px currentColor',
           }
         }
       },
@@ -274,7 +297,7 @@ function App() {
                   </Button>
                   <Button
                     href="#gallery"
-                    variant="outlined"
+                    variant="contained"
                     color="secondary"
                     size="large"
                     sx={{ px: 4, py: 1.5, fontSize: '1.1rem' }}
