@@ -44,7 +44,7 @@ const PostList = ({ posts, loading }: PostListProps) => {
         }}
       >
         {posts.map((post, index) => (
-          <PostCard key={post.id} post={post} index={index + 1} onClick={handleCardClick} />
+          <PostCard key={post.id} post={post} index={posts.length - index} onClick={handleCardClick} />
         ))}
       </Box>
 
