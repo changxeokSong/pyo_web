@@ -246,7 +246,7 @@ const PostForm = ({ onPostCreated, setError }: PostFormProps) => {
             }
           }}
         >
-          {loading ? 'ARCHIVING...' : '흑역사 영구 박제 (UPLOAD)'}
+          {loading ? 'ARCHIVING...' : '흑역사 영원히 박제 (UPLOAD)'}
         </Button>
       </Box>
     </Paper>
