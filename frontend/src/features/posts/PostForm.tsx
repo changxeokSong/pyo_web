@@ -37,6 +37,11 @@ const PostForm = ({ onPostCreated, setError }: PostFormProps) => {
       return;
     }
 
+    if (!postImage && !postVideo) {
+      alert('증거 불충분: 사진 또는 영상을 반드시 첨부하십시오.');
+      return;
+    }
+
     const formData = new FormData();
     formData.append('title', postTitle);
     formData.append('location', location);
