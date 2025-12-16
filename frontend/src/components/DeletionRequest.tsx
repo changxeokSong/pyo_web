@@ -42,6 +42,17 @@ const DeletionRequest = ({ open, onClose }: DeletionRequestProps) => {
         }, 300);
     };
 
+    const inputSx = {
+        '& .MuiOutlinedInput-root': {
+            color: '#fff',
+            '& fieldset': { borderColor: '#333' },
+            '&:hover fieldset': { borderColor: '#555' },
+            '&.Mui-focused fieldset': { borderColor: '#ff0055' },
+        },
+        '& .MuiInputLabel-root': { color: '#666' },
+        '& .MuiInputLabel-root.Mui-focused': { color: '#ff0055' }
+    };
+
     return (
         <Modal
             open={open}
@@ -56,7 +67,7 @@ const DeletionRequest = ({ open, onClose }: DeletionRequestProps) => {
                     transform: 'translate(-50%, -50%)',
                     width: { xs: '90%', md: 500 },
                     bgcolor: '#0a0a0a',
-                    border: '2px solid #ff0055', // Red for danger/deletion
+                    border: '2px solid #ff0055',
                     boxShadow: '0 0 20px rgba(255, 0, 85, 0.3)',
                     p: 4,
                     maxHeight: '80vh',
@@ -87,16 +98,7 @@ const DeletionRequest = ({ open, onClose }: DeletionRequestProps) => {
                             onChange={(e) => setReason(e.target.value)}
                             fullWidth
                             variant="outlined"
-                            sx={{
-                                '& .MuiOutlinedInput-root': {
-                                    color: '#fff',
-                                    '& fieldset': { borderColor: '#333' },
-                                    '&:hover fieldset': { borderColor: '#555' },
-                                    '&.Mui-focused fieldset': { borderColor: '#ff0055' },
-                                },
-                                '& .MuiInputLabel-root': { color: '#666' },
-                                '& .MuiInputLabel-root.Mui-focused': { color: '#ff0055' }
-                            }}
+                            sx={inputSx}
                         >
                             {REASONS.map((option) => (
                                 <MenuItem key={option.value} value={option.value}>
@@ -114,20 +116,22 @@ const DeletionRequest = ({ open, onClose }: DeletionRequestProps) => {
                             placeholder="당시의 심정과 현재의 반성 내용을 구체적으로 기술하십시오. (최소 10자)"
                             fullWidth
                             variant="outlined"
-                            sx={{
-                                '& .MuiOutlinedInput-root': {
-                                    color: '#fff',
-                                    '& fieldset': { borderColor: '#333' },
-                                    '&:hover fieldset': { borderColor: '#555' },
-                                    '&.Mui-focused fieldset': { borderColor: '#ff0055' },
-                                },
-                                '& .MuiInputLabel-root': { color: '#666' },
-                                '& .MuiInputLabel-root.Mui-focused': { color: '#ff0055' }
-                            }}
+                            sx={inputSx}
                         />
 
                         <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2, mt: 2 }}>
-                            <Button onClick={handleClose} sx={{ color: '#666' }}>취소</Button>
+                            <Button
+                                onClick={handleClose}
+                                sx={{
+                                    color: '#888',
+                                    '&:hover': {
+                                        color: '#fff',
+                                        bgcolor: 'rgba(255, 255, 255, 0.05)'
+                                    }
+                                }}
+                            >
+                                취소
+                            </Button>
                             <Button
                                 variant="contained"
                                 color="secondary"
