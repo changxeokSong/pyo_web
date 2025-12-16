@@ -53,6 +53,31 @@ const DeletionRequest = ({ open, onClose }: DeletionRequestProps) => {
         '& .MuiInputLabel-root.Mui-focused': { color: '#ff0055' }
     };
 
+    const menuProps = {
+        PaperProps: {
+            sx: {
+                bgcolor: '#0a0a0a',
+                border: '1px solid #333',
+                '& .MuiMenuItem-root': {
+                    color: '#ccc',
+                    fontFamily: 'monospace',
+                    '&:hover': {
+                        bgcolor: 'rgba(255, 0, 85, 0.1)', // Red hover
+                        color: '#fff'
+                    },
+                    '&.Mui-selected': {
+                        bgcolor: 'rgba(255, 0, 85, 0.2) !important', // Red selected
+                        color: '#fff',
+                        fontWeight: 700,
+                        '&:hover': {
+                            bgcolor: 'rgba(255, 0, 85, 0.3) !important',
+                        }
+                    }
+                }
+            }
+        }
+    };
+
     return (
         <Modal
             open={open}
@@ -99,6 +124,7 @@ const DeletionRequest = ({ open, onClose }: DeletionRequestProps) => {
                             fullWidth
                             variant="outlined"
                             sx={inputSx}
+                            SelectProps={{ MenuProps: menuProps }}
                         >
                             {REASONS.map((option) => (
                                 <MenuItem key={option.value} value={option.value}>
