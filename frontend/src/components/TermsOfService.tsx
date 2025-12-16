@@ -4,10 +4,9 @@ import DoneIcon from '@mui/icons-material/Done';
 interface TermsOfServiceProps {
     open: boolean;
     onClose: () => void;
-    onAgree: () => void;
 }
 
-const TermsOfService = ({ open, onClose, onAgree }: TermsOfServiceProps) => {
+const TermsOfService = ({ open, onClose }: TermsOfServiceProps) => {
     return (
         <Modal
             open={open}
@@ -73,22 +72,16 @@ const TermsOfService = ({ open, onClose, onAgree }: TermsOfServiceProps) => {
                     <Divider sx={{ my: 3, borderColor: '#333' }} />
 
                     <Typography variant="body2" sx={{ color: 'error.main', fontStyle: 'italic' }}>
-                        ※ 본 약관에 동의하지 않을 권리가 귀하에게 있습니다. 다만, 동의하지 않을 경우 흑역사를 박제할 수 없으며, 이는 인류 유산 보존의 손실입니다.
+                        ※ 본 약관을 읽지 않아 발생하는 모든 불이익은 전적으로 귀하의 책임입니다. 물론 읽어도 불이익은 피할 수 없습니다.
                     </Typography>
                 </Box>
 
                 {/* Footer */}
                 <Box sx={{ p: 2, borderTop: '1px solid #333', bgcolor: '#111', display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
-                    <Button onClick={onClose} sx={{ color: '#666' }}>
-                        취소 (도망가기)
-                    </Button>
                     <Button
                         variant="contained"
                         color="primary"
-                        onClick={() => {
-                            onAgree();
-                            onClose();
-                        }}
+                        onClick={onClose}
                         startIcon={<DoneIcon />}
                         sx={{
                             bgcolor: '#00ff41',
@@ -97,7 +90,7 @@ const TermsOfService = ({ open, onClose, onAgree }: TermsOfServiceProps) => {
                             '&:hover': { bgcolor: '#00cc33' }
                         }}
                     >
-                        동의합니다 (인생 포기)
+                        확인 (넵)
                     </Button>
                 </Box>
             </Box>

@@ -422,7 +422,6 @@ function App() {
         <TermsOfService
           open={tosOpen}
           onClose={() => setTosOpen(false)}
-          onAgree={() => setTosOpen(false)}
         />
 
       </Box>
