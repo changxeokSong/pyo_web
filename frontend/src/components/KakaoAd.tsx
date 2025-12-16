@@ -7,6 +7,11 @@ const KakaoAd = () => {
     useEffect(() => {
         if (!containerRef.current) return;
 
+        // Check if script is already injected to prevent duplicates (React Strict Mode compatibility)
+        if (containerRef.current.querySelector('script')) {
+            return;
+        }
+
         // Create the script element
         const script = document.createElement('script');
         script.src = "//t1.daumcdn.net/kas/static/ba.min.js";
