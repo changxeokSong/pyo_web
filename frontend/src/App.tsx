@@ -323,6 +323,11 @@ function App() {
           {/* MAIN CONTENT AREA */}
           <Container maxWidth={false} sx={{ maxWidth: CONTENT_MAX_WIDTH, px: HORIZONTAL_PADDING, py: 8 }}>
 
+            {/* Tribute/Praise Section - Moved to Top */}
+            <Box id="tribute" sx={{ mb: 8 }}>
+              <PraiseSection />
+            </Box>
+
             {/* Notices Section */}
             <Box id="notices" sx={{ mb: 8 }}>
               <AnnouncementBox announcements={announcementList} />
@@ -365,10 +370,7 @@ function App() {
               )}
             </Box>
 
-            {/* Tribute/Praise Section */}
-            <Box id="tribute" sx={{ mb: 12 }}>
-              <PraiseSection />
-            </Box>
+
           </Container>
         </Box>
 
