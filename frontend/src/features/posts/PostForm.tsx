@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
-import { Box, Typography, TextField, Button } from '@mui/material';
+import { Box, Typography, TextField, Button, Paper, Alert } from '@mui/material';
+import FileUploadIcon from '@mui/icons-material/FileUpload';
+import SaveIcon from '@mui/icons-material/Save';
 import type { Post } from './types';
 
 interface PostFormProps {
@@ -31,7 +33,7 @@ const PostForm = ({ onPostCreated, setError }: PostFormProps) => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!postTitle || !postContent) {
-      alert('업적명과 업적 내용을 모두 입력해주세요.');
+      alert('데이터 누락: 제목과 내용을 모두 입력하십시오.');
       return;
     }
 
@@ -55,20 +57,14 @@ const PostForm = ({ onPostCreated, setError }: PostFormProps) => {
       });
 
       if (!response.ok) {
-        let readableMessage = "게시물 생성에 실패했습니다.";
+        let readableMessage = "업로드 실패: 서버 거부";
         if (response.status === 413) {
-          readableMessage = "파일 용량이 너무 큽니다. 20MB 이하의 이미지나 영상을 업로드해주세요.";
+          readableMessage = "오류: 파일 크기 초과 (Limit: 20MB)";
         } else {
           try {
-            const errorData = await response.json();
-            readableMessage = errorData?.detail
-              ? Array.isArray(errorData.detail)
-                ? errorData.detail.join(', ')
-                : errorData.detail
-              : readableMessage;
-          } catch {
-            // ignore JSON parse errors and keep default message
-          }
+            const err = await response.json();
+            readableMessage = err.detail || readableMessage;
+          } catch { }
         }
         setError(readableMessage);
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -82,191 +78,143 @@ const PostForm = ({ onPostCreated, setError }: PostFormProps) => {
       setPostContent('');
       setPostImage(null);
       setPostVideo(null);
+      alert('데이터 아카이빙 완료.');
     } catch (error) {
       console.error("Error creating post:", error);
       if (!error || !(error instanceof Error)) {
-        setError("게시물 생성에 실패했습니다. 잠시 후 다시 시도해주세요.");
+        setError("시스템 오류: 잠시 후 다시 시도하십시오.");
       }
     }
   };
 
   const inputSx = {
     '& .MuiOutlinedInput-root': {
-      borderRadius: 3,
-      background: '#fff',
-      '& fieldset': {
-        borderColor: 'rgba(54, 195, 255, 0.4)',
-      },
-      '&:hover fieldset': {
-        borderColor: 'rgba(54, 195, 255, 0.75)',
-      },
-      '&.Mui-focused fieldset': {
-        borderColor: '#36C3FF',
-      },
+      bgcolor: '#0f0f0f',
+      color: '#fff',
+      '& fieldset': { borderColor: '#333' },
+      '&:hover fieldset': { borderColor: '#555' },
+      '&.Mui-focused fieldset': { borderColor: 'primary.main' },
     },
-    '& .MuiInputLabel-root': {
-      color: 'text.secondary',
-    },
+    '& .MuiInputLabel-root': { color: '#666' },
+    '& .MuiInputLabel-root.Mui-focused': { color: 'primary.main' }
   };
 
   return (
-    <Box
+    <Paper
       component="form"
       onSubmit={handleSubmit}
+      elevation={0}
       sx={{
-        position: 'relative',
-        overflow: 'hidden',
         p: { xs: 3, md: 5 },
         mb: 6,
-        borderRadius: 4,
-        background: 'rgba(255,255,255,0.92)',
-        border: '1px solid rgba(84, 148, 255, 0.2)',
-        boxShadow: '0 30px 60px rgba(65, 119, 255, 0.2)',
+        borderRadius: 0,
+        bgcolor: '#111',
+        border: '1px solid #333',
+        position: 'relative',
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          top: 0, left: 0, width: 4, height: '100%',
+          bgcolor: 'primary.main'
+        }
       }}
     >
-      <Box
-        sx={{
-          position: 'absolute',
-          inset: '-30% auto auto -20%',
-          width: 260,
-          height: 260,
-          borderRadius: '50%',
-          background: 'rgba(54,195,255,0.18)',
-          filter: 'blur(10px)',
-        }}
-      />
-      <Box sx={{ position: 'relative' }}>
-        <Typography variant="overline" sx={{ letterSpacing: '0.5em', color: 'primary.main' }}>
-          NEW LEGEND
+      <Box sx={{ mb: 4, pl: 2 }}>
+        <Typography variant="h5" component="h3" gutterBottom sx={{ fontWeight: 700, color: '#fff', fontFamily: 'monospace' }}>
+          [ DATA_ENTRY_FORM ]
         </Typography>
-        <Typography variant="h4" component="h2" gutterBottom sx={{ mt: 1 }}>
-          표주상님의 업적을 세상에 알리세요
+        <Typography variant="body2" color="text.secondary" sx={{ fontFamily: 'monospace' }}>
+          /// 기록 보존 프로토콜 시작...
         </Typography>
-      <Typography variant="body2" sx={{ mb: 4, color: 'text.secondary', userSelect: 'none' }}>
-        디테일하게 입력할수록 보는 이들의 입이 떡 벌어집니다.
-        </Typography>
+      </Box>
 
-        <Box
-          sx={{
-            display: 'grid',
-            gridTemplateColumns: { xs: '1fr', md: 'repeat(2, minmax(0, 1fr))' },
-            gap: 3,
-          }}
-        >
-          <TextField
-            label="업적명"
-            variant="outlined"
-            fullWidth
-            value={postTitle}
-            onChange={(e) => setPostTitle(e.target.value)}
-            required
-            sx={inputSx}
-          />
-          <TextField
-            label="장소"
-            variant="outlined"
-            fullWidth
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-            sx={inputSx}
-          />
-        </Box>
+      <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 3, mb: 3 }}>
         <TextField
-          sx={{ ...inputSx, mt: 3 }}
-          label="대략적 시간 (예: 2024년 5월, 지난 주말)"
+          label="사건명 (Title)"
+          variant="outlined"
+          fullWidth
+          value={postTitle}
+          onChange={(e) => setPostTitle(e.target.value)}
+          required
+          placeholder="예: 중2병의 최후"
+          sx={inputSx}
+        />
+        <TextField
+          label="발생 장소 (Location)"
+          variant="outlined"
+          fullWidth
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
+          placeholder="예: 교무실 앞 복도"
+          sx={inputSx}
+        />
+      </Box>
+
+      <Box sx={{ mb: 3 }}>
+        <TextField
+          label="발생 시기 (Timestamp)"
           variant="outlined"
           fullWidth
           value={achieved_at}
           onChange={(e) => setAchievedAt(e.target.value)}
+          placeholder="예: 2024.12.25 14:00"
+          sx={inputSx}
         />
+      </Box>
+
+      <Box sx={{ mb: 3 }}>
         <TextField
-          sx={{ ...inputSx, mt: 3 }}
-          label="업적 내용"
+          label="상세 기록 (Description)"
           variant="outlined"
           fullWidth
           multiline
-          rows={4}
+          rows={5}
           value={postContent}
           onChange={(e) => setPostContent(e.target.value)}
           required
+          placeholder="그날의 흑역사를 상세히 기술하십시오."
+          sx={inputSx}
         />
-
-        <Box
-          sx={{
-            mt: 3,
-            display: 'grid',
-            gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)' },
-            gap: 3,
-          }}
-        >
-          <Box
-            sx={{
-              p: { xs: 2.5, md: 3 },
-              borderRadius: 3,
-              border: '1px dashed rgba(54,195,255,0.4)',
-              background: 'rgba(222, 243, 255, 0.8)',
-              textAlign: 'center',
-            }}
-          >
-            <Typography variant="subtitle1" sx={{ mb: 1 }}>
-              업적을 증명할 이미지
-            </Typography>
-            <Typography variant="body2" sx={{ color: 'text.secondary', mb: 2 }}>
-              한 번 보면 빠져드는 결정적인 한 장을 업로드하세요.
-            </Typography>
-            <Button variant="contained" component="label" sx={{ borderRadius: 999 }}>
-              이미지 선택
-              <input type="file" hidden accept="image/*" onChange={handleImageChange} />
-            </Button>
-            {postImage && (
-              <Typography sx={{ mt: 1, fontSize: '0.9rem', color: 'text.secondary' }}>{postImage.name}</Typography>
-            )}
-          </Box>
-
-          <Box
-            sx={{
-              p: { xs: 2.5, md: 3 },
-              borderRadius: 3,
-              border: '1px dashed rgba(92,129,255,0.35)',
-              background: 'rgba(214, 228, 255, 0.85)',
-              textAlign: 'center',
-            }}
-          >
-            <Typography variant="subtitle1" sx={{ mb: 1 }}>
-              또는 영상으로 증명하기
-            </Typography>
-            <Typography variant="body2" sx={{ color: 'text.secondary', mb: 2 }}>
-              1분 이하의 MP4 / MOV 영상을 업로드하면 재생으로 감상이 가능합니다.
-            </Typography>
-            <Button variant="contained" component="label" sx={{ borderRadius: 999, borderWidth: 2 }}>
-              동영상 선택
-              <input type="file" hidden accept="video/mp4,video/quicktime" onChange={handleVideoChange} />
-            </Button>
-            {postVideo && (
-              <Typography sx={{ mt: 1, fontSize: '0.9rem', color: 'text.secondary' }}>{postVideo.name}</Typography>
-            )}
-          </Box>
-        </Box>
-
-        <Box
-          sx={{
-            mt: 4,
-            display: 'flex',
-            flexDirection: { xs: 'column', md: 'row' },
-            justifyContent: 'space-between',
-            alignItems: { xs: 'stretch', md: 'center' },
-            gap: 2,
-          }}
-        >
-          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-            모두가 기다리는 표주상님의 다음 이야기를 직접 남겨보세요.
-          </Typography>
-          <Button type="submit" variant="contained" size="large" sx={{ width: { xs: '100%', md: 'auto' } }}>
-            업적 등록
-          </Button>
-        </Box>
       </Box>
-    </Box>
+
+      <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', mb: 4, p: 2, border: '1px dashed #333', bgcolor: '#0a0a0a' }}>
+        <Button
+          component="label"
+          variant="outlined"
+          color="secondary"
+          startIcon={<FileUploadIcon />}
+          sx={{ borderRadius: 0 }}
+        >
+          증거 사진 첨부
+          <input type="file" hidden accept="image/*" onChange={handleImageChange} />
+        </Button>
+        {postImage && <Typography sx={{ alignSelf: 'center', fontSize: '0.875rem', color: 'secondary.main' }}>{postImage.name}</Typography>}
+
+        <Button
+          component="label"
+          variant="outlined"
+          color="secondary"
+          startIcon={<FileUploadIcon />}
+          sx={{ borderRadius: 0 }}
+        >
+          증거 영상 첨부
+          <input type="file" hidden accept="video/mp4,video/quicktime" onChange={handleVideoChange} />
+        </Button>
+        {postVideo && <Typography sx={{ alignSelf: 'center', fontSize: '0.875rem', color: 'secondary.main' }}>{postVideo.name}</Typography>}
+      </Box>
+
+      <Button
+        type="submit"
+        variant="contained"
+        color="primary"
+        size="large"
+        disableElevation
+        startIcon={<SaveIcon />}
+        sx={{ px: 4, py: 1.5, fontSize: '1rem', width: '100%' }}
+      >
+        <Typography sx={{ fontWeight: 800, letterSpacing: '0.2em' }}>ARCHIVE_DATA</Typography>
+      </Button>
+    </Paper>
   );
 };
 

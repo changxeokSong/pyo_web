@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Container,
   CircularProgress,
@@ -10,65 +10,55 @@ import {
   ThemeProvider,
   CssBaseline,
   GlobalStyles,
-  useMediaQuery,
+  Stack,
 } from '@mui/material';
 import Header from './components/layout/Header';
 import PostForm from './features/posts/PostForm';
 import PostList from './features/posts/PostList';
 import AnnouncementBox from './features/announcements/AnnouncementBox';
-import PraiseSection from './features/praises/PraiseSection';
 import type { Post } from './features/posts/types';
 import type { Announcement } from './features/announcements/types';
-import { getDisplayableImageUrl } from './features/posts/imageUtils';
+import TerminalIcon from '@mui/icons-material/Terminal';
 
-const fallbackHeroSources = [
-  { color: '#DFF1FF', text: '업적을 올려주세요!' },
-  { color: '#E4FAFF', text: '포토 존! 표주상의 순간을 남겨보세요.' },
-  { color: '#F1FBFF', text: '표주상님의 업적이 배경을 채우게 됩니다.' },
-  { color: '#DFF4FF', text: '여기에 당신의 표주상 업적이 빛납니다!' },
-  { color: '#E8F6FF', text: '표주상님의 위대한 순간을 기록해 주세요.' },
-  { color: '#F4FAFF', text: '표주상님의 업적으로 찬란한 역사를 만드세요.' },
-];
+const CONTENT_MAX_WIDTH = 1200;
+const HORIZONTAL_PADDING = { xs: 2, md: 4 } as const;
 
-const CONTENT_MAX_WIDTH = 1120;
-const HORIZONTAL_PADDING = { xs: 1.5, md: 3 } as const;
-const sectionContainerSx = { maxWidth: CONTENT_MAX_WIDTH, mx: 'auto', width: '100%' } as const;
-
+// Archive Theme: Dark, Neon Green/Pink, Monospace headers
 const theme = createTheme({
   palette: {
-    mode: 'light',
+    mode: 'dark',
     primary: {
-      main: '#35B5FF',
-      contrastText: '#fff',
+      main: '#00ff41', // Matrix Green / Neon
+      contrastText: '#000',
     },
     secondary: {
-      main: '#0E567C',
+      main: '#ff0055', // Cyberpunk Pink
+      contrastText: '#fff',
     },
     background: {
-      default: '#E8F6FF',
-      paper: '#F4FAFF',
+      default: '#0a0a0a',
+      paper: '#111111',
     },
     text: {
-      primary: '#0F1D2B',
-      secondary: '#4B6271',
+      primary: '#e0e0e0',
+      secondary: '#a0a0a0',
     },
+    action: {
+      hover: 'rgba(0, 255, 65, 0.08)',
+    }
   },
   typography: {
     fontFamily:
-      '"Pretendard", "Spoqa Han Sans Neo", "Noto Sans KR", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
-    h2: {
-      fontWeight: 800,
-      letterSpacing: '-0.04em',
-    },
-    h4: {
-      fontWeight: 700,
-      letterSpacing: '-0.02em',
-    },
-    h5: {
-      fontWeight: 600,
-    },
+      '"JetBrains Mono", "Fira Code", "Consolas", "Noto Sans KR", monospace',
+    h1: { fontWeight: 800, letterSpacing: '-0.03em' },
+    h2: { fontWeight: 800, letterSpacing: '-0.02em' },
+    h3: { fontWeight: 700, letterSpacing: '-0.01em' },
+    h4: { fontWeight: 700, letterSpacing: '-0.01em' },
+    button: { fontWeight: 700, letterSpacing: '0.05em' },
     body1: {
-      lineHeight: 1.8,
+      fontFamily: '"Pretendard", "Noto Sans KR", sans-serif', // Body text easier to read
+      lineHeight: 1.7,
+      fontSize: '1.05rem',
     },
   },
   components: {
@@ -76,33 +66,57 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           textTransform: 'none',
-          fontWeight: 700,
-          borderRadius: 999,
-          paddingInline: '1.8rem',
-          paddingBlock: '0.85rem',
-          backgroundImage: 'linear-gradient(135deg, #36C3FF, #5C7CFF)',
-          boxShadow: '0 18px 36px rgba(69, 107, 255, 0.25)',
+          borderRadius: 0, // Sharp edges for terminal look
+          border: '1px solid',
+          boxShadow: 'none',
+          '&:hover': {
+            boxShadow: '0 0 10px rgba(0, 255, 65, 0.4)',
+          },
         },
+        containedPrimary: {
+          background: '#0a0a0a',
+          color: '#00ff41',
+          borderColor: '#00ff41',
+          '&:hover': {
+            background: '#00ff41',
+            color: '#000',
+          }
+        },
+        containedSecondary: {
+          background: '#0a0a0a',
+          color: '#ff0055',
+          borderColor: '#ff0055',
+          '&:hover': {
+            background: '#ff0055',
+            color: '#fff',
+          }
+        }
       },
     },
     MuiAppBar: {
       styleOverrides: {
         root: {
-          border: 'none',
-          boxShadow: 'none',
-          backgroundImage: 'none',
+          backgroundColor: '#0a0a0a',
+          borderBottom: '1px solid #333',
+        },
+      },
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          borderRadius: 0,
+          border: '1px solid #333',
+          backgroundColor: '#111',
         },
       },
     },
     MuiPaper: {
       styleOverrides: {
         root: {
-          borderRadius: 24,
-          border: '1px solid rgba(255, 255, 255, 0.9)',
-          boxShadow: '0 25px 55px rgba(54, 126, 255, 0.15)',
-        },
-      },
-    },
+          backgroundImage: 'none',
+        }
+      }
+    }
   },
 });
 
@@ -111,7 +125,6 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [announcementList, setAnnouncementList] = useState<Announcement[]>([]);
-  const isMobile = useMediaQuery('(max-width:768px)');
 
   useEffect(() => {
     fetchPosts();
@@ -130,7 +143,7 @@ function App() {
       setPosts(data);
     } catch (error) {
       console.error("Error fetching posts:", error);
-      setError("표주상님의 위대한 업적을 불러오는 데 실패했습니다. 잠시 후 다시 시도해주세요.");
+      setError("데이터 로드 실패: 시스템 접속 불가");
     } finally {
       setLoading(false);
     }
@@ -145,7 +158,6 @@ function App() {
       }
     } catch (error) {
       console.error("Error fetching announcement:", error);
-      // Do not show error for announcement
     }
   };
 
@@ -153,60 +165,12 @@ function App() {
     setPosts([newPost, ...posts]);
   };
 
-  const latestAnnouncement = announcementList[0] ?? null;
-  const koreaToday = new Date().toLocaleDateString('ko-KR', { timeZone: 'Asia/Seoul' });
-  const latestAnnouncementDate = latestAnnouncement
-    ? new Date(latestAnnouncement.created_at).toLocaleDateString('ko-KR', { timeZone: 'Asia/Seoul' })
-    : null;
-  const isAnnouncementToday = Boolean(latestAnnouncementDate && latestAnnouncementDate === koreaToday);
-
+  // Fun Stats
   const heroStats = [
-    { label: '등록된 위업', value: posts.length },
-    { label: '영감 받은 이들', value: '∞+' },
-    { label: '오늘의 찬양', value: isAnnouncementToday ? '업데이트 완료' : '기다리는 중' },
+    { label: '박제된 흑역사', value: posts.length > 0 ? posts.length : '000' },
+    { label: '목격자 수', value: '9,999+' },
+    { label: '정신적 피해액', value: '∞' },
   ];
-
-  const heroImages = useMemo(() => {
-    const sources = posts
-      .map((post) => getDisplayableImageUrl(post.image))
-      .filter((src): src is string => Boolean(src));
-    return sources;
-  }, [posts]);
-
-  const collageFrames = useMemo(() => {
-    const baseSources = heroImages.length ? heroImages : fallbackHeroSources;
-    const desiredCount = heroImages.length
-      ? Math.max(heroImages.length * 8, isMobile ? 150 : 200)
-      : isMobile
-        ? 110
-        : 150;
-    const widthStep = isMobile ? 14 : 22;
-    const baseWidth = heroImages.length ? (isMobile ? 140 : 180) : isMobile ? 150 : 200;
-    const verticalSpread = isMobile ? 190 : 150;
-
-    return Array.from({ length: desiredCount }, (_, idx) => {
-      const src = baseSources[idx % baseSources.length];
-      const seedX = Math.sin(idx * 5.7 + idx * 0.23);
-      const seedY = Math.cos(idx * 4.1 + idx * 0.19);
-      const width = baseWidth + (idx % 6) * widthStep;
-      const height = width * (heroImages.length ? 0.62 : 0.58);
-      const posX = ((seedX + 1) / 2) * 110 - 5;
-      const posY = ((seedY + 1) / 2) * verticalSpread - 10 + idx * 0.08;
-
-      return {
-        left: posX,
-        top: posY,
-        width,
-        height,
-        rotate: heroImages.length ? seedX * 6 : 0,
-        src,
-        isMessage: typeof src !== 'string',
-        message: typeof src === 'string' ? undefined : src.text,
-        background: typeof src === 'string' ? undefined : src.color,
-        animationDuration: (isMobile ? 12 : 18) + (idx % 6),
-      };
-    });
-  }, [heroImages, isMobile]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -215,264 +179,210 @@ function App() {
         styles={{
           body: {
             minHeight: '100vh',
-            backgroundColor: '#E6F3FF',
-            backgroundImage:
-              'radial-gradient(circle at 8% 10%, rgba(103, 201, 255, 0.35), transparent 45%), radial-gradient(circle at 85% 5%, rgba(133, 163, 255, 0.4), transparent 40%), linear-gradient(135deg, #F4FBFF 0%, #E4EFFD 50%, #F5F9FF 100%)',
-            overflowX: 'hidden',
-          },
-          '*, *::before, *::after': {
-            caretColor: 'transparent',
-          },
-          'input, textarea, select': {
-            caretColor: 'auto',
-          },
-          '@keyframes floatCard': {
-            '0%': {
-              transform: 'translate3d(0, 0, 0) rotate(-4deg) scale(0.95)',
-            },
-            '30%': {
-              transform: 'translate3d(18px, -35px, 0) rotate(1deg) scale(1.04)',
-            },
-            '60%': {
-              transform: 'translate3d(-25px, -15px, 0) rotate(-6deg) scale(1.06)',
-            },
-            '100%': {
-              transform: 'translate3d(0, 0, 0) rotate(4deg) scale(0.97)',
-            },
-          },
-          '.static-text, .static-text *': {
-            userSelect: 'none',
-            caretColor: 'transparent',
-            cursor: 'default',
-          },
-        }}
-      />
-      <Box sx={{ position: 'relative', minHeight: '100vh', overflow: 'visible' }}>
-        <Header maxWidth={CONTENT_MAX_WIDTH} paddingX={HORIZONTAL_PADDING} />
-        <Box
-          sx={{
-            position: 'absolute',
-            top: { xs: '-8%', md: '-22%' },
-            left: '50%',
-            width: { xs: '200vw', md: '170vw' },
-            height: { xs: '320vh', md: '220vh' },
-            transform: 'translateX(-50%)',
-            pointerEvents: 'none',
-            zIndex: 0,
-            overflow: 'hidden',
-            WebkitMaskImage:
-              'linear-gradient(90deg, transparent 0%, black 12%, black 88%, transparent 100%)',
-            maskImage: 'linear-gradient(90deg, transparent 0%, black 12%, black 88%, transparent 100%)',
+            backgroundColor: '#050505',
+            // Subtle scanline effect
             '&::after': {
               content: '""',
-              position: 'absolute',
-              inset: 0,
-              background:
-                'radial-gradient(circle at 8% 12%, rgba(255,255,255,0.35), transparent 40%), radial-gradient(circle at 92% 18%, rgba(255,255,255,0.25), transparent 40%)',
-            },
-          }}
-        >
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              width: '100vw',
+              height: '100vh',
+              background: 'linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03))',
+              backgroundSize: '100% 2px, 2px 100%',
+              pointerEvents: 'none',
+              zIndex: 9999,
+            }
+          },
+          '::selection': {
+            backgroundColor: '#00ff41',
+            color: '#000',
+          }
+        }}
+      />
+      <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+        <Header maxWidth={CONTENT_MAX_WIDTH} paddingX={HORIZONTAL_PADDING} />
+
+        <Box sx={{ flex: 1 }}>
+
+          {/* HERO SECTION */}
           <Box
             sx={{
-              position: 'absolute',
-              inset: 0,
-              background: 'radial-gradient(circle at top, rgba(255,255,255,0.25), transparent 70%)',
-              zIndex: 0,
-            }}
-          />
-          {collageFrames.map(({ src, isMessage, message, background, left, top, width, height, rotate, animationDuration }, idx) => (
-            <Box
-              key={idx}
-              sx={{
-                position: 'absolute',
-                width,
-                height,
-                borderRadius: 28,
-                overflow: 'hidden',
-                top: `${top}%`,
-                left: `${left}%`,
-                transform: `translate(-50%, -50%) rotate(${rotate}deg)`,
-                animation: `floatCard ${animationDuration}s ease-in-out infinite`,
-                animationDelay: `${idx * 0.35}s`,
-                border: '1px solid rgba(255,255,255,0.5)',
-                background: isMessage ? background : undefined,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                boxShadow: '0 45px 90px rgba(5, 15, 30, 0.25)',
-                opacity: isMobile ? 0.92 : 0.82,
-              }}
-            >
-              {isMessage ? (
-                <Typography
-                  sx={{
-                    color: '#0F3655',
-                    fontWeight: 800,
-                    textAlign: 'center',
-                    px: 2,
-                    letterSpacing: '0.05em',
-                  }}
-                >
-                  {message}
-                </Typography>
-              ) : (
-                <Box
-                  className="static-text"
-                  sx={{
-                    width: '100%',
-                    height: '100%',
-                    backgroundImage: `url(${src})`,
-                    backgroundSize: 'cover',
-                    backgroundRepeat: 'no-repeat',
-                    backgroundPosition: 'center',
-                    filter: 'saturate(1.05) brightness(0.95)',
-                  }}
-                />
-              )}
-            </Box>
-          ))}
-        </Box>
-        <Container
-          maxWidth={false}
-          disableGutters
-          sx={{
-            position: 'relative',
-            zIndex: 1,
-            pt: { xs: 5, md: 10 },
-            pb: { xs: 6, md: 8 },
-            color: 'text.primary',
-            px: HORIZONTAL_PADDING,
-          }}
-        >
-          <Box
-            component="section"
-            sx={{
-              ...sectionContainerSx,
-              textAlign: 'center',
-              mb: 6,
+              bgcolor: 'background.default',
+              color: 'primary.main',
+              pt: { xs: 8, md: 12 },
+              pb: { xs: 8, md: 12 },
               position: 'relative',
-              zIndex: 2,
               overflow: 'hidden',
-              p: { xs: 3, md: 5 },
-              borderRadius: 4,
-              background: 'rgba(255,255,255,0.92)',
-              border: '1px solid rgba(84, 148, 255, 0.2)',
-              boxShadow: '0 30px 60px rgba(65, 119, 255, 0.2)',
+              borderBottom: '1px solid #222'
             }}
           >
+            <Container maxWidth={false} sx={{ maxWidth: CONTENT_MAX_WIDTH, px: HORIZONTAL_PADDING, position: 'relative', zIndex: 1 }}>
+              <Box sx={{ maxWidth: 800 }}>
+                <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 2, color: 'secondary.main' }}>
+                  <TerminalIcon fontSize="small" />
+                  <Typography variant="overline" sx={{ fontWeight: 700, letterSpacing: '0.2em' }}>
+                    SYSTEM_READY...
+                  </Typography>
+                </Stack>
+
+                <Typography
+                  variant="h2"
+                  component="h1"
+                  sx={{
+                    fontSize: { xs: '2.5rem', md: '4rem' },
+                    lineHeight: 1.1,
+                    mb: 3,
+                    fontFamily: 'monospace',
+                    textTransform: 'uppercase'
+                  }}
+                >
+                  <Box component="span" sx={{ color: '#fff' }}>노답 아카이브</Box>
+                  <br />
+                  <Box component="span" sx={{ color: 'primary.main', textShadow: '0 0 10px rgba(0,255,65,0.5)' }}>NO-ANSWER ARCHIVE</Box>
+                </Typography>
+
+                <Typography
+                  variant="body1"
+                  sx={{
+                    fontSize: { xs: '1rem', md: '1.25rem' },
+                    opacity: 0.8,
+                    maxWidth: 600,
+                    mb: 5,
+                    color: '#ccc'
+                  }}
+                >
+                  지우고 싶어도 지워지지 않는 그날의 기억, 여기에 영원히 박제하십시오.
+                  <br />
+                  <Box component="span" sx={{ fontSize: '0.8rem', color: '#666' }}>WARNING: Once uploaded, shame is eternal.</Box>
+                </Typography>
+
+                <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+                  <Button
+                    href="#upload"
+                    variant="contained"
+                    color="primary"
+                    size="large"
+                    sx={{ px: 4, py: 1.5, fontSize: '1.1rem' }}
+                  >
+                    [ 흑역사 박제하기 ]
+                  </Button>
+                  <Button
+                    href="#gallery"
+                    variant="outlined"
+                    color="secondary"
+                    size="large"
+                    sx={{ px: 4, py: 1.5, fontSize: '1.1rem' }}
+                  >
+                    [ 불명예의 전당 ]
+                  </Button>
+                </Box>
+              </Box>
+            </Container>
+
+            {/* Glitch/Grid Effect bg */}
             <Box
               sx={{
                 position: 'absolute',
-                inset: { xs: '-15% auto auto -25%', md: '-20% -20% auto auto' },
-                borderRadius: '50%',
-                width: 300,
-                height: 300,
-                background: 'rgba(54,195,255,0.12)',
-                filter: 'blur(12px)',
-                zIndex: -1,
+                top: 0, right: 0, bottom: 0, left: '50%',
+                opacity: 0.03,
+                backgroundImage: 'radial-gradient(#00ff41 1px, transparent 1px)',
+                backgroundSize: '20px 20px',
+                zIndex: 0
               }}
             />
-            <Typography variant="overline" className="static-text" sx={{ color: 'primary.main', letterSpacing: '0.4em' }}>
-              PYO SUPREMACY
-            </Typography>
-            <Typography
-              variant="h2"
-              component="h1"
-              className="static-text"
-              sx={{
-                mt: 2,
-                fontSize: { xs: '2rem', md: '3rem' },
-              }}
-            >
-              <Box component="span" sx={{ color: 'primary.main', fontWeight: 900 }}>
-                표주상
-              </Box>
-              님의 위업을 영원히 빛나게 하는 아카이브
-            </Typography>
-            <Typography variant="body1" className="static-text" sx={{ mt: 2, color: 'text.secondary' }}>
-              보는 순간 모두가 감탄하고,{' '}
-              <Box component="span" sx={{ color: 'primary.main', fontWeight: 700 }}>
-                표주상
-              </Box>
-              님을 더욱 사랑하게 되는 공간.
-              <br />
-              지금, 표주상님의 업적으로 이 찬란한 기록을 완성하세요.
-            </Typography>
-            <Box
-              sx={{
-                display: 'grid',
-                gridTemplateColumns: { xs: 'repeat(auto-fit, minmax(160px, 1fr))', md: 'repeat(3, 1fr)' },
-                justifyItems: 'center',
-                gap: { xs: 2.5, md: 3 },
-                mt: 5,
-              }}
-            >
-              {heroStats.map((stat) => (
-                <Box
-                  key={stat.label}
-                  className="static-text"
-                  sx={{
-                    minWidth: 180,
-                    px: 3,
-                    py: 2,
-                    borderRadius: 4,
-                    border: '1px solid rgba(255, 255, 255, 0.6)',
-                    background: 'rgba(255,255,255,0.9)',
-                    boxShadow: '0 18px 40px rgba(90, 155, 255, 0.3)',
-                  }}
-                >
-                  <Typography sx={{ fontSize: '0.75rem', color: 'text.secondary', letterSpacing: '0.2em' }}>
-                    {stat.label}
-                  </Typography>
-                  <Typography variant="h4" sx={{ mt: 1, color: 'primary.main' }}>
-                    {stat.value}
-                  </Typography>
-                </Box>
-              ))}
-            </Box>
-              <Button
-                href="#post-form"
-                variant="contained"
-                size="large"
+          </Box>
+
+          {/* STATS SECTION */}
+          <Box sx={{ borderBottom: '1px solid #222', bgcolor: '#0f0f0f' }}>
+            <Container maxWidth={false} sx={{ maxWidth: CONTENT_MAX_WIDTH, px: HORIZONTAL_PADDING }}>
+              <Box
                 sx={{
-                  mt: 5,
-                  width: { xs: '100%', sm: 'auto' },
-                  justifyContent: 'center',
-                  backdropFilter: 'blur(6px)',
+                  display: 'grid',
+                  gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(3, 1fr)' },
+                  py: 4,
+                  divideX: { sm: '1px solid #333' },
+                  gap: { xs: 3, sm: 0 }
                 }}
               >
-                표주상님의 업적을 세상에 공개하기
-              </Button>
+                {heroStats.map((stat) => (
+                  <Box key={stat.label} sx={{ textAlign: 'center', px: 2 }}>
+                    <Typography variant="h3" sx={{ color: '#fff', mb: 1, fontFamily: 'monospace' }}>{stat.value}</Typography>
+                    <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 600, letterSpacing: '0.1em' }}>{stat.label}</Typography>
+                  </Box>
+                ))}
+              </Box>
+            </Container>
           </Box>
 
-          <Box sx={{ ...sectionContainerSx }}>
-            <AnnouncementBox announcements={announcementList} />
-          </Box>
+          {/* MAIN CONTENT AREA */}
+          <Container maxWidth={false} sx={{ maxWidth: CONTENT_MAX_WIDTH, px: HORIZONTAL_PADDING, py: 8 }}>
 
-          <Box id="post-form" sx={{ ...sectionContainerSx }}>
-            <PostForm onPostCreated={handlePostCreated} setError={setError} />
-          </Box>
-
-          <Box sx={{ ...sectionContainerSx, mt: 4 }}>
-            <PraiseSection />
-          </Box>
-
-          {loading && (
-            <Box sx={{ display: 'flex', justifyContent: 'center', my: 5 }}>
-              <CircularProgress color="secondary" />
+            {/* Notices Section */}
+            <Box id="notices" sx={{ mb: 8 }}>
+              <AnnouncementBox announcements={announcementList} />
             </Box>
-          )}
 
-          {error && (
-            <Alert severity="error" sx={{ mb: 4 }}>
-              {error}
-            </Alert>
-          )}
+            {/* Upload Section */}
+            <Box id="upload" sx={{ mb: 12 }}>
+              <Typography variant="h4" gutterBottom sx={{ color: 'primary.main', display: 'flex', gap: 1 }}>
+                {'>'} 흑역사 데이터 입력
+              </Typography>
+              <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
+                시스템이 귀하의 부끄러운 과거를 안전하게 암호화하여(거짓말) 보관합니다.
+              </Typography>
+              <PostForm onPostCreated={handlePostCreated} setError={setError} />
+            </Box>
 
-          <Box sx={{ ...sectionContainerSx }}>
-            <PostList posts={posts} loading={loading} />
-          </Box>
-        </Container>
+            {/* Gallery Section */}
+            <Box id="gallery" sx={{ mb: 8 }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
+                <Box>
+                  <Typography variant="h4" gutterBottom sx={{ color: 'secondary.main', display: 'flex', gap: 1 }}>
+                    {'>'} 불명예의 전당
+                  </Typography>
+                  <Typography variant="body1" color="text.secondary">
+                    타인의 고통은 나의 즐거움. 마음껏 비웃어주세요.
+                  </Typography>
+                </Box>
+              </Box>
+              {error && (
+                <Alert severity="error" variant="outlined" sx={{ mb: 4, borderColor: 'error.main', color: 'error.main' }}>
+                  {error}
+                </Alert>
+              )}
+              {loading ? (
+                <Box sx={{ display: 'flex', justifyContent: 'center', my: 5 }}>
+                  <CircularProgress color="primary" />
+                </Box>
+              ) : (
+                <PostList posts={posts} loading={loading} />
+              )}
+            </Box>
+
+          </Container>
+        </Box>
+
+        {/* FOOTER */}
+        <Box sx={{ bgcolor: '#000', borderTop: '1px solid #222', color: '#666', py: 6 }}>
+          <Container maxWidth={false} sx={{ maxWidth: CONTENT_MAX_WIDTH, px: HORIZONTAL_PADDING }}>
+            <Stack direction={{ xs: 'column', md: 'row' }} justifyContent="space-between" spacing={4}>
+              <Box>
+                <Typography variant="h6" sx={{ color: '#fff', mb: 2, fontFamily: 'monospace' }}>NO-ANSWER ARCHIVE</Typography>
+                <Typography variant="body2" sx={{ fontFamily: 'monospace' }}>
+                  Established 2024.<br />
+                  We do not take responsibility for mental damage.<br />
+                  All rights reserved by Your Dark Past.
+                </Typography>
+              </Box>
+              <Stack spacing={1}>
+                <Typography variant="button" sx={{ color: '#888', cursor: 'pointer', '&:hover': { color: '#fff' } }}>[ 데이터 삭제 요청 (거절됨) ]</Typography>
+                <Typography variant="button" sx={{ color: '#888', cursor: 'pointer', '&:hover': { color: '#fff' } }}>[ 이용약관 ]</Typography>
+              </Stack>
+            </Stack>
+          </Container>
+        </Box>
+
       </Box>
     </ThemeProvider>
   );

@@ -1,5 +1,8 @@
 import { useState } from 'react';
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Typography, Button, List, ListItem, ListItemText, ListItemIcon, Divider, Paper } from '@mui/material';
+import WarningIcon from '@mui/icons-material/Warning';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import type { Announcement } from './types';
 
 interface AnnouncementBoxProps {
@@ -7,138 +10,83 @@ interface AnnouncementBoxProps {
 }
 
 const AnnouncementBox = ({ announcements }: AnnouncementBoxProps) => {
-  const [showHistory, setShowHistory] = useState(false);
-  const latest = announcements[0];
+  const [showAll, setShowAll] = useState(false);
 
-  if (!latest) {
+  if (announcements.length === 0) {
     return (
-      <Box
-        sx={{
-          px: { xs: 3, md: 4 },
-          py: { xs: 3, md: 4 },
-          mb: 6,
-          borderRadius: 4,
-          background: 'rgba(255,255,255,0.95)',
-          border: '1px solid rgba(186,208,255,0.6)',
-          textAlign: 'center',
-          color: '#032542',
-          boxShadow: '0 25px 50px rgba(10, 30, 60, 0.18)',
-        }}
-      >
-        <Typography variant="h6" sx={{ fontWeight: 800, letterSpacing: '0.2em' }}>
-          📢 표주상님의 명령을 기다리는 중
-        </Typography>
-        <Typography sx={{ mt: 1.5, color: 'text.secondary' }}>
-          아직 등록된 공지가 없습니다. 곧 내려질 위대한 명령을 기다려주세요!
-        </Typography>
-      </Box>
-    );
+      <Paper elevation={0} sx={{ p: 4, borderRadius: 0, bgcolor: '#111', border: '1px solid #333', textAlign: 'center' }}>
+        <Typography variant="h6" color="text.secondary" fontFamily="monospace">NO_SYSTEM_MESSAGES</Typography>
+      </Paper>
+    )
   }
 
-  const highlightDate = new Date(latest.created_at).toLocaleString('ko-KR', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  });
-
-  const history = announcements.slice(1, 6);
+  const displayList = showAll ? announcements : announcements.slice(0, 5);
 
   return (
-    <Box
-      sx={{
-        position: 'relative',
-        overflow: 'hidden',
-        px: { xs: 3, md: 4 },
-        py: { xs: 3, md: 4 },
-        mb: 6,
-        borderRadius: 4,
-        background: 'rgba(255,255,255,0.95)',
-        color: '#032542',
-        border: '1px solid rgba(186,208,255,0.6)',
-        boxShadow: '0 25px 50px rgba(10, 30, 60, 0.18)',
-      }}
-    >
-      <Box
-        sx={{
-          position: 'absolute',
-          inset: '-20% auto auto -10%',
-          width: 220,
-          height: 220,
-          background: 'rgba(92,156,255,0.25)',
-          filter: 'blur(35px)',
-          borderRadius: '50%',
-        }}
-      />
-      <Box
-        sx={{
-          position: 'absolute',
-          inset: 'auto -15% -35% auto',
-          width: 180,
-          height: 180,
-          background: 'rgba(110,188,255,0.25)',
-          filter: 'blur(30px)',
-          borderRadius: '50%',
-        }}
-      />
-      <Box sx={{ position: 'relative' }}>
-        <Typography variant="h6" component="p" className="static-text" sx={{ fontWeight: 800, letterSpacing: '0.2em' }}>
-          📢 표주상님의 중 대 발 표 !
+    <Box sx={{ width: '100%' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+        <Typography variant="h5" component="h2" sx={{ fontWeight: 700, color: '#fff', display: 'flex', alignItems: 'center', gap: 1, fontFamily: 'monospace' }}>
+          <WarningIcon color="secondary" />
+          SYSTEM_ALERTS
         </Typography>
-        <Typography
-          variant="body1"
-          className="static-text"
-          sx={{ mt: 1.5, fontSize: '1.05rem', whiteSpace: 'pre-line' }}
-        >
-          {latest.content}
-        </Typography>
-        <Typography
-          variant="caption"
-          className="static-text"
-          sx={{ mt: 2, display: 'inline-flex', alignItems: 'center', gap: 1, color: 'rgba(4,34,63,0.6)' }}
-        >
-          📅 게시일 {highlightDate}
-        </Typography>
+        <Button onClick={() => setShowAll(!showAll)} sx={{ color: 'secondary.main' }} endIcon={<KeyboardArrowRightIcon />}>
+          {showAll ? 'COLLAPSE' : 'EXPAND'}
+        </Button>
       </Box>
 
-      {history.length > 0 && (
-        <Box sx={{ mt: 3, pt: 2, borderTop: '1px solid rgba(15,29,43,0.08)' }}>
-          <Button
-            onClick={() => setShowHistory(!showHistory)}
-            variant="text"
-            sx={{ fontWeight: 700, color: '#fff' }}
-          >
-            {showHistory ? '최근 중대발표 접기' : '최근 중대발표 기록 보기'}
-          </Button>
-          {showHistory && (
-            <Box sx={{ mt: 1.5, display: 'flex', flexDirection: 'column', gap: 1.5 }}>
-              {history.map((entry) => (
-                <Box
-                  key={entry.id}
-                  sx={{
-                    borderRadius: 3,
-                    background: 'rgba(245,249,255,0.95)',
-                    border: '1px solid rgba(54,120,188,0.15)',
-                    px: 2,
-                    py: 1.2,
-                  }}
-                >
-                  <Typography variant="caption" sx={{ color: 'rgba(8,24,42,0.65)', fontWeight: 600 }}>
-                    {new Date(entry.created_at).toLocaleString('ko-KR', {
-                      month: 'long',
-                      day: 'numeric',
-                      hour: '2-digit',
-                      minute: '2-digit',
-                    })}
-                  </Typography>
-                  <Typography sx={{ whiteSpace: 'pre-line', mt: 0.5 }}>{entry.content}</Typography>
-                </Box>
-              ))}
+      <Paper elevation={0} sx={{ borderRadius: 0, overflow: 'hidden', border: '1px solid #333', bgcolor: '#0f0f0f' }}>
+        <List disablePadding>
+          {displayList.map((item, index) => (
+            <Box key={item.id}>
+              <ListItem
+                alignItems="flex-start"
+                sx={{
+                  py: 2.5,
+                  px: 3,
+                  '&:hover': { bgcolor: 'rgba(255, 0, 85, 0.05)' },
+                  transition: 'background-color 0.2s',
+                  borderLeft: index === 0 ? '2px solid' : '2px solid transparent',
+                  borderLeftColor: index === 0 ? 'secondary.main' : 'transparent',
+                }}
+              >
+                <ListItemIcon sx={{ minWidth: 40, mt: 0.5 }}>
+                  <WarningIcon sx={{ color: index === 0 ? 'secondary.main' : '#555', fontSize: '1.2rem' }} />
+                </ListItemIcon>
+                <ListItemText
+                  primary={
+                    <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 0.5, color: '#ddd' }}>
+                      {item.content.length > 80 ? item.content.slice(0, 80) + '...' : item.content}
+                    </Typography>
+                  }
+                  secondary={
+                    <Box component="span" sx={{ display: 'flex', alignItems: 'center', gap: 0.5, fontSize: '0.8rem', color: '#666', fontFamily: 'monospace' }}>
+                      <AccessTimeIcon sx={{ fontSize: '0.8rem' }} />
+                      {new Date(item.created_at).toLocaleString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false })}
+                    </Box>
+                  }
+                />
+                {index === 0 && (
+                  <Box
+                    sx={{
+                      display: { xs: 'none', sm: 'block' },
+                      color: 'secondary.main',
+                      border: '1px solid',
+                      px: 1,
+                      fontSize: '0.7rem',
+                      fontWeight: 700,
+                      ml: 2,
+                      fontFamily: 'monospace'
+                    }}
+                  >
+                    URGENT
+                  </Box>
+                )}
+              </ListItem>
+              {index < displayList.length - 1 && <Divider component="li" sx={{ borderColor: '#222' }} />}
             </Box>
-          )}
-        </Box>
-      )}
+          ))}
+        </List>
+      </Paper>
     </Box>
   );
 };

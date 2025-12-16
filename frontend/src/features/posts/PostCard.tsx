@@ -1,246 +1,119 @@
-import { Card, CardContent, CardMedia, Typography, Box } from '@mui/material';
+import { Card, CardContent, CardMedia, Typography, Box, Chip } from '@mui/material';
 import PlaceIcon from '@mui/icons-material/Place';
-import ScheduleIcon from '@mui/icons-material/Schedule';
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import FingerprintIcon from '@mui/icons-material/Fingerprint';
 import type { Post } from './types';
 import { getDisplayableImageUrl } from './imageUtils';
 
 interface PostCardProps {
   post: Post;
-  onCelebrate: (message: string) => void;
+  onClick?: (post: Post) => void;
   compact?: boolean;
 }
 
-const PostCard = ({ post, onCelebrate, compact = false }: PostCardProps) => {
+const PostCard = ({ post, onClick, compact = false }: PostCardProps) => {
   const imageUrl = getDisplayableImageUrl(post.image);
   const videoUrl = getDisplayableImageUrl(post.video);
   const hasMedia = Boolean(imageUrl || videoUrl);
-  const originalSource = imageUrl || videoUrl;
 
   const creationDate = new Date(post.created_at || '').toLocaleDateString('ko-KR', {
     year: 'numeric',
-    month: 'long',
+    month: 'numeric',
     day: 'numeric',
   });
 
-  const triggerCelebration = () => {
-    const message = `축하합니다!
-표주상님이 "${post.title}" 업적으로
-새로운 전설을 쓰고 있습니다!`;
-    onCelebrate(message);
-  };
-
-  const openOriginal = (event: React.MouseEvent) => {
-    event.stopPropagation();
-    if (originalSource) {
-      window.open(originalSource, '_blank', 'noopener,noreferrer');
-    }
-  };
-
-  const locationLabel = post.location?.trim() || '장소 정보 없음';
-  const timeLabel = post.achieved_at?.trim() || '시간 정보 없음';
+  const locationLabel = post.location?.trim() || 'UNIDENTIFIED';
 
   return (
     <Card
-      className="static-text"
+      elevation={0}
       sx={{
         position: 'relative',
         overflow: 'hidden',
-        borderRadius: compact ? '24px' : '32px',
-        border: '1px solid rgba(255,255,255,0.6)',
-        background: 'linear-gradient(180deg, #0B1F35 0%, #091623 60%, #051019 100%)',
-        boxShadow: '0 25px 45px rgba(7, 15, 30, 0.55)',
-        color: '#E5F3FF',
-        cursor: hasMedia ? 'pointer' : 'default',
-        transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+        borderRadius: 0,
+        border: '1px solid #333',
+        bgcolor: '#0a0a0a',
+        transition: 'all 0.2s ease',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
         '&:hover': {
-          transform: hasMedia ? 'translateY(-6px)' : undefined,
-          boxShadow: hasMedia ? '0 35px 60px rgba(6, 12, 24, 0.65)' : undefined,
+          borderColor: 'primary.main',
+          boxShadow: '0 0 15px rgba(0,255,65,0.1)',
+          transform: 'translateY(-2px)'
         },
-        '&:active': {
-          transform: hasMedia ? 'translateY(-2px) scale(0.99)' : undefined,
-        },
-        minHeight: compact ? 480 : 520,
+        cursor: onClick ? 'pointer' : 'default',
       }}
-      onClick={hasMedia ? triggerCelebration : undefined}
+      onClick={() => onClick && onClick(post)}
     >
+      {/* Header Decoration */}
+      <Box sx={{ px: 2, py: 1, borderBottom: '1px solid #222', display: 'flex', justifyContent: 'space-between', alignItems: 'center', bgcolor: '#111' }}>
+        <Typography variant="caption" sx={{ color: 'primary.main', fontFamily: 'monospace', letterSpacing: '0.1em' }}>
+          CASE_NO.{post.id}
+        </Typography>
+        <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: 'error.main', boxShadow: '0 0 5px red' }} />
+      </Box>
+
       {hasMedia && (
-        <Box sx={{ position: 'relative' }}>
+        <Box sx={{ position: 'relative', overflow: 'hidden', paddingTop: '65%' }}>
           {imageUrl ? (
             <CardMedia
               component="img"
-              height={compact ? 260 : 380}
               image={imageUrl}
               alt={post.title}
               sx={{
-                objectFit: 'cover',
+                position: 'absolute',
+                top: 0,
+                left: 0,
                 width: '100%',
-                filter: 'saturate(1.05)',
-                backgroundColor: '#050a15',
+                height: '100%',
+                objectFit: 'cover',
+                filter: 'grayscale(0.6) contrast(1.2)', // Gritty look
+                transition: 'filter 0.3s',
+                '.MuiCard-root:hover &': {
+                  filter: 'grayscale(0) contrast(1)'
+                }
               }}
             />
           ) : (
-            <CardMedia
-              component="video"
-              controls
-              playsInline
-              preload="metadata"
-              onClick={(event) => {
-                event.stopPropagation();
-              }}
-              src={videoUrl as string}
-              sx={{
-                width: '100%',
-                height: compact ? 260 : 380,
-                objectFit: 'cover',
-                backgroundColor: '#050a15',
-              }}
-            />
+            <Box sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', bgcolor: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <video src={videoUrl || ""} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'grayscale(0.8)' }} />
+            </Box>
           )}
+
           <Box
+            className="media-overlay"
             sx={{
               position: 'absolute',
               inset: 0,
-              background: 'linear-gradient(180deg, rgba(12,19,38,0.15) 0%, rgba(7,12,24,0.85) 100%)',
-              pointerEvents: 'none',
-            }}
-          />
-          <Box
-            sx={{
-              position: 'absolute',
-              top: 18,
-              left: 24,
-              right: 24,
+              background: 'linear-gradient(to top, #0a0a0a 0%, transparent 50%)',
               display: 'flex',
-              alignItems: 'center',
-              gap: 1,
+              flexDirection: 'column',
+              justifyContent: 'flex-end',
+              p: 2
             }}
           >
-            <Typography
-              variant="subtitle2"
-              sx={{
-                px: 2,
-                py: 0.5,
-                borderRadius: 999,
-                textTransform: 'uppercase',
-                fontWeight: 700,
-                letterSpacing: '0.4em',
-                background: 'rgba(255,255,255,0.35)',
-                color: '#fff',
-              }}
-            >
-              {videoUrl ? 'GLORY CLIP' : 'GLORY MOMENT'}
-            </Typography>
-            {originalSource && (
-              <Typography
-                component="button"
-                onClick={openOriginal}
-                sx={{
-                  border: '1px solid rgba(255,255,255,0.7)',
-                  borderRadius: 999,
-                  px: 1.5,
-                  py: 0.3,
-                  background: 'rgba(0,0,0,0.35)',
-                  color: '#fff',
-                  fontSize: '0.7rem',
-                  fontWeight: 600,
-                  letterSpacing: '0.1em',
-                  textTransform: 'uppercase',
-                  cursor: 'pointer',
-                  marginLeft: 'auto',
-                }}
-              >
-                원본
-              </Typography>
-            )}
+            <Chip
+              icon={<PlaceIcon sx={{ fontSize: '0.9rem !important', color: '#000 !important' }} />}
+              label={locationLabel}
+              size="small"
+              sx={{ bgcolor: 'secondary.main', color: '#000', fontWeight: 'bold', alignSelf: 'flex-start', borderRadius: 0 }}
+            />
           </Box>
         </Box>
       )}
-      <CardContent sx={{ p: { xs: compact ? 2.5 : 3, md: 4 } }}>
-        <Typography
-          variant={compact ? 'h6' : 'h5'}
-          className="static-text"
-          sx={{ fontWeight: 700, color: '#fff', mb: 1 }}
-        >
+
+      <CardContent sx={{ p: 3, flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+        <Typography variant="h6" sx={{ fontWeight: 700, mb: 1, lineHeight: 1.4, color: '#fff' }}>
           {post.title}
         </Typography>
 
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, mb: 2 }}>
-          <Box
-            sx={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 0.8,
-              px: 2,
-              py: 0.6,
-              borderRadius: 999,
-              background: 'rgba(255,255,255,0.08)',
-              color: 'rgba(255,255,255,0.85)',
-              fontSize: '0.9rem',
-              userSelect: 'none',
-              opacity: post.location ? 1 : 0.55,
-            }}
-          >
-            <PlaceIcon sx={{ fontSize: '1rem' }} />
-            {locationLabel}
-          </Box>
-          <Box
-            sx={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 0.8,
-              px: 2,
-              py: 0.6,
-              borderRadius: 999,
-              background: 'rgba(255,255,255,0.08)',
-              color: 'rgba(255,255,255,0.85)',
-              fontSize: '0.9rem',
-              userSelect: 'none',
-              opacity: post.achieved_at ? 1 : 0.55,
-            }}
-          >
-            <ScheduleIcon sx={{ fontSize: '1rem' }} />
-            {timeLabel}
-          </Box>
-        </Box>
-
-        <Typography
-          className="static-text"
-          variant="body1"
-          sx={{
-            whiteSpace: 'pre-wrap',
-            color: 'rgba(229,243,255,0.75)',
-            fontSize: compact ? '0.98rem' : '1.04rem',
-            minHeight: compact ? '3.2rem' : '4rem',
-          }}
-        >
+        <Typography variant="body2" sx={{ mb: 2, flexGrow: 1, color: '#aaa', fontFamily: 'monospace', overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical' }}>
           {post.content}
         </Typography>
 
-        <Box
-          sx={{
-            mt: 3,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            color: 'rgba(219,236,255,0.7)',
-          }}
-        >
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, fontWeight: 600 }}>
-            <CalendarTodayIcon sx={{ fontSize: '1rem' }} />
-            <Typography variant="caption" sx={{ letterSpacing: '0.08em' }}>
-              기록일 {creationDate}
-            </Typography>
-          </Box>
-          <Box
-            sx={{
-              width: 20,
-              height: 20,
-              borderRadius: '50%',
-              background: 'linear-gradient(135deg, #36C3FF, #5C7CFF)',
-              boxShadow: '0 0 20px rgba(90,147,255,0.5)',
-            }}
-          />
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: '#555', fontSize: '0.75rem', mt: 'auto', borderTop: '1px dashed #333', pt: 2, fontFamily: 'monospace' }}>
+          <FingerprintIcon fontSize="inherit" />
+          {creationDate} DECLASSIFIED
         </Box>
       </CardContent>
     </Card>
