@@ -97,6 +97,7 @@ const PostList = ({ posts, loading }: PostListProps) => {
                     {selectedPost.video ? (
                       <video
                         controls
+                        autoPlay
                         src={getDisplayableImageUrl(selectedPost.video)}
                         style={{ maxWidth: '100%', maxHeight: '60vh', objectFit: 'contain' }}
                       />

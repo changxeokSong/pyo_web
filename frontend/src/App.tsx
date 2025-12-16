@@ -180,7 +180,11 @@ function App() {
           body: {
             minHeight: '100vh',
             backgroundColor: '#050505',
-            // Subtle scanline effect
+            caretColor: 'transparent', // Hide cursor in non-input elements
+            '& input, & textarea': {
+              caretColor: 'auto', // Restore cursor for inputs
+            },
+            // Subtle scanline effect (background only)
             '&::after': {
               content: '""',
               position: 'fixed',
@@ -189,9 +193,9 @@ function App() {
               width: '100vw',
               height: '100vh',
               background: 'linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03))',
-              backgroundSize: '100% 2px, 2px 100%',
+              backgroundSize: '100% 2px, 3px 100%',
               pointerEvents: 'none',
-              zIndex: 9999,
+              zIndex: 0, // Changed from 9999 to 0 (background level)
             }
           },
           '::selection': {

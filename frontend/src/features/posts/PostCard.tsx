@@ -76,7 +76,14 @@ const PostCard = ({ post, onClick }: PostCardProps) => {
             />
           ) : (
             <Box sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', bgcolor: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <video src={videoUrl || ""} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'grayscale(0.8)' }} />
+              <video
+                src={videoUrl || ""}
+                muted
+                loop
+                autoPlay
+                playsInline
+                style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'grayscale(0.8)' }}
+              />
             </Box>
           )}
 
