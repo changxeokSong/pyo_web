@@ -157,7 +157,7 @@ const PostForm = ({ onPostCreated, setError }: PostFormProps) => {
           fullWidth
           value={achieved_at}
           onChange={(e) => setAchievedAt(e.target.value)}
-          placeholder="예: 2024.12.25 14:00"
+          placeholder="예: 2025년 "
           sx={inputSx}
         />
       </Box>
@@ -177,30 +177,49 @@ const PostForm = ({ onPostCreated, setError }: PostFormProps) => {
         />
       </Box>
 
-      <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', mb: 4, p: 2, border: '1px dashed #333', bgcolor: '#0a0a0a' }}>
-        <Button
-          component="label"
-          variant="outlined"
-          color="secondary"
-          startIcon={<FileUploadIcon />}
-          sx={{ borderRadius: 0 }}
-        >
-          증거 사진 첨부
-          <input type="file" hidden accept="image/*" onChange={handleImageChange} />
-        </Button>
-        {postImage && <Typography sx={{ alignSelf: 'center', fontSize: '0.875rem', color: 'secondary.main' }}>{postImage.name}</Typography>}
+      <Box sx={{ mb: 4, p: 2, border: '1px dashed #333', bgcolor: '#0a0a0a' }}>
+        <Typography variant="subtitle2" sx={{ color: '#666', mb: 2, fontFamily: 'monospace' }}>
+          [ EVIDENCE_ATTACHMENT ]
+        </Typography>
+        <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 2 }}>
+          <Box>
+            <Button
+              component="label"
+              variant="outlined"
+              color={postImage ? "primary" : "secondary"}
+              startIcon={<FileUploadIcon />}
+              fullWidth
+              sx={{ borderRadius: 0, height: '100%', py: 1.5, borderStyle: postImage ? 'solid' : 'dashed' }}
+            >
+              {postImage ? "사진 변경" : "증거 사진 첨부"}
+              <input type="file" hidden accept="image/*" onChange={handleImageChange} />
+            </Button>
+            {postImage && (
+              <Typography sx={{ mt: 1, fontSize: '0.8rem', color: 'primary.main', fontFamily: 'monospace', textAlign: 'center' }}>
+                DETECTED: {postImage.name}
+              </Typography>
+            )}
+          </Box>
 
-        <Button
-          component="label"
-          variant="outlined"
-          color="secondary"
-          startIcon={<FileUploadIcon />}
-          sx={{ borderRadius: 0 }}
-        >
-          증거 영상 첨부
-          <input type="file" hidden accept="video/mp4,video/quicktime" onChange={handleVideoChange} />
-        </Button>
-        {postVideo && <Typography sx={{ alignSelf: 'center', fontSize: '0.875rem', color: 'secondary.main' }}>{postVideo.name}</Typography>}
+          <Box>
+            <Button
+              component="label"
+              variant="outlined"
+              color={postVideo ? "primary" : "secondary"}
+              startIcon={<FileUploadIcon />}
+              fullWidth
+              sx={{ borderRadius: 0, height: '100%', py: 1.5, borderStyle: postVideo ? 'solid' : 'dashed' }}
+            >
+              {postVideo ? "영상 변경" : "증거 영상 첨부"}
+              <input type="file" hidden accept="video/mp4,video/quicktime" onChange={handleVideoChange} />
+            </Button>
+            {postVideo && (
+              <Typography sx={{ mt: 1, fontSize: '0.8rem', color: 'primary.main', fontFamily: 'monospace', textAlign: 'center' }}>
+                DETECTED: {postVideo.name}
+              </Typography>
+            )}
+          </Box>
+        </Box>
       </Box>
 
       <Button

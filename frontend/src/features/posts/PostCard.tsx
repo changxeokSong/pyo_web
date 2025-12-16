@@ -133,7 +133,7 @@ const PostCard = ({ post, onClick }: PostCardProps) => {
 
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: '#555', fontSize: '0.75rem', mt: 'auto', borderTop: '1px dashed #333', pt: 2, fontFamily: 'monospace' }}>
           <FingerprintIcon fontSize="inherit" />
-          {creationDate} DECLASSIFIED
+          {post.achieved_at ? `${post.achieved_at} (EST)` : `${creationDate} DECLASSIFIED`}
         </Box>
       </CardContent>
     </Card>

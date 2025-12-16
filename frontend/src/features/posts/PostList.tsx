@@ -81,6 +81,11 @@ const PostList = ({ posts, loading }: PostListProps) => {
                   <Typography variant="h6" sx={{ fontWeight: 700, fontFamily: 'monospace' }}>
                     CASE_FILE: {selectedPost.title}
                   </Typography>
+                  {selectedPost.achieved_at && (
+                    <Typography variant="caption" sx={{ display: 'block', color: 'primary.main', fontFamily: 'monospace' }}>
+                      OCCURRED: {selectedPost.achieved_at}
+                    </Typography>
+                  )}
                   <Button onClick={closeModal} sx={{ minWidth: 0, p: 1, color: '#aaa' }}>
                     <CloseIcon />
                   </Button>

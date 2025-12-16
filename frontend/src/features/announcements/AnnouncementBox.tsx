@@ -54,8 +54,8 @@ const AnnouncementBox = ({ announcements }: AnnouncementBoxProps) => {
                 </ListItemIcon>
                 <ListItemText
                   primary={
-                    <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 0.5, color: '#ddd' }}>
-                      {item.content.length > 80 ? item.content.slice(0, 80) + '...' : item.content}
+                    <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 0.5, color: '#ddd', whiteSpace: 'pre-wrap' }}>
+                      {item.content}
                     </Typography>
                   }
                   secondary={
