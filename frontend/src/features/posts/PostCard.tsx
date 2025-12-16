@@ -60,7 +60,7 @@ const PostCard = ({ post, index, onClick }: PostCardProps) => {
             🚫 ACCESS DENIED
           </Typography>
           <Typography variant="body2" sx={{ color: '#666', fontFamily: 'monospace' }}>
-            "관리자 권한으로 삭제됨"<br />(사유: 내 맘 ㅋ 꼬우면 관리자 하든가 키키키)
+            "관리자 권한으로 삭제됨"<br />(사유: 내 맘 ㅋ 꼬우면 관리자 하든가 !)
           </Typography>
         </CardContent>
       </Card>
