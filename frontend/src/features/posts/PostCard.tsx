@@ -89,7 +89,7 @@ const PostCard = ({ post, index, onClick }: PostCardProps) => {
       }}
       onClick={() => onClick && onClick(post)}
     >
-      /* Header Decoration */
+      {/* Header Decoration */}
       <Box sx={{ px: 2, py: 1, borderBottom: '1px solid #222', display: 'flex', justifyContent: 'space-between', alignItems: 'center', bgcolor: '#111' }}>
         <Typography variant="caption" sx={{ color: 'primary.main', fontFamily: 'monospace', letterSpacing: '0.1em' }}>
           CASE_NO.{caseNumber}
