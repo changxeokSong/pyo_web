@@ -81,20 +81,61 @@ const PostCard = ({ post, index, onClick }: PostCardProps) => {
         display: 'flex',
         flexDirection: 'column',
         '&:hover': {
-          borderColor: 'primary.main',
-          boxShadow: '0 0 15px rgba(0,255,65,0.1)',
+          borderColor: 'secondary.main',
+          boxShadow: '0 0 15px rgba(255,0,85,0.2)',
           transform: 'translateY(-2px)'
         },
         cursor: onClick ? 'pointer' : 'default',
       }}
       onClick={() => onClick && onClick(post)}
     >
-      {/* Header Decoration */}
+      /* Header Decoration */
       <Box sx={{ px: 2, py: 1, borderBottom: '1px solid #222', display: 'flex', justifyContent: 'space-between', alignItems: 'center', bgcolor: '#111' }}>
         <Typography variant="caption" sx={{ color: 'primary.main', fontFamily: 'monospace', letterSpacing: '0.1em' }}>
           CASE_NO.{caseNumber}
         </Typography>
         <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: 'error.main', boxShadow: '0 0 5px red' }} />
+      </Box>
+
+      {/* "EXPAND" Overlay (Visible on Hover) */}
+      <Box
+        sx={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          bgcolor: 'rgba(0,0,0,0.85)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          opacity: 0,
+          transition: 'opacity 0.2s',
+          zIndex: 10,
+          backgroundImage: 'linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 85, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06))',
+          backgroundSize: '100% 2px, 3px 100%',
+          '.MuiCard-root:hover &': {
+            opacity: 1,
+          }
+        }}
+      >
+        <Typography
+          variant="h5"
+          sx={{
+            color: 'secondary.main',
+            fontFamily: 'monospace',
+            fontWeight: 700,
+            letterSpacing: '0.1em',
+            textShadow: '0 0 10px rgba(255,0,85,0.8)',
+            border: '1px solid',
+            borderColor: 'secondary.main',
+            px: 3,
+            py: 1,
+            bgcolor: 'rgba(255,0,85,0.1)'
+          }}
+        >
+          EXPAND {'>'}
+        </Typography>
       </Box>
 
       {hasMedia && (
@@ -113,9 +154,6 @@ const PostCard = ({ post, index, onClick }: PostCardProps) => {
                 objectFit: 'cover',
                 filter: 'grayscale(0.6) contrast(1.2)', // Gritty look
                 transition: 'filter 0.3s',
-                '.MuiCard-root:hover &': {
-                  filter: 'grayscale(0) contrast(1)'
-                }
               }}
             />
           ) : (
