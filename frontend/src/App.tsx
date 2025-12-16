@@ -21,6 +21,7 @@ import type { Announcement } from './features/announcements/types';
 import PraiseSection from './features/praises/PraiseSection';
 import TerminalIcon from '@mui/icons-material/Terminal';
 import TermsOfService from './components/TermsOfService';
+import DeletionRequest from './components/DeletionRequest';
 
 const CONTENT_MAX_WIDTH = 1200;
 const HORIZONTAL_PADDING = { xs: 2, md: 4 } as const;
@@ -151,6 +152,7 @@ function App() {
   const [error, setError] = useState<string | null>(null);
   const [announcementList, setAnnouncementList] = useState<Announcement[]>([]);
   const [tosOpen, setTosOpen] = useState(false);
+  const [deletionOpen, setDeletionOpen] = useState(false);
 
   useEffect(() => {
     fetchPosts();
@@ -412,7 +414,7 @@ function App() {
                 </Typography>
               </Box>
               <Stack spacing={1}>
-                <Typography variant="button" onClick={() => alert('삭제 요청이 거절되었습니다. (사유: 영구 보존 원칙)')} sx={{ color: '#888', cursor: 'pointer', '&:hover': { color: '#fff' } }}>[ 데이터 삭제 요청 (거절됨) ]</Typography>
+                <Typography variant="button" onClick={() => setDeletionOpen(true)} sx={{ color: '#888', cursor: 'pointer', '&:hover': { color: '#fff' } }}>[ 데이터 삭제 신청 ]</Typography>
                 <Typography variant="button" onClick={() => setTosOpen(true)} sx={{ color: '#888', cursor: 'pointer', '&:hover': { color: '#fff' } }}>[ 이용약관 ]</Typography>
               </Stack>
             </Stack>
@@ -422,6 +424,11 @@ function App() {
         <TermsOfService
           open={tosOpen}
           onClose={() => setTosOpen(false)}
+        />
+
+        <DeletionRequest
+          open={deletionOpen}
+          onClose={() => setDeletionOpen(false)}
         />
 
       </Box>
