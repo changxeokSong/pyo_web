@@ -18,6 +18,7 @@ import PostList from './features/posts/PostList';
 import AnnouncementBox from './features/announcements/AnnouncementBox';
 import type { Post } from './features/posts/types';
 import type { Announcement } from './features/announcements/types';
+import PraiseSection from './features/praises/PraiseSection';
 import TerminalIcon from '@mui/icons-material/Terminal';
 
 const CONTENT_MAX_WIDTH = 1200;
@@ -364,6 +365,10 @@ function App() {
               )}
             </Box>
 
+            {/* Tribute/Praise Section */}
+            <Box id="tribute" sx={{ mb: 12 }}>
+              <PraiseSection />
+            </Box>
           </Container>
         </Box>
 
