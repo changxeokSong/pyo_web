@@ -1,8 +1,6 @@
-import { useState } from 'react';
-import { Box, Typography, Button, List, ListItem, ListItemText, ListItemIcon, Divider, Paper } from '@mui/material';
+import { Box, Typography, List, ListItem, ListItemText, ListItemIcon, Divider, Paper } from '@mui/material';
 import WarningIcon from '@mui/icons-material/Warning';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import type { Announcement } from './types';
 
 interface AnnouncementBoxProps {

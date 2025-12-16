@@ -48,7 +48,7 @@ const PraiseSection = () => {
       const newPraise: Praise = await response.json();
       setPraises((prev) => [newPraise, ...prev].slice(0, 8));
       setMessage('');
-      setFeedback('메시지가 영구 박제되었습니다.');
+      setFeedback('메시지가 박제되었습니다.');
     } catch (error) {
       console.error('Failed to submit praise', error);
       setFeedback('전송 오류: 시스템이 거부했습니다.');
