@@ -1,6 +1,8 @@
-import { Box, Typography, List, ListItem, ListItemText, ListItemIcon, Divider, Paper } from '@mui/material';
+import { useState } from 'react';
+import { Box, Typography, Button, List, ListItem, ListItemText, ListItemIcon, Divider, Paper } from '@mui/material';
 import WarningIcon from '@mui/icons-material/Warning';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import type { Announcement } from './types';
 
 interface AnnouncementBoxProps {
@@ -8,7 +10,7 @@ interface AnnouncementBoxProps {
 }
 
 const AnnouncementBox = ({ announcements }: AnnouncementBoxProps) => {
-  const displayList = announcements;
+  const [showAll, setShowAll] = useState(false);
 
   if (announcements.length === 0) {
     return (
@@ -18,6 +20,8 @@ const AnnouncementBox = ({ announcements }: AnnouncementBoxProps) => {
     )
   }
 
+  const displayList = showAll ? announcements : announcements.slice(0, 1);
+
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
@@ -25,6 +29,21 @@ const AnnouncementBox = ({ announcements }: AnnouncementBoxProps) => {
           <WarningIcon color="secondary" />
           SYSTEM_ALERTS
         </Typography>
+        <Button
+          onClick={() => setShowAll(!showAll)}
+          sx={{
+            color: 'secondary.main',
+            fontFamily: 'monospace',
+            fontWeight: 700,
+            '&:hover': {
+              bgcolor: 'rgba(255,0,85,0.1)',
+              boxShadow: '0 0 10px rgba(255,0,85,0.2)'
+            }
+          }}
+          endIcon={<KeyboardArrowRightIcon />}
+        >
+          {showAll ? 'COLLAPSE' : 'EXPAND'}
+        </Button>
       </Box>
 
       <Paper elevation={0} sx={{ borderRadius: 0, overflow: 'hidden', border: '1px solid #333', bgcolor: '#0f0f0f' }}>
@@ -37,7 +56,7 @@ const AnnouncementBox = ({ announcements }: AnnouncementBoxProps) => {
                   py: 2.5,
                   px: 3,
                   '&:hover': { bgcolor: 'rgba(255, 0, 85, 0.05)' },
-                  transition: 'background-color 0.2s',
+                  transition: 'all 0.2s',
                   borderLeft: index === 0 ? '2px solid' : '2px solid transparent',
                   borderLeftColor: index === 0 ? 'secondary.main' : 'transparent',
                 }}
@@ -68,7 +87,8 @@ const AnnouncementBox = ({ announcements }: AnnouncementBoxProps) => {
                       fontSize: '0.7rem',
                       fontWeight: 700,
                       ml: 2,
-                      fontFamily: 'monospace'
+                      fontFamily: 'monospace',
+                      boxShadow: '0 0 5px rgba(255,0,85,0.2)'
                     }}
                   >
                     URGENT
