@@ -86,7 +86,7 @@ const PostList = ({ posts, loading }: PostListProps) => {
                       OCCURRED: {selectedPost.achieved_at}
                     </Typography>
                   )}
-                  <Button onClick={closeModal} sx={{ minWidth: 0, p: 1, color: '#aaa' }}>
+                  <Button onClick={closeModal} sx={{ minWidth: 0, p: 1, color: 'secondary.main', '&:hover': { color: '#fff' } }}>
                     <CloseIcon />
                   </Button>
                 </Box>

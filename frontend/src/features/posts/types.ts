@@ -6,5 +6,6 @@ export interface Post {
   content: string;
   image?: string;
   video?: string;
+  is_blocked?: boolean;
   created_at?: string;
 }

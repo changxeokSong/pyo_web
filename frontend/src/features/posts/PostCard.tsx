@@ -25,6 +25,48 @@ const PostCard = ({ post, index, onClick }: PostCardProps) => {
   const locationLabel = post.location?.trim() || 'UNIDENTIFIED';
   const caseNumber = index !== undefined ? index : post.id;
 
+  if (post.is_blocked) {
+    return (
+      <Card
+        elevation={0}
+        sx={{
+          height: '100%',
+          bgcolor: '#050505',
+          border: '1px solid #333',
+          borderRadius: 0,
+          display: 'flex',
+          flexDirection: 'column',
+          position: 'relative',
+          overflow: 'hidden',
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            top: 0, left: 0, width: '100%', height: '100%',
+            backgroundImage: 'repeating-linear-gradient(45deg, #111 25%, transparent 25%, transparent 75%, #111 75%, #111), repeating-linear-gradient(45deg, #111 25%, #050505 25%, #050505 75%, #111 75%, #111)',
+            backgroundPosition: '0 0, 10px 10px',
+            backgroundSize: '20px 20px',
+            opacity: 0.5,
+            zIndex: 0
+          }
+        }}
+      >
+        <Box sx={{ px: 2, py: 1, borderBottom: '1px solid #222', display: 'flex', justifyContent: 'space-between', alignItems: 'center', bgcolor: '#000', zIndex: 1 }}>
+          <Typography variant="caption" sx={{ color: 'error.main', fontFamily: 'monospace', letterSpacing: '0.1em' }}>
+            CASE_NO.{caseNumber} [DELETED]
+          </Typography>
+        </Box>
+        <CardContent sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1, flexDirection: 'column', p: 4, textAlign: 'center' }}>
+          <Typography variant="h6" sx={{ color: 'error.main', fontFamily: 'monospace', fontWeight: 700, mb: 2, textTransform: 'uppercase' }}>
+            🚫 ACCESS DENIED
+          </Typography>
+          <Typography variant="body2" sx={{ color: '#666', fontFamily: 'monospace' }}>
+            "관리자 권한으로 삭제됨.<br />(사유: 내 맘 ㅋ 꼬우면 관리자 하든가)"
+          </Typography>
+        </CardContent>
+      </Card>
+    );
+  }
+
   return (
     <Card
       elevation={0}
