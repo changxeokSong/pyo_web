@@ -20,6 +20,7 @@ import type { Post } from './features/posts/types';
 import type { Announcement } from './features/announcements/types';
 import PraiseSection from './features/praises/PraiseSection';
 import TerminalIcon from '@mui/icons-material/Terminal';
+import TermsOfService from './components/TermsOfService'; // Import TOS
 
 const CONTENT_MAX_WIDTH = 1200;
 const HORIZONTAL_PADDING = { xs: 2, md: 4 } as const;

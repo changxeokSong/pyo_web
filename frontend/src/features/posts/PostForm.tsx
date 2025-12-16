@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
-import { Box, TextField, Button, Typography, Checkbox, FormControlLabel, Paper } from '@mui/material';
-import TermsOfService from '../../components/TermsOfService';
+import { Box, TextField, Button, Typography, Paper } from '@mui/material';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import type { Post } from './types';
 
@@ -14,8 +13,6 @@ const PostForm = ({ onPostCreated, setError }: PostFormProps) => {
   const [postTitle, setPostTitle] = useState('');
   const [location, setLocation] = useState('');
   const [loading, setLoading] = useState(false);
-  const [agreed, setAgreed] = useState(false);
-  const [tosOpen, setTosOpen] = useState(false);
   const [achieved_at, setAchievedAt] = useState('');
   const [postContent, setPostContent] = useState('');
   const [postImage, setPostImage] = useState<File | null>(null);
@@ -87,7 +84,6 @@ const PostForm = ({ onPostCreated, setError }: PostFormProps) => {
       setPostContent('');
       setPostImage(null);
       setPostVideo(null);
-      setAgreed(false); // Reset TOS agreement
       alert('데이터 아카이빙 완료.');
     } catch (error) {
       console.error("Error creating post:", error);
@@ -234,53 +230,19 @@ const PostForm = ({ onPostCreated, setError }: PostFormProps) => {
         </Box>
       </Box>
 
-      <TermsOfService
-        open={tosOpen}
-        onClose={() => setTosOpen(false)}
-        onAgree={() => setAgreed(true)}
-      />
-
       <Box sx={{ textAlign: 'center', mt: 4 }}>
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={agreed}
-              onChange={(e) => setAgreed(e.target.checked)}
-              sx={{
-                color: '#666',
-                '&.Mui-checked': { color: '#00ff41' },
-              }}
-            />
-          }
-          label={
-            <Typography variant="body2" sx={{ color: '#aaa', fontFamily: 'monospace' }}>
-              <span
-                style={{ color: '#00ff41', cursor: 'pointer', textDecoration: 'underline' }}
-                onClick={(e) => {
-                  e.preventDefault();
-                  setTosOpen(true);
-                }}
-              >
-                [ 악마의 계약서 ]
-              </span>
-              에 서명합니다. (이용약관 동의)
-            </Typography>
-          }
-        />
-
         <Button
           fullWidth
           variant="contained"
-          disabled={!agreed}
           onClick={handleSubmit}
           sx={{
             mt: 2,
             py: 2,
             fontSize: '1.2rem',
-            bgcolor: agreed ? '#00ff41' : '#333',
-            color: agreed ? '#000' : '#666',
+            bgcolor: '#00ff41',
+            color: '#000',
             '&:hover': {
-              bgcolor: agreed ? '#00cc33' : '#333'
+              bgcolor: '#00cc33'
             }
           }}
         >
