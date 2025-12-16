@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, Typography, Modal, Fade, Backdrop, Button, useMediaQuery } from '@mui/material';
+import { Box, Typography, Modal, Fade, Backdrop, Button } from '@mui/material';
 import PostCard from './PostCard';
 import type { Post } from './types';
 import CloseIcon from '@mui/icons-material/Close';
@@ -12,7 +12,7 @@ interface PostListProps {
 const PostList = ({ posts, loading }: PostListProps) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
-  const isMobile = useMediaQuery('(max-width:768px)');
+
 
   const handleCardClick = (post: Post) => {
     setSelectedPost(post);
@@ -43,7 +43,7 @@ const PostList = ({ posts, loading }: PostListProps) => {
         }}
       >
         {posts.map((post) => (
-          <PostCard key={post.id} post={post} onClick={handleCardClick} compact={isMobile} />
+          <PostCard key={post.id} post={post} onClick={handleCardClick} />
         ))}
       </Box>
 
