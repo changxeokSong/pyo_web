@@ -105,7 +105,7 @@ const PraiseSection = () => {
           {'>'} 조롱의 한마디 남기기
         </Typography>
         <Typography variant="body2" sx={{ mb: 3, color: '#888', fontFamily: 'monospace' }}>
-          /// 익명성은 보장되지 않습니다 (익명이든 아니는 어쩔건데 슈바라마 ~).
+          /// 익명성은 보장되지 않습니다 (익명이든 아니는 어쩔건데 슈바라마 ~)
         </Typography>
 
         <TextField
