@@ -51,10 +51,10 @@ const GoogleAd = ({
     }
 
     return (
-        <div className={className}>
+        <div className={className} style={{ minHeight: '250px', width: '100%', display: 'block', overflow: 'hidden', ...style }}>
             <ins
                 className="adsbygoogle"
-                style={style}
+                style={{ display: 'block', width: '100%', minWidth: '300px' }}
                 data-ad-client="ca-pub-5588783783772381"
                 data-ad-slot={slotId}
                 data-ad-format={format}
