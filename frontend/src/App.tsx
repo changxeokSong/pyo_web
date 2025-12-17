@@ -178,6 +178,11 @@ function App() {
     />
   </Box>
 
+  useEffect(() => {
+    fetchPosts();
+    fetchAnnouncements();
+  }, []);
+
   const fetchPosts = async () => {
     try {
       setLoading(true);
