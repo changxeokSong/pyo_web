@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
+import { Box } from '@mui/material';
 
 interface GoogleAdProps {
     slotId?: string;
     format?: 'auto' | 'fluid' | 'rectangle' | 'autorelaxed';
-    style?: React.CSSProperties;
+    style?: any; // Using any to support both React.CSSProperties and MUI SxProps roughly
     className?: string;
 }
 
@@ -51,8 +52,18 @@ const GoogleAd = ({
     }
 
     return (
-
-        <div className={className} style={{ minHeight: '280px', width: '100%', display: 'block', overflow: 'hidden', ...style }}>
+        <Box
+            className={className}
+            sx={{
+                minHeight: '280px',
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                overflow: 'hidden',
+                ...style
+            }}
+        >
             <ins
                 className="adsbygoogle"
                 style={{ display: 'block', width: '100%', minWidth: '300px' }}
@@ -61,8 +72,9 @@ const GoogleAd = ({
                 data-ad-format={format}
                 data-full-width-responsive="true"
             />
-        </div>
+        </Box>
     );
 };
 
 export default GoogleAd;
+
