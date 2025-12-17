@@ -155,10 +155,28 @@ function App() {
   const [tosOpen, setTosOpen] = useState(false);
   const [deletionOpen, setDeletionOpen] = useState(false);
 
-  useEffect(() => {
-    fetchPosts();
-    fetchAnnouncements();
-  }, []);
+  const [isTopAdVisible, setIsTopAdVisible] = useState(false);
+  const [isBottomAdVisible, setIsBottomAdVisible] = useState(false);
+
+  // ... (existing code)
+
+  {/* UP: PraiseSection / DOWN: AD BANNER 1 */ }
+
+  {/* AD BANNER 1 */ }
+  <Box sx={{
+    mb: isTopAdVisible ? 8 : 0,
+    bgcolor: 'transparent',
+    position: isTopAdVisible ? 'relative' : 'absolute',
+    visibility: isTopAdVisible ? 'visible' : 'hidden',
+    height: isTopAdVisible ? 'auto' : 0,
+    overflow: 'hidden'
+  }}>
+    <GoogleAd
+      slotId="7566922768"
+      style={{ display: 'block', textAlign: 'center' }}
+      onAdLoaded={() => setIsTopAdVisible(true)}
+    />
+  </Box>
 
   const fetchPosts = async () => {
     try {
@@ -362,8 +380,19 @@ function App() {
             </Box>
 
             {/* AD BANNER 1 */}
-            <Box sx={{ mb: 8, bgcolor: 'transparent' }}>
-              <GoogleAd slotId="7566922768" style={{ display: 'block', textAlign: 'center' }} />
+            <Box sx={{
+              mb: isTopAdVisible ? 8 : 0,
+              bgcolor: 'transparent',
+              position: isTopAdVisible ? 'relative' : 'absolute',
+              visibility: isTopAdVisible ? 'visible' : 'hidden',
+              height: isTopAdVisible ? 'auto' : 0,
+              overflow: 'hidden'
+            }}>
+              <GoogleAd
+                slotId="7566922768"
+                style={{ display: 'block', textAlign: 'center' }}
+                onAdLoaded={() => setIsTopAdVisible(true)}
+              />
             </Box>
 
             {/* Upload Section */}
@@ -407,8 +436,22 @@ function App() {
 
 
             {/* AD BANNER 2 */}
-            <Box sx={{ mt: 8, mb: 4, bgcolor: 'transparent' }}>
-              <GoogleAd slotId="9793630854" format="autorelaxed" style={{ display: 'block', textAlign: 'center' }} />
+            <Box sx={{
+              mt: isBottomAdVisible ? 8 : 0,
+              mb: isBottomAdVisible ? 4 : 0,
+              bgcolor: 'transparent',
+              // Conditional visibility logic
+              position: isBottomAdVisible ? 'relative' : 'absolute',
+              visibility: isBottomAdVisible ? 'visible' : 'hidden',
+              height: isBottomAdVisible ? 'auto' : 0,
+              overflow: 'hidden'
+            }}>
+              <GoogleAd
+                slotId="9793630854"
+                format="autorelaxed"
+                style={{ display: 'block', textAlign: 'center' }}
+                onAdLoaded={() => setIsBottomAdVisible(true)}
+              />
             </Box>
 
           </Container>
