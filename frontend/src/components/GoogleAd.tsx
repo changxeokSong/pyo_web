@@ -51,7 +51,8 @@ const GoogleAd = ({
     }
 
     return (
-        <div className={className} style={{ minHeight: '250px', width: '100%', display: 'block', overflow: 'hidden', ...style }}>
+
+        <div className={className} style={{ minHeight: '280px', width: '100%', display: 'block', overflow: 'hidden', ...style }}>
             <ins
                 className="adsbygoogle"
                 style={{ display: 'block', width: '100%', minWidth: '300px' }}

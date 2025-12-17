@@ -362,7 +362,7 @@ function App() {
             </Box>
 
             {/* AD BANNER 1 */}
-            <Box sx={{ mb: 8 }}>
+            <Box sx={{ mb: 8, minHeight: '280px', bgcolor: 'transparent' }}>
               <GoogleAd slotId="7566922768" style={{ display: 'block', textAlign: 'center' }} />
             </Box>
 
@@ -407,7 +407,7 @@ function App() {
 
 
             {/* AD BANNER 2 */}
-            <Box sx={{ mt: 8, mb: 4 }}>
+            <Box sx={{ mt: 8, mb: 4, minHeight: '280px', bgcolor: 'transparent' }}>
               <GoogleAd slotId="9793630854" format="autorelaxed" style={{ display: 'block', textAlign: 'center' }} />
             </Box>
 
