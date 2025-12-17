@@ -22,6 +22,7 @@ import PraiseSection from './features/praises/PraiseSection';
 import TerminalIcon from '@mui/icons-material/Terminal';
 import TermsOfService from './components/TermsOfService';
 import DeletionRequest from './components/DeletionRequest';
+import GoogleAd from './components/GoogleAd';
 
 const CONTENT_MAX_WIDTH = 1200;
 const HORIZONTAL_PADDING = { xs: 2, md: 4 } as const;
@@ -360,6 +361,11 @@ function App() {
               <PraiseSection />
             </Box>
 
+            {/* AD BANNER 1 */}
+            <Box sx={{ mb: 8 }}>
+              <GoogleAd slotId="7566922768" style={{ display: 'block', textAlign: 'center' }} />
+            </Box>
+
             {/* Upload Section */}
             <Box id="upload" sx={{ mb: 12 }}>
               <Typography variant="h4" gutterBottom sx={{ color: 'primary.main', display: 'flex', gap: 1 }}>
@@ -398,6 +404,13 @@ function App() {
             </Box>
 
 
+
+
+            {/* AD BANNER 2 */}
+            <Box sx={{ mt: 8, mb: 4 }}>
+              <GoogleAd slotId="7566922768" style={{ display: 'block', textAlign: 'center' }} />
+            </Box>
+
           </Container>
         </Box>
 
@@ -431,8 +444,8 @@ function App() {
           onClose={() => setDeletionOpen(false)}
         />
 
-      </Box>
-    </ThemeProvider>
+      </Box >
+    </ThemeProvider >
   );
 }
 

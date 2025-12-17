@@ -4,6 +4,7 @@ import PostCard from './PostCard';
 import { getDisplayableImageUrl } from './imageUtils';
 import type { Post } from './types';
 import CloseIcon from '@mui/icons-material/Close';
+import GoogleAd from '../../components/GoogleAd';
 
 interface PostListProps {
   posts: Post[];
@@ -44,7 +45,14 @@ const PostList = ({ posts, loading }: PostListProps) => {
         }}
       >
         {posts.map((post, index) => (
-          <PostCard key={post.id} post={post} index={posts.length - index} onClick={handleCardClick} />
+          <>
+            <PostCard key={post.id} post={post} index={posts.length - index} onClick={handleCardClick} />
+            {(index + 1) % 6 === 0 && (
+              <Box sx={{ gridColumn: '1 / -1', my: 2, display: 'flex', justifyContent: 'center' }}>
+                <GoogleAd slotId="7566922768" style={{ display: 'block', width: '100%', maxWidth: '1000px', textAlign: 'center' }} />
+              </Box>
+            )}
+          </>
         ))}
       </Box>
 

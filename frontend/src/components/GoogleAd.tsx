@@ -8,7 +8,7 @@ interface GoogleAdProps {
 }
 
 const GoogleAd = ({
-    slotId,
+    slotId = "7566922768",
     format = 'auto',
     style = { display: 'block' },
     className
@@ -24,27 +24,30 @@ const GoogleAd = ({
         }
     }, []);
 
-    // Use a development placeholder if no slot ID is provided
-    if (!slotId) {
-        if (import.meta.env.DEV) {
-            return (
-                <div style={{
-                    background: '#222',
-                    color: '#888',
-                    padding: '20px',
-                    textAlign: 'center',
-                    border: '1px dashed #444',
-                    margin: '20px 0',
-                    fontFamily: 'monospace',
-                    fontSize: '0.8rem',
-                    ...style
-                }}>
-                    [Google Ad Placeholder]<br />
-                    (No Slot ID provided)
+    // Use a development placeholder if in DEV mode
+    if (import.meta.env.DEV) {
+        return (
+            <div className={className} style={{
+                background: '#111',
+                color: '#444',
+                padding: '20px',
+                textAlign: 'center',
+                border: '1px dashed #333',
+                margin: '20px 0',
+                fontFamily: 'monospace',
+                fontSize: '0.8rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                minHeight: '100px',
+                ...style
+            }}>
+                <div>
+                    [GOOGLE_AD_SPACE]<br />
+                    ID: {slotId}
                 </div>
-            );
-        }
-        return null; // Don't show anything in production without a slot ID
+            </div>
+        );
     }
 
     return (
