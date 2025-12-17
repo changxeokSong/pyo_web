@@ -55,7 +55,6 @@ const GoogleAd = ({
         <Box
             className={className}
             sx={{
-                minHeight: '280px',
                 width: '100%',
                 display: 'flex',
                 justifyContent: 'center',
