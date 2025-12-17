@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 interface GoogleAdProps {
     slotId?: string;
-    format?: 'auto' | 'fluid' | 'rectangle';
+    format?: 'auto' | 'fluid' | 'rectangle' | 'autorelaxed';
     style?: React.CSSProperties;
     className?: string;
 }

@@ -408,7 +408,7 @@ function App() {
 
             {/* AD BANNER 2 */}
             <Box sx={{ mt: 8, mb: 4 }}>
-              <GoogleAd slotId="7566922768" style={{ display: 'block', textAlign: 'center' }} />
+              <GoogleAd slotId="9793630854" format="autorelaxed" style={{ display: 'block', textAlign: 'center' }} />
             </Box>
 
           </Container>
