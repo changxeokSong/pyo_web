@@ -47,9 +47,31 @@ const PostList = ({ posts, loading }: PostListProps) => {
         {posts.map((post, index) => (
           <>
             <PostCard key={post.id} post={post} index={posts.length - index} onClick={handleCardClick} />
+            {/* Every 6th item: Ad Card */}
             {(index + 1) % 6 === 0 && (
-              <Box sx={{ gridColumn: '1 / -1', my: 2, display: 'flex', justifyContent: 'center' }}>
-                <GoogleAd slotId="7566922768" style={{ display: 'block', width: '100%', maxWidth: '1000px', textAlign: 'center' }} />
+              <Box
+                sx={{
+                  border: '1px solid #333',
+                  bgcolor: '#0a0a0a',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  height: '100%',
+                  overflow: 'hidden',
+                  position: 'relative'
+                }}
+              >
+                {/* Header Decoration matching PostCard */}
+                <Box sx={{ px: 2, py: 1, borderBottom: '1px solid #222', display: 'flex', justifyContent: 'space-between', alignItems: 'center', bgcolor: '#111' }}>
+                  <Typography variant="caption" sx={{ color: 'text.secondary', fontFamily: 'monospace', letterSpacing: '0.1em' }}>
+                    ADVERTISEMENT
+                  </Typography>
+                  <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: 'text.disabled', opacity: 0.5 }} />
+                </Box>
+
+                {/* Ad Content Area - Centered */}
+                <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', p: 0, bgcolor: '#000' }}>
+                  <GoogleAd slotId="7566922768" style={{ display: 'block', width: '100%' }} />
+                </Box>
               </Box>
             )}
           </>
