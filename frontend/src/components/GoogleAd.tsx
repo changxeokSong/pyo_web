@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { Box } from '@mui/material';
 
 interface GoogleAdProps {
@@ -6,14 +6,17 @@ interface GoogleAdProps {
     format?: 'auto' | 'fluid' | 'rectangle' | 'autorelaxed';
     style?: any; // Using any to support both React.CSSProperties and MUI SxProps roughly
     className?: string;
+    onAdLoaded?: () => void;
 }
 
 const GoogleAd = ({
     slotId = "7566922768",
     format = 'auto',
     style = { display: 'block' },
-    className
+    className,
+    onAdLoaded
 }: GoogleAdProps) => {
+    const insRef = useRef<HTMLModElement>(null);
 
     useEffect(() => {
         // Push the ad to the adsbygoogle array safely
@@ -24,6 +27,26 @@ const GoogleAd = ({
             console.error("AdSense error:", e);
         }
     }, []);
+
+    useEffect(() => {
+        if (!insRef.current || !onAdLoaded) return;
+
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'data-ad-status') {
+                    const status = insRef.current?.getAttribute('data-ad-status');
+                    if (status === 'filled') {
+                        onAdLoaded();
+                        observer.disconnect(); // Stop observing once loaded
+                    }
+                }
+            });
+        });
+
+        observer.observe(insRef.current, { attributes: true });
+
+        return () => observer.disconnect();
+    }, [onAdLoaded]);
 
     // Use a development placeholder if in DEV mode
     if (import.meta.env.DEV) {
@@ -64,6 +87,7 @@ const GoogleAd = ({
             }}
         >
             <ins
+                ref={insRef}
                 className="adsbygoogle"
                 style={{ display: 'block', width: '100%', minWidth: '300px' }}
                 data-ad-client="ca-pub-5588783783772381"

@@ -14,7 +14,15 @@ interface PostListProps {
 const PostList = ({ posts, loading }: PostListProps) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
+  const [visibleAds, setVisibleAds] = useState<Set<number>>(new Set());
 
+  const handleAdLoad = (index: number) => {
+    setVisibleAds(prev => {
+      const newSet = new Set(prev);
+      newSet.add(index);
+      return newSet;
+    });
+  };
 
   const handleCardClick = (post: Post) => {
     setSelectedPost(post);
@@ -51,17 +59,23 @@ const PostList = ({ posts, loading }: PostListProps) => {
             {(index + 1) % 6 === 0 && (
               <Box
                 sx={{
-                  border: '1px solid #333',
-                  bgcolor: '#0a0a0a',
                   display: 'flex',
                   flexDirection: 'column',
-                  height: '100%',
+                  // If not visible, remove from flow using absolute positioning + 0 dim
+                  position: visibleAds.has(index) ? 'relative' : 'absolute',
+                  width: visibleAds.has(index) ? 'auto' : 0,
+                  height: visibleAds.has(index) ? '100%' : 0,
+                  visibility: visibleAds.has(index) ? 'visible' : 'hidden',
                   overflow: 'hidden',
-                  position: 'relative'
+
+                  border: visibleAds.has(index) ? '1px solid #333' : 'none',
+                  bgcolor: visibleAds.has(index) ? '#0a0a0a' : 'transparent',
+                  transition: 'opacity 0.5s ease',
+                  opacity: visibleAds.has(index) ? 1 : 0
                 }}
               >
                 {/* Header Decoration matching PostCard */}
-                <Box sx={{ px: 2, py: 1, borderBottom: '1px solid #222', display: 'flex', justifyContent: 'space-between', alignItems: 'center', bgcolor: '#111' }}>
+                <Box sx={{ px: 2, py: 1, borderBottom: '1px solid #222', display: visibleAds.has(index) ? 'flex' : 'none', justifyContent: 'space-between', alignItems: 'center', bgcolor: '#111' }}>
                   <Typography variant="caption" sx={{ color: 'text.secondary', fontFamily: 'monospace', letterSpacing: '0.1em' }}>
                     ADVERTISEMENT
                   </Typography>
@@ -69,8 +83,12 @@ const PostList = ({ posts, loading }: PostListProps) => {
                 </Box>
 
                 {/* Ad Content Area - Centered */}
-                <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', p: 0, bgcolor: '#000' }}>
-                  <GoogleAd slotId="7566922768" style={{ display: 'block', width: '100%' }} />
+                <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', p: 0, bgcolor: visibleAds.has(index) ? '#000' : 'transparent' }}>
+                  <GoogleAd
+                    slotId="7566922768"
+                    style={{ display: 'block', width: '100%' }}
+                    onAdLoaded={() => handleAdLoad(index)}
+                  />
                 </Box>
               </Box>
             )}
