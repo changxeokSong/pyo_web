@@ -1,4 +1,4 @@
-import { Dialog, DialogTitle, DialogContent, Typography, IconButton, Box, Divider } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, Typography, IconButton, Box } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
 interface PrivacyPolicyModalProps {
