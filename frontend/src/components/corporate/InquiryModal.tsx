@@ -185,7 +185,7 @@ const InquiryModal = ({ open, onClose }: InquiryModalProps) => {
                             <Typography variant="caption" display="block" color="text.secondary" sx={{ ml: 4, mt: 0.5, lineHeight: 1.5 }}>
                                 수집 목적: 솔루션 도입 문의에 대한 상담 및 회신<br />
                                 수집 항목: 성함, 회사명, 연락처, 이메일, 문의내용<br />
-                                보유 기간: 문의 접수 후 1년간 보관 (이후 지체 없이 파기)<br />
+                                보존 기간: 1년 (또는 관계 법령에 따름)<br />
                                 ※ 동의를 거부할 권리가 있으나, 거부 시 문의 접수가 불가능합니다.
                             </Typography>
                         </Box>
