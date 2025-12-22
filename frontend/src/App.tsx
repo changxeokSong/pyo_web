@@ -115,15 +115,18 @@ function App() {
                 </Box>
                 <Box sx={{ flex: 1, width: '100%', textAlign: { xs: 'left', md: 'right' } }}>
                   <Box sx={{ p: 4, bgcolor: '#f5f5f5', borderRadius: 2, display: 'inline-block', textAlign: 'left', minWidth: 300 }}>
-                    <Typography variant="h6" gutterBottom>YM Information Tech</Typography>
+                    <Typography variant="h6" gutterBottom>(주)와이엠정보통신</Typography>
                     <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                      Seoul, Republic of Korea
+                      대표이사: 이유민
                     </Typography>
                     <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                      Tel: 02-1234-5678
+                      전라남도 고흥군 대서면 동서로 446 (우) 57966
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                      Tel: 061-833-8282 | Mobile: 010-4489-8299
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                      Email: contact@YM-it.com
+                      Email: yim8299@naver.com
                     </Typography>
                   </Box>
                 </Box>
@@ -141,7 +144,9 @@ function App() {
                 <Typography variant="h6" sx={{ color: '#fff', mb: 2 }}>YM Information Technology</Typography>
                 <Typography variant="body2">
                   © 2025 YM Information Technology. All rights reserved.<br />
-                  Pure IP Communication Solution Provider.
+                  Pure IP Communication Solution Provider.<br />
+                  (주)와이엠정보통신 | 대표: 이유민 | 사업자번호: 000-00-00000<br />
+                  주소: 전라남도 고흥군 대서면 동서로 446
                 </Typography>
               </Box>
               <Stack spacing={1}>

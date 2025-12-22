@@ -2,7 +2,7 @@ import { Box, Container, Typography, Card, CardContent, Divider, Chip, Stack } f
 import SettingsInputComponentIcon from '@mui/icons-material/SettingsInputComponent';
 import LanguageIcon from '@mui/icons-material/Language';
 import SecurityIcon from '@mui/icons-material/Security';
-import ComputerIcon from '@mui/icons-material/Computer';
+import BuildIcon from '@mui/icons-material/Build';
 
 const serviceCategories = [
     {
@@ -26,7 +26,7 @@ const serviceCategories = [
     {
         title: 'Maintenance',
         description: 'PC 및 시스템 유지보수 토탈 케어',
-        icon: <ComputerIcon fontSize="large" />,
+        icon: <BuildIcon fontSize="large" />,
         items: ['컴퓨터 판매/수리', '시스템 유지보수', '전산 장비 관리'],
     },
 ];
