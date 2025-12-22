@@ -101,96 +101,104 @@ const InquiryModal = ({ open, onClose }: InquiryModalProps) => {
                 </IconButton>
             </DialogTitle>
             <DialogContent dividers>
-                {submitted ? (
+                {/* Error Alert */}
+                {error && (
+                    <Alert severity="error" onClose={() => setError(null)} sx={{ mb: 2 }}>
+                        {error}
+                    </Alert>
+                )}
+
+                {submitted && (
                     <Alert severity="info" sx={{ mb: 2 }}>
                         문의를 전송하고 있습니다...
                     </Alert>
-                ) : (
-                    <Stack spacing={3} sx={{ mt: 1 }}>
-                        {error && (
-                            <Alert severity="error" onClose={() => setError(null)}>
-                                {error}
-                            </Alert>
-                        )}
-                        <TextField
-                            label="성함 (Name)"
-                            fullWidth
-                            required
-                            value={formData.name}
-                            onChange={handleChange('name')}
-                        />
-                        <TextField
-                            label="회사명 (Company)"
-                            fullWidth
-                            required
-                            value={formData.company}
-                            onChange={handleChange('company')}
-                        />
-                        <Stack direction="row" spacing={2}>
-                            <TextField
-                                label="연락처 (Phone)"
-                                fullWidth
-                                required
-                                value={formData.phone}
-                                onChange={handleChange('phone')}
-                            />
-                            <TextField
-                                label="이메일 (Email)"
-                                fullWidth
-                                required
-                                type="email"
-                                value={formData.email}
-                                onChange={handleChange('email')}
-                            />
-                        </Stack>
-                        <FormControl fullWidth>
-                            <InputLabel>문의 유형</InputLabel>
-                            <Select
-                                value={formData.category}
-                                label="문의 유형"
-                                onChange={handleChange('category')}
-                            >
-                                <MenuItem value="solution">솔루션 도입 문의</MenuItem>
-                                <MenuItem value="partnership">제휴 및 파트너십</MenuItem>
-                                <MenuItem value="recruit">채용 관련</MenuItem>
-                                <MenuItem value="other">기타</MenuItem>
-                            </Select>
-                        </FormControl>
-                        <TextField
-                            label="문의 내용"
-                            multiline
-                            rows={4}
-                            fullWidth
-                            value={formData.message}
-                            onChange={handleChange('message')}
-                            placeholder="문의하실 내용을 간략히 적어주세요."
-                        />
-
-                        {/* Privacy Agreement Checkbox */}
-                        <Box sx={{ bgcolor: '#f5f5f5', p: 2, borderRadius: 1 }}>
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        checked={formData.agreed}
-                                        onChange={(e) => setFormData({ ...formData, agreed: e.target.checked })}
-                                        color="primary"
-                                    />
-                                }
-                                label={
-                                    <Typography variant="subtitle2" fontWeight="bold">
-                                        [필수] 개인정보 수집 및 이용 동의
-                                    </Typography>
-                                }
-                            />
-                            <Typography variant="caption" display="block" color="text.secondary" sx={{ ml: 4, mt: 0.5, lineHeight: 1.5 }}>
-                                수집 목적: 솔루션 도입 문의에 대한 상담 및 회신<br />
-                                수집 항목: 성함, 회사명, 연락처, 이메일, 문의내용<br />
-                                보존 기간: 1년 (또는 관계 법령에 따름)<br />
-                                ※ 동의를 거부할 권리가 있으나, 거부 시 문의 접수가 불가능합니다.
-                            </Typography>
-                        </Box>
-                    </Stack>
                 )}
+
+                <Stack spacing={3} sx={{ mt: 1 }}>
+                    <TextField
+                        label="성함 (Name)"
+                        fullWidth
+                        required
+                        value={formData.name}
+                        onChange={handleChange('name')}
+                        disabled={submitted}
+                    />
+                    <TextField
+                        label="회사명 (Company)"
+                        fullWidth
+                        required
+                        value={formData.company}
+                        onChange={handleChange('company')}
+                        disabled={submitted}
+                    />
+                    <Stack direction="row" spacing={2}>
+                        <TextField
+                            label="연락처 (Phone)"
+                            fullWidth
+                            required
+                            value={formData.phone}
+                            onChange={handleChange('phone')}
+                            disabled={submitted}
+                        />
+                        <TextField
+                            label="이메일 (Email)"
+                            fullWidth
+                            required
+                            type="email"
+                            value={formData.email}
+                            onChange={handleChange('email')}
+                            disabled={submitted}
+                        />
+                    </Stack>
+                    <FormControl fullWidth disabled={submitted}>
+                        <InputLabel>문의 유형</InputLabel>
+                        <Select
+                            value={formData.category}
+                            label="문의 유형"
+                            onChange={handleChange('category')}
+                        >
+                            <MenuItem value="solution">솔루션 도입 문의</MenuItem>
+                            <MenuItem value="partnership">제휴 및 파트너십</MenuItem>
+                            <MenuItem value="recruit">채용 관련</MenuItem>
+                            <MenuItem value="other">기타</MenuItem>
+                        </Select>
+                    </FormControl>
+                    <TextField
+                        label="문의 내용"
+                        multiline
+                        rows={4}
+                        fullWidth
+                        value={formData.message}
+                        onChange={handleChange('message')}
+                        placeholder="문의하실 내용을 간략히 적어주세요."
+                        disabled={submitted}
+                    />
+
+                    {/* Privacy Agreement Checkbox */}
+                    <Box sx={{ bgcolor: '#f5f5f5', p: 2, borderRadius: 1, opacity: submitted ? 0.7 : 1 }}>
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={formData.agreed}
+                                    onChange={(e) => setFormData({ ...formData, agreed: e.target.checked })}
+                                    color="primary"
+                                    disabled={submitted}
+                                />
+                            }
+                            label={
+                                <Typography variant="subtitle2" fontWeight="bold">
+                                    [필수] 개인정보 수집 및 이용 동의
+                                </Typography>
+                            }
+                        />
+                        <Typography variant="caption" display="block" color="text.secondary" sx={{ ml: 4, mt: 0.5, lineHeight: 1.5 }}>
+                            수집 목적: 솔루션 도입 문의에 대한 상담 및 회신<br />
+                            수집 항목: 성함, 회사명, 연락처, 이메일, 문의내용<br />
+                            보존 기간: 1년 (또는 관계 법령에 따름)<br />
+                            ※ 동의를 거부할 권리가 있으나, 거부 시 문의 접수가 불가능합니다.
+                        </Typography>
+                    </Box>
+                </Stack>
             </DialogContent>
             <DialogActions sx={{ px: 3, py: 2 }}>
                 <Button onClick={onClose} color="inherit">
