@@ -7,9 +7,9 @@ const CompanySection = () => {
     return (
         <Box sx={{ py: 12, bgcolor: '#ffffff' }}>
             <Container maxWidth="lg">
-                <Grid container spacing={8} alignItems="center">
+                <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 8, alignItems: 'center' }}>
                     {/* Left Side: Image / Visual */}
-                    <Grid item xs={12} md={6}>
+                    <Box sx={{ flex: 1, width: '100%' }}>
                         <Box
                             sx={{
                                 height: 500,
@@ -32,10 +32,10 @@ const CompanySection = () => {
                                 <Typography variant="h5" fontWeight={700} sx={{ opacity: 0.8 }}>YIM Information Tech</Typography>
                             </Stack>
                         </Box>
-                    </Grid>
+                    </Box>
 
                     {/* Right Side: Text Content */}
-                    <Grid item xs={12} md={6}>
+                    <Box sx={{ flex: 1, width: '100%' }}>
                         <Typography variant="overline" sx={{ color: '#1976d2', fontWeight: 700, letterSpacing: '0.1em' }} gutterBottom>
                             About Company
                         </Typography>
@@ -72,8 +72,8 @@ const CompanySection = () => {
                                 </Paper>
                             ))}
                         </Stack>
-                    </Grid>
-                </Grid>
+                    </Box>
+                </Box>
             </Container>
         </Box>
     );
