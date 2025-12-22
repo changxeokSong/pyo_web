@@ -29,7 +29,7 @@ const CompanySection = () => {
 
                             <Stack spacing={2} alignItems="center" sx={{ zIndex: 1, color: '#1565c0' }}>
                                 <BusinessIcon sx={{ fontSize: 100, opacity: 0.8 }} />
-                                <Typography variant="h5" fontWeight={700} sx={{ opacity: 0.8 }}>YIM Information Tech</Typography>
+                                <Typography variant="h5" fontWeight={700} sx={{ opacity: 0.8 }}>YM Information Tech</Typography>
                             </Stack>
                         </Box>
                     </Box>
