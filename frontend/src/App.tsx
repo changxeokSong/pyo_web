@@ -146,7 +146,7 @@ function App() {
                       Tel: 061-833-8282 | Mobile: 010-4489-8299
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                      Email: yim8299@naver.com
+                      Email: 7979dbals@naver.com
                     </Typography>
                   </Box>
                 </Box>

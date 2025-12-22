@@ -55,12 +55,16 @@ const InquiryModal = ({ open, onClose }: InquiryModalProps) => {
         setError(null);
 
         try {
+            // Exclude 'agreed' field from payload as it's not in the backend model
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            const { agreed, ...submitData } = formData;
+
             const response = await fetch('/api/inquiries/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(formData),
+                body: JSON.stringify(submitData),
             });
 
             if (!response.ok) {

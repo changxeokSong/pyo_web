@@ -54,7 +54,7 @@ const PrivacyPolicyModal = ({ open, onClose }: PrivacyPolicyModalProps) => {
 
                     <Typography variant="h6" gutterBottom fontWeight="bold" sx={{ mt: 2 }}>제5조 (문의처)</Typography>
                     <Typography variant="body2" paragraph>
-                        개인정보 관련 문의는 이메일(yim8299@naver.com)로 연락 주시기 바랍니다.
+                        개인정보 관련 문의는 이메일(7979dbals@naver.com)로 연락 주시기 바랍니다.
                     </Typography>
                 </Box>
             </DialogContent>
