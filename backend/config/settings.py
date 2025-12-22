@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'posts',
     'announcements',
     'praises',
+    'inquiries',
 ]
 
 MIDDLEWARE = [

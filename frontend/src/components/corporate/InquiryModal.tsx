@@ -28,34 +28,54 @@ const InquiryModal = ({ open, onClose }: InquiryModalProps) => {
         company: '',
         phone: '',
         email: '',
-        type: 'solution',
+        category: 'solution', // Changed from 'type' to 'category' to match backend model
         message: '',
     });
 
     const [submitted, setSubmitted] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         // Basic validation
         if (!formData.name || !formData.company || !formData.phone || !formData.email) {
             alert('모든 필수 항목을 입력해주세요.');
             return;
         }
 
-        // Mock functionality: Show success message/alert
         setSubmitted(true);
-        setTimeout(() => {
-            setSubmitted(false);
+        setError(null);
+
+        try {
+            const response = await fetch('/api/inquiries/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (!response.ok) {
+                throw new Error('전송 중 오류가 발생했습니다.');
+            }
+
+            // Success
+            alert('문의가 성공적으로 접수되었습니다. 담당자가 곧 연락드리겠습니다.');
             setFormData({
                 name: '',
                 company: '',
                 phone: '',
                 email: '',
-                type: 'solution',
+                category: 'solution',
                 message: '',
             });
             onClose();
-            alert('문의가 성공적으로 접수되었습니다. 담당자가 곧 연락드리겠습니다.');
-        }, 1500);
+        } catch (err) {
+            console.error(err);
+            setError('문의 전송에 실패했습니다. 다시 시도해주세요.');
+            alert('문의 전송에 실패했습니다. 관리자에게 문의바랍니다.');
+        } finally {
+            setSubmitted(false);
+        }
     };
 
     const handleChange = (prop: string) => (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | any) => {
@@ -72,7 +92,7 @@ const InquiryModal = ({ open, onClose }: InquiryModalProps) => {
             </DialogTitle>
             <DialogContent dividers>
                 {submitted ? (
-                    <Alert severity="success" sx={{ mb: 2 }}>
+                    <Alert severity="info" sx={{ mb: 2 }}>
                         문의를 전송하고 있습니다...
                     </Alert>
                 ) : (
@@ -111,9 +131,9 @@ const InquiryModal = ({ open, onClose }: InquiryModalProps) => {
                         <FormControl fullWidth>
                             <InputLabel>문의 유형</InputLabel>
                             <Select
-                                value={formData.type}
+                                value={formData.category}
                                 label="문의 유형"
-                                onChange={handleChange('type')}
+                                onChange={handleChange('category')}
                             >
                                 <MenuItem value="solution">솔루션 도입 문의</MenuItem>
                                 <MenuItem value="partnership">제휴 및 파트너십</MenuItem>
