@@ -1,93 +1,115 @@
-import { Box, Container, Typography, Card, CardContent } from '@mui/material';
+import { Box, Container, Typography, Card, CardContent, Divider, Chip, Stack } from '@mui/material';
 import SettingsInputComponentIcon from '@mui/icons-material/SettingsInputComponent';
 import LanguageIcon from '@mui/icons-material/Language';
 import SecurityIcon from '@mui/icons-material/Security';
-import SupportAgentIcon from '@mui/icons-material/SupportAgent';
+import ComputerIcon from '@mui/icons-material/Computer';
 
-const services = [
+const serviceCategories = [
     {
-        title: 'System Integration',
-        description: '고객 환경에 최적화된 시스템 설계 및 구축 서비스를 제공합니다.',
+        title: 'Communication',
+        description: '효율적인 업무 소통을 위한 최첨단 통신 솔루션',
         icon: <SettingsInputComponentIcon fontSize="large" />,
+        items: ['IP-PBX', 'IP-Phone', 'Key-Phone', '교환기'],
     },
     {
-        title: 'Network Integration',
-        description: '안정적이고 효율적인 네트워크 인프라 환경을 구축합니다.',
+        title: 'Network & Infra',
+        description: '안정적인 네트워크 환경 구축 및 공사',
         icon: <LanguageIcon fontSize="large" />,
+        items: ['정보통신공사', '광케이블접속', '네트워크 구축', '기업 인터넷'],
     },
     {
-        title: 'Security Solutions',
-        description: '기업의 소중한 정보 자산을 보호하는 보안 솔루션을 제공합니다.',
+        title: 'Store & Security',
+        description: '매장 운영 효율화 및 보안 시스템',
         icon: <SecurityIcon fontSize="large" />,
+        items: ['CCTV / 보안', '테이블오더', '서빙로봇', 'POS 시스템', '방송설비', 'TV 설치'],
     },
     {
-        title: 'Consulting & Maintenance',
-        description: '전문적인 기술 상담 및 체계적인 유지보수 서비스를 지원합니다.',
-        icon: <SupportAgentIcon fontSize="large" />,
+        title: 'Maintenance',
+        description: 'PC 및 시스템 유지보수 토탈 케어',
+        icon: <ComputerIcon fontSize="large" />,
+        items: ['컴퓨터 판매/수리', '시스템 유지보수', '전산 장비 관리'],
     },
 ];
 
 const BusinessSection = () => {
     return (
-        <Box sx={{ py: 10, bgcolor: '#f5f5f5' }}>
+        <Box sx={{ py: 10, bgcolor: '#f8f9fa' }}>
             <Container maxWidth="lg">
                 <Box sx={{ textAlign: 'center', mb: 8 }}>
                     <Typography variant="overline" sx={{ color: '#0d47a1', fontWeight: 700, letterSpacing: '0.1em' }}>
-                        Our Business
+                        Our Services
                     </Typography>
                     <Typography variant="h3" sx={{ fontWeight: 800, mt: 1, mb: 2, color: '#1a237e' }}>
-                        Total IT Solutions
+                        Total IT & Communication
                     </Typography>
                     <Typography variant="body1" sx={{ color: '#666', maxWidth: 700, mx: 'auto' }}>
-                        와이엠 정보통신은 다양한 분야의 전문 기술력과 경험을 바탕으로<br />
-                        고객 맞춤형 토탈 솔루션을 제안합니다.
+                        와이엠 정보통신은 통신, 네트워크, 보안, 그리고 매장 솔루션까지<br />
+                        고객에게 필요한 모든 IT 인프라를 구축하고 책임집니다.
                     </Typography>
                 </Box>
 
                 <Box sx={{
                     display: 'grid',
-                    gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr', md: 'repeat(4, 1fr)' },
+                    gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' },
                     gap: 4
                 }}>
-                    {services.map((service, index) => (
-                        <Box key={index} sx={{ height: '100%' }}>
-                            <Card
-                                elevation={0}
+                    {serviceCategories.map((category, index) => (
+                        <Card
+                            key={index}
+                            elevation={0}
+                            sx={{
+                                height: '100%',
+                                display: 'flex',
+                                flexDirection: { xs: 'column', sm: 'row' },
+                                alignItems: 'flex-start',
+                                p: 4,
+                                borderRadius: 4,
+                                border: '1px solid #e0e0e0',
+                                transition: 'all 0.3s ease',
+                                '&:hover': {
+                                    transform: 'translateY(-5px)',
+                                    boxShadow: '0 12px 24px rgba(0,0,0,0.05)',
+                                    borderColor: '#90caf9',
+                                },
+                            }}
+                        >
+                            <Box
                                 sx={{
-                                    height: '100%',
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    alignItems: 'center',
-                                    textAlign: 'center',
-                                    p: 3,
-                                    transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
-                                    '&:hover': {
-                                        transform: 'translateY(-10px)',
-                                        boxShadow: '0 20px 40px rgba(0,0,0,0.1)',
-                                    },
+                                    p: 2,
+                                    borderRadius: 3,
+                                    bgcolor: '#e3f2fd',
+                                    color: '#1565c0',
+                                    mr: { xs: 0, sm: 3 },
+                                    mb: { xs: 2, sm: 0 },
                                 }}
                             >
-                                <Box
-                                    sx={{
-                                        mb: 3,
-                                        p: 2,
-                                        borderRadius: '50%',
-                                        bgcolor: '#e3f2fd',
-                                        color: '#1565c0',
-                                    }}
-                                >
-                                    {service.icon}
+                                {category.icon}
+                            </Box>
+                            <Box sx={{ flex: 1 }}>
+                                <Typography variant="h5" gutterBottom sx={{ fontWeight: 700, color: '#0d47a1' }}>
+                                    {category.title}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                                    {category.description}
+                                </Typography>
+                                <Divider sx={{ my: 2, borderStyle: 'dashed' }} />
+                                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                                    {category.items.map((item, idx) => (
+                                        <Chip
+                                            key={idx}
+                                            label={item}
+                                            size="small"
+                                            sx={{
+                                                bgcolor: '#ffffff',
+                                                border: '1px solid #e0e0e0',
+                                                fontWeight: 500,
+                                                color: '#424242'
+                                            }}
+                                        />
+                                    ))}
                                 </Box>
-                                <CardContent sx={{ p: 0 }}>
-                                    <Typography variant="h6" gutterBottom sx={{ fontWeight: 700 }}>
-                                        {service.title}
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.6 }}>
-                                        {service.description}
-                                    </Typography>
-                                </CardContent>
-                            </Card>
-                        </Box>
+                            </Box>
+                        </Card>
                     ))}
                 </Box>
             </Container>

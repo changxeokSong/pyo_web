@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   Box,
   createTheme,
@@ -12,6 +13,7 @@ import {
 import Header from './components/layout/Header';
 import HeroSection from './components/corporate/HeroSection';
 import BusinessSection from './components/corporate/BusinessSection';
+import InquiryModal from './components/corporate/InquiryModal';
 
 // Corporate Theme: Blue/White, Professional, Clean
 const theme = createTheme({
@@ -69,6 +71,12 @@ const theme = createTheme({
 });
 
 function App() {
+  const [inquiryOpen, setInquiryOpen] = useState(false);
+
+  const handleOpenInquiry = () => {
+    setInquiryOpen(true);
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -80,11 +88,11 @@ function App() {
         }}
       />
       <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-        <Header />
+        <Header onInquiryClick={handleOpenInquiry} />
 
         <Box sx={{ flex: 1 }}>
           <Box id="about">
-            <HeroSection />
+            <HeroSection onInquiryClick={handleOpenInquiry} />
           </Box>
 
           <Box id="solutions">
@@ -145,10 +153,10 @@ function App() {
           </Container>
         </Box>
 
+        <InquiryModal open={inquiryOpen} onClose={() => setInquiryOpen(false)} />
       </Box>
     </ThemeProvider>
   );
 }
 
 export default App;
-

@@ -5,9 +5,10 @@ import { useState } from 'react';
 interface HeaderProps {
   maxWidth?: number | string;
   paddingX?: number | { xs: number; md: number };
+  onInquiryClick?: () => void;
 }
 
-const Header = ({ maxWidth = 1200, paddingX = { xs: 2, md: 4 } }: HeaderProps) => {
+const Header = ({ maxWidth = 1200, paddingX = { xs: 2, md: 4 }, onInquiryClick }: HeaderProps) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -16,7 +17,7 @@ const Header = ({ maxWidth = 1200, paddingX = { xs: 2, md: 4 } }: HeaderProps) =
     { label: 'Home', href: '/' },
     { label: 'Company', href: '#company' },
     { label: 'Solutions', href: '#solutions' },
-    { label: 'Contact', href: '#contact' },
+    { label: 'Contact', href: '#contact', onClick: onInquiryClick }, // Attach handler
   ];
 
   return (
@@ -34,7 +35,6 @@ const Header = ({ maxWidth = 1200, paddingX = { xs: 2, md: 4 } }: HeaderProps) =
         <Toolbar disableGutters sx={{ minHeight: { xs: 60, md: 80 }, justifyContent: 'space-between' }}>
           {/* Logo Section */}
           <Stack direction="row" alignItems="center" spacing={1.5} component="a" href="/" sx={{ textDecoration: 'none', color: 'inherit' }}>
-            {/* <BusinessIcon sx={{ color: '#0d47a1', fontSize: { xs: 28, md: 32 } }} /> */}
             <Box>
               <Typography
                 variant="h6"
@@ -69,6 +69,7 @@ const Header = ({ maxWidth = 1200, paddingX = { xs: 2, md: 4 } }: HeaderProps) =
                 <Button
                   key={item.label}
                   href={item.href}
+                  onClick={item.onClick}
                   sx={{
                     color: '#333',
                     fontWeight: 600,
@@ -95,6 +96,10 @@ const Header = ({ maxWidth = 1200, paddingX = { xs: 2, md: 4 } }: HeaderProps) =
                 <Button
                   key={item.label}
                   href={item.href}
+                  onClick={() => {
+                    if (item.onClick) item.onClick();
+                    setMobileMenuOpen(false);
+                  }}
                   fullWidth
                   sx={{ justifyContent: 'flex-start', color: '#333', fontWeight: 600 }}
                 >

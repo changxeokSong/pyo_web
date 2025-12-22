@@ -1,7 +1,11 @@
 import { Box, Container, Typography, Button, Stack } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
-const HeroSection = () => {
+interface HeroSectionProps {
+    onInquiryClick?: () => void;
+}
+
+const HeroSection = ({ onInquiryClick }: HeroSectionProps) => {
     return (
         <Box
             sx={{
@@ -34,9 +38,10 @@ const HeroSection = () => {
                         variant="h6"
                         sx={{
                             fontWeight: 600,
-                            letterSpacing: '0.1em',
+                            letterSpacing: '0.05em',
                             textTransform: 'uppercase',
-                            color: 'rgba(255,255,255,0.8)',
+                            color: 'rgba(255,255,255,0.9)',
+                            fontSize: { xs: '0.9rem', md: '1.25rem' },
                         }}
                     >
                         Pure IP Communication Solution
@@ -52,8 +57,8 @@ const HeroSection = () => {
                     >
                         YM Information Technology
                         <br />
-                        <Box component="span" sx={{ fontSize: '0.7em', fontWeight: 400 }}>
-                            와이엠 정보통신
+                        <Box component="span" sx={{ fontSize: '0.5em', fontWeight: 500, display: 'block', mt: 2 }}>
+                            IP · 네트워크 · 매장 솔루션 토탈 구축 / 유지보수
                         </Box>
                     </Typography>
                     <Typography
@@ -61,18 +66,20 @@ const HeroSection = () => {
                         sx={{
                             fontWeight: 400,
                             opacity: 0.9,
-                            maxWidth: '600px',
+                            maxWidth: '700px',
                             fontFamily: '"Noto Sans KR", sans-serif',
+                            fontSize: { xs: '1rem', md: '1.5rem' },
                         }}
                     >
-                        최적의 통신 환경과 솔루션을 제공하여<br />
-                        고객의 비즈니스 가치를 극대화합니다.
+                        고객의 비즈니스 환경에 최적화된 통신 솔루션과<br />
+                        안정적인 네트워크 인프라를 제공합니다.
                     </Typography>
                     <Box>
                         <Button
                             variant="contained"
                             size="large"
                             endIcon={<ArrowForwardIcon />}
+                            onClick={onInquiryClick}
                             sx={{
                                 bgcolor: 'white',
                                 color: '#0d47a1',
