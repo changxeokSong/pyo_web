@@ -98,7 +98,7 @@ function App() {
                 <Box sx={{ flex: 1, width: '100%' }}>
                   <Typography variant="overline" color="primary" sx={{ fontWeight: 700 }}>Contact Us</Typography>
                   <Typography variant="h3" sx={{ mb: 3, mt: 1, color: '#1a237e' }}>
-                    Partner with YIM
+                    Partner with YM
                   </Typography>
                   <Typography variant="body1" color="text.secondary" sx={{ mb: 4, fontSize: '1.1rem', lineHeight: 1.8 }}>
                     Ready to transform your business with our communication solutions?
@@ -107,7 +107,7 @@ function App() {
                 </Box>
                 <Box sx={{ flex: 1, width: '100%', textAlign: { xs: 'left', md: 'right' } }}>
                   <Box sx={{ p: 4, bgcolor: '#f5f5f5', borderRadius: 2, display: 'inline-block', textAlign: 'left', minWidth: 300 }}>
-                    <Typography variant="h6" gutterBottom>YIM Information Tech</Typography>
+                    <Typography variant="h6" gutterBottom>YM Information Tech</Typography>
                     <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
                       Seoul, Republic of Korea
                     </Typography>
@@ -115,7 +115,7 @@ function App() {
                       Tel: 02-1234-5678
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                      Email: contact@yim-it.com
+                      Email: contact@YM-it.com
                     </Typography>
                   </Box>
                 </Box>
@@ -130,9 +130,9 @@ function App() {
           <Container maxWidth="lg">
             <Stack direction={{ xs: 'column', md: 'row' }} justifyContent="space-between" spacing={4}>
               <Box>
-                <Typography variant="h6" sx={{ color: '#fff', mb: 2 }}>YIM Information Technology</Typography>
+                <Typography variant="h6" sx={{ color: '#fff', mb: 2 }}>YM Information Technology</Typography>
                 <Typography variant="body2">
-                  © 2025 YIM Information Technology. All rights reserved.<br />
+                  © 2025 YM Information Technology. All rights reserved.<br />
                   Pure IP Communication Solution Provider.
                 </Typography>
               </Box>
