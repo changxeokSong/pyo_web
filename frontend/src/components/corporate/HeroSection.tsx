@@ -91,7 +91,7 @@ const HeroSection = ({ onInquiryClick }: HeroSectionProps) => {
                                 },
                             }}
                         >
-                            솔루션 문의하기
+                            상담 및 견적 문의
                         </Button>
                     </Box>
                 </Stack>
