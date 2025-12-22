@@ -1,5 +1,5 @@
 import { AppBar, Toolbar, Typography, Box, Stack, Button, Container, useTheme, useMediaQuery, IconButton } from '@mui/material';
-import TerminalIcon from '@mui/icons-material/Terminal';
+import BusinessIcon from '@mui/icons-material/Business';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useState } from 'react';
 
@@ -13,12 +13,11 @@ const Header = ({ maxWidth = 1200, paddingX = { xs: 2, md: 4 } }: HeaderProps) =
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // 'No-Answer Archive' Nav Items
   const navItems = [
-    { label: '아카이브 소개', href: '/' },
-    { label: '불명예 전당', href: '#gallery' },
-    { label: '흑역사 제보', href: '#upload' },
-    { label: '시스템 공지', href: '#notices' },
+    { label: 'Home', href: '/' },
+    { label: 'Company', href: '#company' },
+    { label: 'Solutions', href: '#solutions' },
+    { label: 'Contact', href: '#contact' },
   ];
 
   return (
@@ -26,9 +25,9 @@ const Header = ({ maxWidth = 1200, paddingX = { xs: 2, md: 4 } }: HeaderProps) =
       position="sticky"
       elevation={0}
       sx={{
-        backgroundColor: '#0a0a0a',
-        borderBottom: '1px solid #222',
-        color: 'primary.main',
+        backgroundColor: '#ffffff',
+        borderBottom: '1px solid #e0e0e0',
+        color: '#333',
         zIndex: (theme) => theme.zIndex.appBar,
       }}
     >
@@ -36,33 +35,21 @@ const Header = ({ maxWidth = 1200, paddingX = { xs: 2, md: 4 } }: HeaderProps) =
         <Toolbar disableGutters sx={{ minHeight: { xs: 60, md: 80 }, justifyContent: 'space-between' }}>
           {/* Logo Section */}
           <Stack direction="row" alignItems="center" spacing={1.5} component="a" href="/" sx={{ textDecoration: 'none', color: 'inherit' }}>
-            <TerminalIcon sx={{ color: 'primary.main', fontSize: { xs: 28, md: 32 } }} />
+            {/* <BusinessIcon sx={{ color: '#0d47a1', fontSize: { xs: 28, md: 32 } }} /> */}
             <Box>
               <Typography
                 variant="h6"
                 component="div"
                 sx={{
-                  fontWeight: 800,
-                  fontSize: { xs: '1.2rem', md: '1.4rem' },
-                  lineHeight: 1.2,
-                  color: 'primary.main',
+                  fontWeight: 900,
+                  fontSize: { xs: '1.5rem', md: '1.8rem' },
+                  lineHeight: 1,
+                  color: '#333',
                   letterSpacing: '-0.02em',
-                  fontFamily: 'monospace'
+                  fontFamily: '"Noto Sans KR", sans-serif',
                 }}
               >
-                NO_ANSWER
-              </Typography>
-              <Typography
-                variant="caption"
-                sx={{
-                  display: 'block',
-                  fontSize: { xs: '0.6rem', md: '0.7rem' },
-                  color: '#666',
-                  letterSpacing: '0.1em',
-                  fontWeight: 600,
-                }}
-              >
-                ARCHIVE.SYS
+                <Box component="span" sx={{ color: '#0d47a1' }}>Y</Box>IM<Box component="span" sx={{ fontSize: '0.6em', ml: 1, fontWeight: 500, color: '#666' }}>와이엠 정보통신</Box>
               </Typography>
             </Box>
           </Stack>
@@ -78,25 +65,23 @@ const Header = ({ maxWidth = 1200, paddingX = { xs: 2, md: 4 } }: HeaderProps) =
               <MenuIcon />
             </IconButton>
           ) : (
-            <Stack direction="row" spacing={1}>
+            <Stack direction="row" spacing={3}>
               {navItems.map((item) => (
                 <Button
                   key={item.label}
                   href={item.href}
                   sx={{
-                    color: '#888',
+                    color: '#333',
                     fontWeight: 600,
-                    fontSize: '0.9rem',
-                    px: 2,
-                    py: 1,
-                    fontFamily: 'monospace',
+                    fontSize: '1rem',
+                    fontFamily: '"Noto Sans KR", sans-serif',
                     '&:hover': {
-                      backgroundColor: 'rgba(0, 255, 65, 0.05)',
-                      color: 'primary.main',
+                      color: '#0d47a1',
+                      backgroundColor: 'transparent',
                     },
                   }}
                 >
-                  [{item.label}]
+                  {item.label}
                 </Button>
               ))}
             </Stack>
@@ -105,14 +90,14 @@ const Header = ({ maxWidth = 1200, paddingX = { xs: 2, md: 4 } }: HeaderProps) =
 
         {/* Mobile Menu */}
         {isMobile && mobileMenuOpen && (
-          <Box sx={{ py: 2, borderTop: '1px solid #222' }}>
+          <Box sx={{ py: 2, borderTop: '1px solid #e0e0e0' }}>
             <Stack spacing={1}>
               {navItems.map((item) => (
                 <Button
                   key={item.label}
                   href={item.href}
                   fullWidth
-                  sx={{ justifyContent: 'flex-start', color: '#ccc', fontWeight: 600, fontFamily: 'monospace' }}
+                  sx={{ justifyContent: 'flex-start', color: '#333', fontWeight: 600 }}
                 >
                   {item.label}
                 </Button>
