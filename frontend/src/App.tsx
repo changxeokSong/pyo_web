@@ -128,9 +128,9 @@ function App() {
                     와이엠정보통신이 함께합니다
                   </Typography>
                   <Typography variant="body1" color="text.secondary" sx={{ mb: 4, fontSize: '1.1rem', lineHeight: 1.8 }}>
-                    최적의 통신 솔루션으로 귀사의 비즈니스를 혁신할 준비가 되셨나요?
+                    성공적인 비즈니스를 위한 든든한 파트너가 되어드리겠습니다.
                     <br />
-                    지금 바로 문의주세요. 친절하게 상담해 드립니다.
+                    통신 솔루션 구축부터 유지보수까지, 지금 바로 문의하세요.
                   </Typography>
                 </Box>
                 <Box sx={{ flex: 1, width: '100%', textAlign: { xs: 'left', md: 'right' } }}>
