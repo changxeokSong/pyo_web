@@ -50,7 +50,7 @@ const HeroSection = () => {
                             lineHeight: 1.2,
                         }}
                     >
-                        YIM Information Technology
+                        YM Information Technology
                         <br />
                         <Box component="span" sx={{ fontSize: '0.7em', fontWeight: 400 }}>
                             와이엠 정보통신
