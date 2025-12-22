@@ -31,7 +31,7 @@ const InquiryModal = ({ open, onClose }: InquiryModalProps) => {
         company: '',
         phone: '',
         email: '',
-        category: 'solution', // Changed from 'type' to 'category' to match backend model
+        category: 'quote', // Changed from 'type' to 'category' to match backend model
         message: '',
         agreed: false
     });
@@ -125,9 +125,14 @@ const InquiryModal = ({ open, onClose }: InquiryModalProps) => {
 
     return (
         <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-            <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', pb: 1 }}>
-                <Typography variant="h6" fontWeight="bold">솔루션 문의하기</Typography>
-                <IconButton onClick={onClose} size="small">
+            <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', pb: 1 }}>
+                <Box>
+                    <Typography variant="h6" fontWeight="bold">상담 및 견적 문의</Typography>
+                    <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
+                        고객님의 비즈니스에 최적화된 솔루션을 제안해 드립니다.
+                    </Typography>
+                </Box>
+                <IconButton onClick={onClose} size="small" sx={{ mt: -0.5, mr: -1 }}>
                     <CloseIcon />
                 </IconButton>
             </DialogTitle>
@@ -191,10 +196,10 @@ const InquiryModal = ({ open, onClose }: InquiryModalProps) => {
                             label="문의 유형"
                             onChange={handleChange('category')}
                         >
-                            <MenuItem value="solution">솔루션 도입 문의</MenuItem>
-                            <MenuItem value="partnership">제휴 및 파트너십</MenuItem>
-                            <MenuItem value="recruit">채용 관련</MenuItem>
-                            <MenuItem value="other">기타</MenuItem>
+                            <MenuItem value="quote">솔루션 견적/도입 문의</MenuItem>
+                            <MenuItem value="maintenance">유지보수/장애 접수</MenuItem>
+                            <MenuItem value="partnership">협력/제안</MenuItem>
+                            <MenuItem value="other">기타 문의</MenuItem>
                         </Select>
                     </FormControl>
                     <TextField

@@ -16,6 +16,7 @@ import BusinessSection from './components/corporate/BusinessSection';
 import InquiryModal from './components/corporate/InquiryModal';
 import CompanySection from './components/corporate/CompanySection';
 import PrivacyPolicyModal from './components/corporate/PrivacyPolicyModal';
+import EmailRefusalModal from './components/corporate/EmailRefusalModal';
 
 // Corporate Theme: Blue/White, Professional, Clean
 const theme = createTheme({
@@ -75,6 +76,7 @@ const theme = createTheme({
 function App() {
   const [inquiryOpen, setInquiryOpen] = useState(false);
   const [privacyOpen, setPrivacyOpen] = useState(false);
+  const [emailRefusalOpen, setEmailRefusalOpen] = useState(false);
 
   const handleOpenInquiry = () => {
     setInquiryOpen(true);
@@ -180,6 +182,15 @@ function App() {
                 >
                   개인정보처리방침
                 </Link>
+                <Link
+                  component="button"
+                  color="inherit"
+                  underline="hover"
+                  onClick={() => setEmailRefusalOpen(true)}
+                  sx={{ textAlign: 'left', p: 0 }}
+                >
+                  이메일무단수집거부
+                </Link>
               </Stack>
             </Stack>
           </Container>
@@ -187,6 +198,7 @@ function App() {
 
         <InquiryModal open={inquiryOpen} onClose={() => setInquiryOpen(false)} />
         <PrivacyPolicyModal open={privacyOpen} onClose={() => setPrivacyOpen(false)} />
+        <EmailRefusalModal open={emailRefusalOpen} onClose={() => setEmailRefusalOpen(false)} />
       </Box>
     </ThemeProvider>
   );
