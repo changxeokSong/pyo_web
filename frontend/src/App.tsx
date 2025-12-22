@@ -98,7 +98,6 @@ function App() {
           'button, a, .MuiButtonBase-root': {
             cursor: 'pointer',
             userSelect: 'none',
-            outline: 'none !important', // Remove focus outline for click
           },
           // Enhance default cursor experience
           'p, span, h1, h2, h3, h4, h5, h6, div': {
