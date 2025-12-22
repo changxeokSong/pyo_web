@@ -85,6 +85,10 @@ function App() {
         styles={{
           body: {
             backgroundColor: '#ffffff',
+            cursor: 'none', // User requested to hide cursor
+          },
+          'button, a, .MuiButtonBase-root': {
+            cursor: 'none', // Ensure interactive elements also hide cursor
           },
         }}
       />
@@ -111,11 +115,12 @@ function App() {
                 <Box sx={{ flex: 1, width: '100%' }}>
                   <Typography variant="overline" color="primary" sx={{ fontWeight: 700 }}>Contact Us</Typography>
                   <Typography variant="h3" sx={{ mb: 3, mt: 1, color: '#1a237e' }}>
-                    Partner with YM
+                    와이엠 정보통신이 함께합니다
                   </Typography>
                   <Typography variant="body1" color="text.secondary" sx={{ mb: 4, fontSize: '1.1rem', lineHeight: 1.8 }}>
-                    Ready to transform your business with our communication solutions?
-                    Contact us today for a consultation.
+                    최적의 통신 솔루션으로 귀사의 비즈니스를 혁신할 준비가 되셨나요?
+                    <br />
+                    지금 바로 문의주세요. 친절하게 상담해 드립니다.
                   </Typography>
                 </Box>
                 <Box sx={{ flex: 1, width: '100%', textAlign: { xs: 'left', md: 'right' } }}>
@@ -150,7 +155,7 @@ function App() {
                 <Typography variant="body2">
                   © 2025 YM Information Technology. All rights reserved.<br />
                   Pure IP Communication Solution Provider.<br />
-                  (주)와이엠정보통신 | 대표: 이유민 | 사업자번호: 000-00-00000<br />
+                  (주)와이엠정보통신 | 대표: 이유민 | 사업자번호: 315-87-03399<br />
                   주소: 전라남도 고흥군 대서면 동서로 446
                 </Typography>
               </Box>

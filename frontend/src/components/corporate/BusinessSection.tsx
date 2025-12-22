@@ -113,7 +113,7 @@ const BusinessSection = () => {
                                     {category.description}
                                 </Typography>
                                 <Divider sx={{ my: 2, borderStyle: 'dashed' }} />
-                                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
                                     {category.items.slice(0, 4).map((item, idx) => (
                                         <Chip
                                             key={idx}
@@ -128,6 +128,9 @@ const BusinessSection = () => {
                                         />
                                     ))}
                                 </Box>
+                                <Typography variant="caption" sx={{ color: '#1976d2', fontWeight: 700, display: 'flex', alignItems: 'center' }}>
+                                    + VIEW DETAILS
+                                </Typography>
                             </Box>
                         </Card>
                     ))}

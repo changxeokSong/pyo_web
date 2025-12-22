@@ -20,6 +20,7 @@ export interface ServiceDetail {
     longDescription: string; // More detailed description
     items: string[];
     imageColor: string; // Placeholder for image (color)
+    image?: string; // Optional image URL
 }
 
 interface ServiceDetailModalProps {
@@ -48,20 +49,33 @@ const ServiceDetailModal = ({ open, onClose, service }: ServiceDetailModalProps)
                 </IconButton>
             </DialogTitle>
 
-            {/* Visual Header / Placeholder Image */}
-            <Box
-                sx={{
-                    height: 200,
-                    bgcolor: service.imageColor,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: 'white',
-                    flexDirection: 'column'
-                }}
-            >
-                <Typography variant="h3" fontWeight={800} sx={{ opacity: 0.2 }}>{service.title}</Typography>
-            </Box>
+            {/* Visual Header / Image */}
+            {service.image ? (
+                <Box
+                    component="img"
+                    src={service.image}
+                    alt={service.title}
+                    sx={{
+                        width: '100%',
+                        height: 300,
+                        objectFit: 'cover',
+                    }}
+                />
+            ) : (
+                <Box
+                    sx={{
+                        height: 200,
+                        bgcolor: service.imageColor,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'white',
+                        flexDirection: 'column'
+                    }}
+                >
+                    <Typography variant="h3" fontWeight={800} sx={{ opacity: 0.2 }}>{service.title}</Typography>
+                </Box>
+            )}
 
             <DialogContent dividers sx={{ p: 4 }}>
                 <Typography variant="h5" gutterBottom fontWeight="bold">
