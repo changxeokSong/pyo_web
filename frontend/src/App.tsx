@@ -13,6 +13,7 @@ import {
 import Header from './components/layout/Header';
 import HeroSection from './components/corporate/HeroSection';
 import BusinessSection from './components/corporate/BusinessSection';
+import CompanySection from './components/corporate/CompanySection';
 import InquiryModal from './components/corporate/InquiryModal';
 
 // Corporate Theme: Blue/White, Professional, Clean
