@@ -261,7 +261,7 @@ const InquiryModal = ({ open, onClose }: InquiryModalProps) => {
                     <TextField
                         label="문의 내용"
                         multiline
-                        rows={3}
+                        rows={6}
                         fullWidth
                         size="small"
                         value={formData.message}

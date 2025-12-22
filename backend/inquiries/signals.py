@@ -22,60 +22,60 @@ def send_inquiry_notification(sender, instance, created, **kwargs):
         {instance.message}
         """
 
-        # HTML Email Content
+        # HTML Email Content (Inline CSS for compatibility)
         html_message = f"""
         <!DOCTYPE html>
         <html>
-        <head>
-            <style>
-                body {{ font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif; line-height: 1.6; color: #333; }}
-                .container {{ max-width: 600px; margin: 0 auto; border: 1px solid #ddd; border-top: 4px solid #0d47a1; background-color: #fff; }}
-                .header {{ background-color: #f8f9fa; padding: 20px; text-align: center; border-bottom: 1px solid #eee; }}
-                .header h1 {{ margin: 0; color: #0d47a1; font-size: 24px; }}
-                .content {{ padding: 30px; }}
-                .info-box {{ background-color: #f5f7fa; padding: 20px; border-radius: 5px; margin-bottom: 20px; }}
-                .info-row {{ margin-bottom: 10px; border-bottom: 1px solid #e0e0e0; padding-bottom: 5px; }}
-                .info-label {{ font-weight: bold; color: #555; display: inline-block; width: 80px; }}
-                .message-box {{ padding: 15px; background-color: #fff; border: 1px solid #e0e0e0; border-radius: 4px; border-left: 4px solid #1976d2; }}
-                .footer {{ text-align: center; font-size: 12px; color: #888; padding: 20px; background-color: #f8f9fa; border-top: 1px solid #eee; }}
-                .btn {{ display: inline-block; padding: 10px 20px; background-color: #0d47a1; color: #fff; text-decoration: none; border-radius: 4px; font-weight: bold; margin-top: 20px; }}
-            </style>
-        </head>
-        <body>
-            <div class="container">
-                <div class="header">
-                    <h1>YM Information Tech</h1>
+        <body style="margin: 0; padding: 0; font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif; line-height: 1.6; color: #333; background-color: #f4f4f4;">
+            <div style="max-width: 600px; margin: 20px auto; background-color: #ffffff; border: 1px solid #ddd; border-top: 4px solid #0d47a1; border-radius: 4px;">
+                
+                <!-- Header -->
+                <div style="background-color: #f8f9fa; padding: 20px; text-align: center; border-bottom: 1px solid #eee;">
+                    <h1 style="margin: 0; color: #0d47a1; font-size: 24px;">YM Information Tech</h1>
                     <p style="margin: 5px 0 0; color: #666; font-size: 14px;">새로운 홈페이지 문의가 접수되었습니다.</p>
                 </div>
-                <div class="content">
-                    <div class="info-box">
-                        <div class="info-row">
-                            <span class="info-label">문의유형</span> {instance.get_category_display()}
+                
+                <!-- Content -->
+                <div style="padding: 30px;">
+                    
+                    <!-- Info Box -->
+                    <div style="background-color: #f5f7fa; padding: 20px; border-radius: 5px; margin-bottom: 20px; border: 1px solid #e0e0e0;">
+                        <div style="margin-bottom: 10px; border-bottom: 1px solid #e0e0e0; padding-bottom: 5px;">
+                            <span style="font-weight: bold; color: #555; display: inline-block; width: 80px;">문의유형</span> 
+                            {instance.get_category_display()}
                         </div>
-                        <div class="info-row">
-                            <span class="info-label">회사명</span> {instance.company}
+                        <div style="margin-bottom: 10px; border-bottom: 1px solid #e0e0e0; padding-bottom: 5px;">
+                            <span style="font-weight: bold; color: #555; display: inline-block; width: 80px;">회사명</span> 
+                            {instance.company}
                         </div>
-                        <div class="info-row">
-                            <span class="info-label">담당자</span> {instance.name}
+                        <div style="margin-bottom: 10px; border-bottom: 1px solid #e0e0e0; padding-bottom: 5px;">
+                            <span style="font-weight: bold; color: #555; display: inline-block; width: 80px;">담당자</span> 
+                            {instance.name}
                         </div>
-                        <div class="info-row">
-                            <span class="info-label">연락처</span> {instance.phone}
+                        <div style="margin-bottom: 10px; border-bottom: 1px solid #e0e0e0; padding-bottom: 5px;">
+                            <span style="font-weight: bold; color: #555; display: inline-block; width: 80px;">연락처</span> 
+                            {instance.phone}
                         </div>
-                        <div class="info-row" style="border-bottom: none;">
-                            <span class="info-label">이메일</span> <a href="mailto:{instance.email}">{instance.email}</a>
+                        <div style="margin-bottom: 0;">
+                            <span style="font-weight: bold; color: #555; display: inline-block; width: 80px;">이메일</span> 
+                            <a href="mailto:{instance.email}" style="color: #1976d2; text-decoration: none;">{instance.email}</a>
                         </div>
                     </div>
                     
-                    <p style="font-weight: bold; margin-bottom: 10px;">문의 내용:</p>
-                    <div class="message-box">
+                    <!-- Message -->
+                    <p style="font-weight: bold; margin-bottom: 10px; font-size: 16px;">문의 내용:</p>
+                    <div style="padding: 15px; background-color: #fff; border: 1px solid #e0e0e0; border-radius: 4px; border-left: 4px solid #1976d2; margin-bottom: 30px;">
                         {instance.message.replace(chr(10), '<br>')}
                     </div>
 
+                    <!-- Button -->
                     <div style="text-align: center;">
-                        <a href="http://ymtech.kr/admin/inquiries/inquiry/" class="btn" style="color: #fff;">관리자 페이지에서 확인하기</a>
+                        <a href="http://ymtech.kr/admin/inquiries/inquiry/" style="display: inline-block; padding: 12px 24px; background-color: #0d47a1; color: #ffffff; text-decoration: none; border-radius: 4px; font-weight: bold; font-size: 14px;">관리자 페이지에서 확인하기</a>
                     </div>
                 </div>
-                <div class="footer">
+                
+                <!-- Footer -->
+                <div style="text-align: center; font-size: 12px; color: #888; padding: 20px; background-color: #f8f9fa; border-top: 1px solid #eee;">
                     본 메일은 (주)와이엠정보통신 홈페이지에서 발송된 알림 메일입니다.<br>
                     &copy; 2025 YM Information Technology. All rights reserved.
                 </div>
