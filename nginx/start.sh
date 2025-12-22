@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-DOMAIN="pyo-glory.com"
+DOMAIN="ymtech.kr"
 LIVE_PATH="/etc/letsencrypt/live/${DOMAIN}"
 
 if [ ! -f "${LIVE_PATH}/fullchain.pem" ] || [ ! -f "${LIVE_PATH}/privkey.pem" ]; then

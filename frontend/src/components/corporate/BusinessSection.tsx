@@ -57,7 +57,7 @@ const BusinessSection = () => {
                         Total IT & Communication
                     </Typography>
                     <Typography variant="body1" sx={{ color: '#666', maxWidth: 700, mx: 'auto' }}>
-                        와이엠 정보통신은 통신, 네트워크, 보안, 그리고 매장 솔루션까지<br />
+                        와이엠정보통신은 통신, 네트워크, 보안, 그리고 매장 솔루션까지<br />
                         고객에게 필요한 모든 IT 인프라를 구축하고 책임집니다.
                     </Typography>
                 </Box>

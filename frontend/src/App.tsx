@@ -115,7 +115,7 @@ function App() {
                 <Box sx={{ flex: 1, width: '100%' }}>
                   <Typography variant="overline" color="primary" sx={{ fontWeight: 700 }}>Contact Us</Typography>
                   <Typography variant="h3" sx={{ mb: 3, mt: 1, color: '#1a237e' }}>
-                    와이엠 정보통신이 함께합니다
+                    와이엠정보통신이 함께합니다
                   </Typography>
                   <Typography variant="body1" color="text.secondary" sx={{ mb: 4, fontSize: '1.1rem', lineHeight: 1.8 }}>
                     최적의 통신 솔루션으로 귀사의 비즈니스를 혁신할 준비가 되셨나요?
