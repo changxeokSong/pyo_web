@@ -20,7 +20,8 @@ sudo rm -rf letsencrypt/archive/ymtech.kr
 sudo rm -rf letsencrypt/renewal/ymtech.kr.conf
 
 echo "🔒 Requesting real Let's Encrypt certificate..."
-docker-compose run --rm certbot certonly --webroot \
+# Override entrypoint because docker-compose.yml uses /bin/sh
+docker-compose run --rm --entrypoint certbot certbot certonly --webroot \
   -w /var/www/certbot \
   -d ymtech.kr -d www.ymtech.kr \
   --email thdckdtjr8@gmail.com \
