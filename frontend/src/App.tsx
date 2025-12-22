@@ -91,9 +91,14 @@ function App() {
             backgroundColor: '#ffffff',
             cursor: 'default',
             wordBreak: 'keep-all', // Ensure Korean text breaks by word, not character
+            userSelect: 'none', // Prevent text selection globally (App-like feel)
+            WebkitUserSelect: 'none',
+            WebkitTapHighlightColor: 'transparent', // Remove tap highlight on mobile
           },
           'button, a, .MuiButtonBase-root': {
             cursor: 'pointer',
+            userSelect: 'none',
+            outline: 'none !important', // Remove focus outline for click
           },
           // Enhance default cursor experience
           'p, span, h1, h2, h3, h4, h5, h6, div': {
@@ -101,6 +106,8 @@ function App() {
           },
           'input, textarea': {
             cursor: 'text',
+            userSelect: 'text', // Re-enable selection for inputs
+            WebkitUserSelect: 'text',
           }
         }}
       />
