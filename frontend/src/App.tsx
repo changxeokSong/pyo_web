@@ -86,6 +86,7 @@ function App() {
           body: {
             backgroundColor: '#ffffff',
             cursor: 'default',
+            wordBreak: 'keep-all', // Ensure Korean text breaks by word, not character
           },
           'button, a, .MuiButtonBase-root': {
             cursor: 'pointer',
@@ -121,7 +122,7 @@ function App() {
               <Stack direction={{ xs: 'column', md: 'row' }} spacing={4} alignItems="center">
                 <Box sx={{ flex: 1, width: '100%' }}>
                   <Typography variant="overline" color="primary" sx={{ fontWeight: 700 }}>Contact Us</Typography>
-                  <Typography variant="h3" sx={{ mb: 3, mt: 1, color: '#1a237e' }}>
+                  <Typography variant="h3" sx={{ mb: 3, mt: 1, color: '#1a237e', wordBreak: 'keep-all' }}>
                     와이엠정보통신이 함께합니다
                   </Typography>
                   <Typography variant="body1" color="text.secondary" sx={{ mb: 4, fontSize: '1.1rem', lineHeight: 1.8 }}>
