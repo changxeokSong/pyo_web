@@ -29,15 +29,15 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DJANGO_DEBUG', 'True').lower() in ('1', 'true', 'yes')
 
-ALLOWED_HOSTS = ['backend', 'nginx', 'mltigers.sogang.ac.kr', 'www.pyo-glory.com', 'pyo-glory.com']
+ALLOWED_HOSTS = ['backend', 'nginx', 'mltigers.sogang.ac.kr', 'www.ymtech.kr', 'ymtech.kr', 'localhost', '127.0.0.1']
 
 CSRF_TRUSTED_ORIGINS = [
     'http://mltigers.sogang.ac.kr',
     'http://mltigers.sogang.ac.kr:7878',
-    'http://www.pyo-glory.com',
-    'https://www.pyo-glory.com',
-    'http://pyo-glory.com',
-    'https://pyo-glory.com',
+    'http://www.ymtech.kr',
+    'https://www.ymtech.kr',
+    'http://ymtech.kr',
+    'https://ymtech.kr',
 ]
 
 

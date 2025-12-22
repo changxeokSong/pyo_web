@@ -25,6 +25,6 @@ export default defineConfig({
         changeOrigin: true,
       },
     },
-    allowedHosts: ['mltigers.sogang.ac.kr', '35.77.108.7', 'www.pyo-glory.com', 'pyo-glory.com', 'localhost'],
+    allowedHosts: ['mltigers.sogang.ac.kr', '35.77.108.7', 'www.ymtech.kr', 'ymtech.kr', 'localhost'],
   },
 })

@@ -85,11 +85,18 @@ function App() {
         styles={{
           body: {
             backgroundColor: '#ffffff',
-            cursor: 'none', // User requested to hide cursor
+            cursor: 'default',
           },
           'button, a, .MuiButtonBase-root': {
-            cursor: 'none', // Ensure interactive elements also hide cursor
+            cursor: 'pointer',
           },
+          // Enhance default cursor experience
+          'p, span, h1, h2, h3, h4, h5, h6, div': {
+            cursor: 'default',
+          },
+          'input, textarea': {
+            cursor: 'text',
+          }
         }}
       />
       <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
