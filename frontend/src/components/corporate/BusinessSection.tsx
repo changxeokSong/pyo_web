@@ -3,7 +3,7 @@ import { Box, Container, Typography, Card, Divider, Chip } from '@mui/material';
 import SettingsInputComponentIcon from '@mui/icons-material/SettingsInputComponent';
 import LanguageIcon from '@mui/icons-material/Language';
 import SecurityIcon from '@mui/icons-material/Security';
-import ServiceDetailModal, { ServiceDetail } from './ServiceDetailModal';
+import ServiceDetailModal, { type ServiceDetail } from './ServiceDetailModal';
 
 // Enhanced Data
 const serviceCategories: ServiceDetail[] = [

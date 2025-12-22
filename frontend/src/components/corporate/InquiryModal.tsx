@@ -97,6 +97,11 @@ const InquiryModal = ({ open, onClose }: InquiryModalProps) => {
                     </Alert>
                 ) : (
                     <Stack spacing={3} sx={{ mt: 1 }}>
+                        {error && (
+                            <Alert severity="error" onClose={() => setError(null)}>
+                                {error}
+                            </Alert>
+                        )}
                         <TextField
                             label="성함 (Name)"
                             fullWidth
