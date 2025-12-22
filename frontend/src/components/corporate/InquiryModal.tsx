@@ -272,7 +272,13 @@ const InquiryModal = ({ open, onClose }: InquiryModalProps) => {
                     />
 
                     {/* Compact Privacy Agreement */}
-                    <Box sx={{ bgcolor: '#f5f5f5', p: 1.5, borderRadius: 1, opacity: submitted ? 0.7 : 1 }}>
+                    <Box sx={{
+                        bgcolor: '#f8f9fa',
+                        p: 2,
+                        borderRadius: 2,
+                        border: '1px solid #e0e0e0',
+                        opacity: submitted ? 0.7 : 1
+                    }}>
                         <FormControlLabel
                             control={
                                 <Checkbox
@@ -282,18 +288,20 @@ const InquiryModal = ({ open, onClose }: InquiryModalProps) => {
                                     size="small"
                                     disabled={submitted}
                                     inputRef={agreeRef}
+                                    sx={{ py: 0.5 }} // Reduce vertical padding of checkbox
                                 />
                             }
                             label={
-                                <Typography variant="subtitle2" fontWeight="bold" sx={{ fontSize: '0.9rem' }}>
+                                <Typography variant="subtitle2" fontWeight="bold" sx={{ fontSize: '0.9rem', pt: 0.2 }}>
                                     [필수] 개인정보 수집 및 이용 동의
                                 </Typography>
                             }
-                            sx={{ mb: 0.5, ml: 0 }}
+                            sx={{ m: 0, alignItems: 'flex-start', width: '100%' }}
                         />
-                        <Typography variant="caption" display="block" color="text.secondary" sx={{ pl: 4, lineHeight: 1.4, fontSize: '0.75rem' }}>
-                            수집 목적: 문의 회신 / 항목: 이름, 회사, 연락처, 메일 / 보존: 1년<br />
-                            ※ 동의를 거부하실 수 있으나, 이 경우 문의 접수가 불가능합니다.
+                        <Typography variant="caption" display="block" color="text.secondary" sx={{ mt: 1, ml: 3.5, lineHeight: 1.6, fontSize: '0.75rem' }}>
+                            <Box component="span" sx={{ display: 'block', mb: 0.5 }}>· 수집 목적: 문의 회신 및 상담</Box>
+                            <Box component="span" sx={{ display: 'block', mb: 0.5 }}>· 수집 항목: 성함, 회사명, 연락처, 이메일, 문의내용</Box>
+                            <Box component="span" sx={{ display: 'block' }}>· 보존 기간: 1년 (※ 동의 거부 시 접수 불가)</Box>
                         </Typography>
                     </Box>
                 </Stack>
