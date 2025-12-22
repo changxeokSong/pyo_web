@@ -48,7 +48,7 @@ const Header = ({ maxWidth = 1200, paddingX = { xs: 2, md: 4 } }: HeaderProps) =
                   fontFamily: '"Noto Sans KR", sans-serif',
                 }}
               >
-                <Box component="span" sx={{ color: '#0d47a1' }}>Y</Box>IM<Box component="span" sx={{ fontSize: '0.6em', ml: 1, fontWeight: 500, color: '#666' }}>와이엠 정보통신</Box>
+                <Box component="span" sx={{ color: '#0d47a1' }}>Y</Box>M<Box component="span" sx={{ fontSize: '0.6em', ml: 1, fontWeight: 500, color: '#666' }}>와이엠 정보통신</Box>
               </Typography>
             </Box>
           </Stack>
