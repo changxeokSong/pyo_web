@@ -1,5 +1,4 @@
 import { AppBar, Toolbar, Typography, Box, Stack, Button, Container, useTheme, useMediaQuery, IconButton } from '@mui/material';
-import BusinessIcon from '@mui/icons-material/Business';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useState } from 'react';
 
