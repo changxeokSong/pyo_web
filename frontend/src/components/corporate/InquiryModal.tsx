@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import {
     Dialog,
     DialogTitle,
@@ -26,12 +26,21 @@ interface InquiryModalProps {
 }
 
 const InquiryModal = ({ open, onClose }: InquiryModalProps) => {
+    // Refs for auto-focus
+    const nameRef = useRef<HTMLInputElement>(null);
+    const companyRef = useRef<HTMLInputElement>(null);
+    const phoneRef = useRef<HTMLInputElement>(null);
+    const emailRef = useRef<HTMLInputElement>(null);
+    const categoryRef = useRef<HTMLInputElement>(null); // Select is tricky to focus directly, but we can focus the parent or label
+    const messageRef = useRef<HTMLInputElement>(null);
+    const agreeRef = useRef<HTMLInputElement>(null); // For privacy checkbox
+
     const [formData, setFormData] = useState({
         name: '',
         company: '',
         phone: '',
         email: '',
-        category: 'quote', // Changed from 'type' to 'category' to match backend model
+        category: 'quote',
         message: '',
         agreed: false
     });
@@ -40,28 +49,56 @@ const InquiryModal = ({ open, onClose }: InquiryModalProps) => {
     const [error, setError] = useState<string | null>(null);
 
     const validateForm = () => {
-        // Email Validation
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(formData.email)) {
-            setError('올바른 이메일 주소 형식이 아닙니다. (예: example@company.com)');
+        // 1. Required Fields Check (Empty)
+        if (!formData.name.trim()) {
+            setError('성함을 입력해주세요.');
+            nameRef.current?.focus();
+            return false;
+        }
+        if (!formData.company.trim()) {
+            setError('회사명을 입력해주세요.');
+            companyRef.current?.focus();
+            return false;
+        }
+        if (!formData.phone.trim()) {
+            setError('연락처를 입력해주세요.');
+            phoneRef.current?.focus();
+            return false;
+        }
+        if (!formData.email.trim()) {
+            setError('이메일을 입력해주세요.');
+            emailRef.current?.focus();
             return false;
         }
 
-        // Phone Validation (Simple check for length and characters)
-        // Allows: 010-1234-5678, 02-123-4567, etc.
+        // 2. Format Validation
         const phoneRegex = /^[0-9-]{9,20}$/;
         if (!phoneRegex.test(formData.phone)) {
-            setError('연락처는 숫자와 하이픈(-)만 입력 가능하며, 올바른 길이어야 합니다.');
+            setError('연락처는 숫자와 하이픈(-)만 입력 가능합니다.');
+            phoneRef.current?.focus();
             return false;
         }
 
-        if (!formData.name || !formData.company || !formData.message) {
-            setError('모든 필수 항목을 입력해주세요.');
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(formData.email)) {
+            setError('올바른 이메일 형식이 아닙니다.');
+            emailRef.current?.focus();
             return false;
         }
 
+        if (!formData.message.trim()) {
+            setError('문의 내용을 입력해주세요.');
+            messageRef.current?.focus();
+            return false;
+        }
+
+        // 3. Agreement Check
         if (!formData.agreed) {
             setError('개인정보 수집 및 이용에 동의해주세요.');
+            // Checkbox doesn't have a direct focusable input ref exposed easily in all MUI versions,
+            // but we can try to scroll into view or focus the label wrapper if strict focus isn't working.
+            // For now, let's just error. The user will see the red text or alert.
+            // Or better, scroll the container to bottom?
             return false;
         }
 
@@ -77,7 +114,6 @@ const InquiryModal = ({ open, onClose }: InquiryModalProps) => {
         setError(null);
 
         try {
-            // Exclude 'agreed' field from payload as it's not in the backend model
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const { agreed, ...submitData } = formData;
 
@@ -98,14 +134,13 @@ const InquiryModal = ({ open, onClose }: InquiryModalProps) => {
                 throw new Error(errorMessage);
             }
 
-            // Success
-            alert('문의가 성공적으로 접수되었습니다. 담당자가 곧 연락드리겠습니다.');
+            alert('문의가 성공적으로 접수되었습니다.\n담당자가 확인 후 신속히 연락드리겠습니다.');
             setFormData({
                 name: '',
                 company: '',
                 phone: '',
                 email: '',
-                category: 'solution',
+                category: 'quote',
                 message: '',
                 agreed: false,
             });
@@ -113,7 +148,6 @@ const InquiryModal = ({ open, onClose }: InquiryModalProps) => {
         } catch (err: any) {
             console.error(err);
             setError(err.message || '문의 전송에 실패했습니다.');
-            alert(`문의 전송 실패:\n${err.message}`);
         } finally {
             setSubmitted(false);
         }
@@ -124,11 +158,19 @@ const InquiryModal = ({ open, onClose }: InquiryModalProps) => {
     };
 
     return (
-        <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-            <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', pb: 1 }}>
+        <Dialog
+            open={open}
+            onClose={onClose}
+            maxWidth="sm"
+            fullWidth
+            PaperProps={{
+                sx: { margin: { xs: 2, sm: 3 }, maxHeight: 'calc(100% - 32px)' }
+            }}
+        >
+            <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', pb: 1, pt: 2 }}>
                 <Box>
                     <Typography variant="h6" fontWeight="bold">상담 및 견적 문의</Typography>
-                    <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
+                    <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5, fontSize: '0.875rem' }}>
                         고객님의 비즈니스에 최적화된 솔루션을 제안해 드립니다.
                     </Typography>
                 </Box>
@@ -136,8 +178,7 @@ const InquiryModal = ({ open, onClose }: InquiryModalProps) => {
                     <CloseIcon />
                 </IconButton>
             </DialogTitle>
-            <DialogContent dividers>
-                {/* Error Alert */}
+            <DialogContent dividers sx={{ p: { xs: 2, sm: 3 } }}>
                 {error && (
                     <Alert severity="error" onClose={() => setError(null)} sx={{ mb: 2 }}>
                         {error}
@@ -150,51 +191,65 @@ const InquiryModal = ({ open, onClose }: InquiryModalProps) => {
                     </Alert>
                 )}
 
-                <Stack spacing={3} sx={{ mt: 1 }}>
-                    <TextField
-                        label="성함 (Name)"
-                        fullWidth
-                        required
-                        value={formData.name}
-                        onChange={handleChange('name')}
-                        disabled={submitted}
-                    />
-                    <TextField
-                        label="회사명 (Company)"
-                        fullWidth
-                        required
-                        value={formData.company}
-                        onChange={handleChange('company')}
-                        disabled={submitted}
-                    />
-                    <Stack direction="row" spacing={2}>
+                <Stack spacing={2} sx={{ mt: 0.5 }}>
+                    {/* Compact Row 1: Name & Company */}
+                    <Stack direction={{ xs: 'row', sm: 'row' }} spacing={1.5}>
                         <TextField
-                            label="연락처 (Phone)"
+                            label="성함"
                             fullWidth
                             required
+                            size="small"
+                            value={formData.name}
+                            onChange={handleChange('name')}
+                            disabled={submitted}
+                            inputRef={nameRef}
+                        />
+                        <TextField
+                            label="회사명"
+                            fullWidth
+                            required
+                            size="small"
+                            value={formData.company}
+                            onChange={handleChange('company')}
+                            disabled={submitted}
+                            inputRef={companyRef}
+                        />
+                    </Stack>
+
+                    {/* Compact Row 2: Phone & Email */}
+                    <Stack direction={{ xs: 'row', sm: 'row' }} spacing={1.5}>
+                        <TextField
+                            label="연락처"
+                            fullWidth
+                            required
+                            size="small"
                             value={formData.phone}
                             onChange={handleChange('phone')}
                             disabled={submitted}
-                            placeholder="010-1234-5678"
-                            helperText="숫자와 하이픈(-)만 입력해주세요"
+                            placeholder="010-0000-0000"
+                            inputRef={phoneRef}
                         />
                         <TextField
-                            label="이메일 (Email)"
+                            label="이메일"
                             fullWidth
                             required
                             type="email"
+                            size="small"
                             value={formData.email}
                             onChange={handleChange('email')}
                             disabled={submitted}
-                            placeholder="example@company.com"
+                            placeholder="example@co.kr"
+                            inputRef={emailRef}
                         />
                     </Stack>
-                    <FormControl fullWidth disabled={submitted}>
+
+                    <FormControl fullWidth disabled={submitted} size="small">
                         <InputLabel>문의 유형</InputLabel>
                         <Select
                             value={formData.category}
                             label="문의 유형"
                             onChange={handleChange('category')}
+                            inputRef={categoryRef}
                         >
                             <MenuItem value="quote">솔루션 견적/도입 문의</MenuItem>
                             <MenuItem value="maintenance">유지보수/장애 접수</MenuItem>
@@ -202,45 +257,49 @@ const InquiryModal = ({ open, onClose }: InquiryModalProps) => {
                             <MenuItem value="other">기타 문의</MenuItem>
                         </Select>
                     </FormControl>
+
                     <TextField
                         label="문의 내용"
                         multiline
-                        rows={4}
+                        rows={3}
                         fullWidth
+                        size="small"
                         value={formData.message}
                         onChange={handleChange('message')}
                         placeholder="문의하실 내용을 간략히 적어주세요."
                         disabled={submitted}
+                        inputRef={messageRef}
                     />
 
-                    {/* Privacy Agreement Checkbox */}
-                    <Box sx={{ bgcolor: '#f5f5f5', p: 2, borderRadius: 1, opacity: submitted ? 0.7 : 1 }}>
+                    {/* Compact Privacy Agreement */}
+                    <Box sx={{ bgcolor: '#f5f5f5', p: 1.5, borderRadius: 1, opacity: submitted ? 0.7 : 1 }}>
                         <FormControlLabel
                             control={
                                 <Checkbox
                                     checked={formData.agreed}
                                     onChange={(e) => setFormData({ ...formData, agreed: e.target.checked })}
                                     color="primary"
+                                    size="small"
                                     disabled={submitted}
+                                    inputRef={agreeRef}
                                 />
                             }
                             label={
-                                <Typography variant="subtitle2" fontWeight="bold">
+                                <Typography variant="subtitle2" fontWeight="bold" sx={{ fontSize: '0.9rem' }}>
                                     [필수] 개인정보 수집 및 이용 동의
                                 </Typography>
                             }
+                            sx={{ mb: 0.5, ml: 0 }}
                         />
-                        <Typography variant="caption" display="block" color="text.secondary" sx={{ ml: 4, mt: 0.5, lineHeight: 1.5 }}>
-                            수집 목적: 솔루션 도입 문의에 대한 상담 및 회신<br />
-                            수집 항목: 성함, 회사명, 연락처, 이메일, 문의내용<br />
-                            보존 기간: 1년 (또는 관계 법령에 따름)<br />
-                            ※ 동의를 거부할 권리가 있으나, 거부 시 문의 접수가 불가능합니다.
+                        <Typography variant="caption" display="block" color="text.secondary" sx={{ pl: 4, lineHeight: 1.4, fontSize: '0.75rem' }}>
+                            수집 목적: 문의 회신 / 항목: 이름, 회사, 연락처, 메일 / 보존: 1년<br />
+                            ※ 동의를 거부하실 수 있으나, 이 경우 문의 접수가 불가능합니다.
                         </Typography>
                     </Box>
                 </Stack>
             </DialogContent>
-            <DialogActions sx={{ px: 3, py: 2 }}>
-                <Button onClick={onClose} color="inherit">
+            <DialogActions sx={{ px: 3, py: 1.5 }}>
+                <Button onClick={onClose} color="inherit" size="small">
                     취소
                 </Button>
                 <Button
@@ -248,6 +307,8 @@ const InquiryModal = ({ open, onClose }: InquiryModalProps) => {
                     variant="contained"
                     color="primary"
                     disabled={submitted}
+                    size="medium"
+                    sx={{ px: 3 }}
                 >
                     {submitted ? '전송 중...' : '문의하기'}
                 </Button>
