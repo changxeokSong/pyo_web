@@ -39,15 +39,37 @@ const InquiryModal = ({ open, onClose }: InquiryModalProps) => {
     const [submitted, setSubmitted] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const handleSubmit = async () => {
-        // Basic validation
-        if (!formData.name || !formData.company || !formData.phone || !formData.email) {
-            alert('모든 필수 항목을 입력해주세요.');
-            return;
+    const validateForm = () => {
+        // Email Validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(formData.email)) {
+            setError('올바른 이메일 주소 형식이 아닙니다. (예: example@company.com)');
+            return false;
+        }
+
+        // Phone Validation (Simple check for length and characters)
+        // Allows: 010-1234-5678, 02-123-4567, etc.
+        const phoneRegex = /^[0-9-]{9,20}$/;
+        if (!phoneRegex.test(formData.phone)) {
+            setError('연락처는 숫자와 하이픈(-)만 입력 가능하며, 올바른 길이어야 합니다.');
+            return false;
+        }
+
+        if (!formData.name || !formData.company || !formData.message) {
+            setError('모든 필수 항목을 입력해주세요.');
+            return false;
         }
 
         if (!formData.agreed) {
-            alert('개인정보 수집 및 이용에 동의해주세요.');
+            setError('개인정보 수집 및 이용에 동의해주세요.');
+            return false;
+        }
+
+        return true;
+    };
+
+    const handleSubmit = async () => {
+        if (!validateForm()) {
             return;
         }
 
@@ -68,7 +90,12 @@ const InquiryModal = ({ open, onClose }: InquiryModalProps) => {
             });
 
             if (!response.ok) {
-                throw new Error('전송 중 오류가 발생했습니다.');
+                const errorData = await response.json().catch(() => ({}));
+                console.error('Server Error:', errorData);
+                const errorMessage = Object.entries(errorData)
+                    .map(([key, value]) => `${key}: ${value}`)
+                    .join('\n') || '전송 중 오류가 발생했습니다.';
+                throw new Error(errorMessage);
             }
 
             // Success
@@ -83,10 +110,10 @@ const InquiryModal = ({ open, onClose }: InquiryModalProps) => {
                 agreed: false,
             });
             onClose();
-        } catch (err) {
+        } catch (err: any) {
             console.error(err);
-            setError('문의 전송에 실패했습니다. 다시 시도해주세요.');
-            alert('문의 전송에 실패했습니다. 관리자에게 문의바랍니다.');
+            setError(err.message || '문의 전송에 실패했습니다.');
+            alert(`문의 전송 실패:\n${err.message}`);
         } finally {
             setSubmitted(false);
         }
@@ -143,6 +170,8 @@ const InquiryModal = ({ open, onClose }: InquiryModalProps) => {
                             value={formData.phone}
                             onChange={handleChange('phone')}
                             disabled={submitted}
+                            placeholder="010-1234-5678"
+                            helperText="숫자와 하이픈(-)만 입력해주세요"
                         />
                         <TextField
                             label="이메일 (Email)"
@@ -152,6 +181,7 @@ const InquiryModal = ({ open, onClose }: InquiryModalProps) => {
                             value={formData.email}
                             onChange={handleChange('email')}
                             disabled={submitted}
+                            placeholder="example@company.com"
                         />
                     </Stack>
                     <FormControl fullWidth disabled={submitted}>
