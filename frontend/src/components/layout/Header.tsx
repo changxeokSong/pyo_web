@@ -46,9 +46,10 @@ const Header = ({ maxWidth = 1200, paddingX = { xs: 2, md: 4 }, onInquiryClick }
                   color: '#333',
                   letterSpacing: '-0.02em',
                   fontFamily: '"Noto Sans KR", sans-serif',
+                  cursor: 'pointer', // Force pointer cursor to override global reset
                 }}
               >
-                <Box component="span" sx={{ color: '#0d47a1' }}>Y</Box>M<Box component="span" sx={{ fontSize: '0.6em', ml: 1, fontWeight: 500, color: '#666' }}>와이엠정보통신</Box>
+                <Box component="span" sx={{ color: '#0d47a1', cursor: 'pointer' }}>Y</Box>M<Box component="span" sx={{ fontSize: '0.6em', ml: 1, fontWeight: 500, color: '#666', cursor: 'pointer' }}>와이엠정보통신</Box>
               </Typography>
             </Box>
           </Stack>

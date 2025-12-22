@@ -13,8 +13,9 @@ import {
 import Header from './components/layout/Header';
 import HeroSection from './components/corporate/HeroSection';
 import BusinessSection from './components/corporate/BusinessSection';
-import CompanySection from './components/corporate/CompanySection';
 import InquiryModal from './components/corporate/InquiryModal';
+import CompanySection from './components/corporate/CompanySection';
+import PrivacyPolicyModal from './components/corporate/PrivacyPolicyModal';
 
 // Corporate Theme: Blue/White, Professional, Clean
 const theme = createTheme({
@@ -73,6 +74,7 @@ const theme = createTheme({
 
 function App() {
   const [inquiryOpen, setInquiryOpen] = useState(false);
+  const [privacyOpen, setPrivacyOpen] = useState(false);
 
   const handleOpenInquiry = () => {
     setInquiryOpen(true);
@@ -168,15 +170,23 @@ function App() {
                 </Typography>
               </Box>
               <Stack spacing={1}>
-                <Link href="#" color="inherit" underline="hover">Company Introduction</Link>
-                <Link href="#" color="inherit" underline="hover">Privacy Policy</Link>
-                <Link href="#" color="inherit" underline="hover">Terms of Service</Link>
+                <Link href="#company" color="inherit" underline="hover">회사소개</Link>
+                <Link
+                  component="button"
+                  color="inherit"
+                  underline="hover"
+                  onClick={() => setPrivacyOpen(true)}
+                  sx={{ textAlign: 'left', p: 0 }}
+                >
+                  개인정보처리방침
+                </Link>
               </Stack>
             </Stack>
           </Container>
         </Box>
 
         <InquiryModal open={inquiryOpen} onClose={() => setInquiryOpen(false)} />
+        <PrivacyPolicyModal open={privacyOpen} onClose={() => setPrivacyOpen(false)} />
       </Box>
     </ThemeProvider>
   );
