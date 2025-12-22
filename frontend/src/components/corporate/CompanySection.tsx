@@ -1,4 +1,4 @@
-import { Box, Container, Typography, Grid, Paper, Stack } from '@mui/material';
+import { Box, Container, Typography, Paper, Stack } from '@mui/material';
 import BusinessIcon from '@mui/icons-material/Business';
 import GroupsIcon from '@mui/icons-material/Groups';
 import HandshakeIcon from '@mui/icons-material/Handshake';

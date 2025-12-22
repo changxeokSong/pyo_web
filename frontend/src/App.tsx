@@ -96,6 +96,10 @@ function App() {
             <HeroSection onInquiryClick={handleOpenInquiry} />
           </Box>
 
+          <Box id="company">
+            <CompanySection />
+          </Box>
+
           <Box id="solutions">
             <BusinessSection />
           </Box>
