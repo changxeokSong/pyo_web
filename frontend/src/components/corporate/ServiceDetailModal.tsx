@@ -21,6 +21,7 @@ export interface ServiceDetail {
     items: string[];
     imageColor: string; // Placeholder for image (color)
     image?: string; // Optional image URL
+    icon?: React.ReactNode; // Icon component
 }
 
 interface ServiceDetailModalProps {
